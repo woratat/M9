@@ -9,6 +9,7 @@ export default function friendModel(sequelize, DataTypes) {
     },
     status: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
   });
   return friend;
