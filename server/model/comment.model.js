@@ -9,6 +9,7 @@ export default function commentModel(sequelize, DataTypes) {
     },
     message: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
   });
   return comment;

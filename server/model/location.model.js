@@ -9,15 +9,19 @@ export default function locationModel(sequelize, DataTypes) {
     },
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     description: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     latitude: {
       type: DataTypes.DOUBLE,
+      allowNull: false,
     },
     longtitude: {
       type: DataTypes.DOUBLE,
+      allowNull: false,
     },
   });
   return location;
