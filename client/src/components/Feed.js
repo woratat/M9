@@ -2,14 +2,42 @@ import React from "react";
 import styled from "styled-components";
 
 import MessageSender from "./MessageSender";
-import StoryReel from "./StoryReel";
+import Post from "./Post";
 
 function Feed({className}) {
   return (
     <div className={className}>
       <div className="feed">
-        {/* <StoryReel/> */}
         <MessageSender />
+        <Post
+          profileSrc="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTY2NzAyMDMwMjQzNTA1NTA0/donald_trump_photo_michael_stewartwireimage_gettyimages-169093538jpg.jpg"
+          image="https://media-cdn.tripadvisor.com/media/photo-s/18/18/e0/af/burgers-is-our-specialty.jpg"
+          username='Woratat'
+          timestamp="This is time stamp"
+          message="Burger!"
+        />
+        <Post
+          profileSrc="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTY2NzAyMDMwMjQzNTA1NTA0/donald_trump_photo_michael_stewartwireimage_gettyimages-169093538jpg.jpg"
+          image="https://media-cdn.tripadvisor.com/media/photo-s/18/18/e0/af/burgers-is-our-specialty.jpg"
+          username='Woratat'
+          timestamp="This is time stamp"
+          message="Burger!"
+        />
+        <Post
+          profileSrc="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTY2NzAyMDMwMjQzNTA1NTA0/donald_trump_photo_michael_stewartwireimage_gettyimages-169093538jpg.jpg"
+          image="https://media-cdn.tripadvisor.com/media/photo-s/18/18/e0/af/burgers-is-our-specialty.jpg"
+          username='Woratat'
+          timestamp="This is time stamp"
+          message="Burger!"
+        />
+        {/* <Post
+          key={id}
+          profileSrc={profileSrc}
+          image={image}
+          username={username}
+          timestamp={timestamp}
+          message={message}
+        /> */}
       </div>
     </div>
   );
