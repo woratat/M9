@@ -89,10 +89,15 @@ export default styled(Header)`
     padding: 10px;
     margin-left: 10px;
     border-radius: 999px;
+    height: 55px;
+  }
+
+  .header_input > input {
+    height: 45px;
   }
 
   .header_left > img {
-    height: 40px;
+    height: 50px;
   }
 
   .header_input > input {

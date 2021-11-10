@@ -1,18 +1,17 @@
 import React from "react";
-import { Helmet, HelmetProvider } from "react-helmet-async";
 import styled from "styled-components";
 import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
 import Feed from "../components/Feed";
+import Login from "../page/Login";
 
 function Home({ className }) {
+
   return (
     <div className={className}>
       <div className="home">
         <Header />
 
         <div className="home_body">
-          <Sidebar />
           <Feed />
         </div>
       </div>
@@ -26,7 +25,7 @@ export default styled(Home)`
     height: 100vh;
   }
 
-  .home_body {
+  /* .home_body {
     display: flex;
-  }
+  } */
 `;
