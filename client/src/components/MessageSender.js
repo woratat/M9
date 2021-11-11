@@ -1,17 +1,31 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import Axios from "axios";
 import { Avatar } from "@mui/material";
-import VideocamIcon from "@mui/icons-material/Videocam";
-import PhotoLibrary from "@mui/icons-material/PhotoLibrary";
-import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
+
+import MapList from "./MapList";
 
 function MessageSender({ className }) {
-  const [input, setInput] = useState("");
+  const [message, setMessage] = useState("");
+  const [file, setFile] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const data = {};
+    data.message = message;
+    data.file = file;
+    console.log(data);
 
-    setInput("");
+    Axios.post("http://localhost:5000/feed/post", data)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    setMessage("");
+    setFile("");
   };
 
   return (
@@ -19,56 +33,31 @@ function MessageSender({ className }) {
       <div className="messageSender">
         <div className="messageSender_top">
           <Avatar />
-          {/* <form action="/feed" method="post" enctype="multipart/form-data">
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className="messageSender_input"
-              placeholder={`What's onn your mind`}
-            />
-            <input
-              type="file"
-              name="file"
-              id="file"
-              className="messageSender_inputFile"
-              accept="image/*"
-              draggable="true"
-              multiple
-              hidden
-            />
-            <label for="file">
-              <div className="messageSender_photo">
-                <PhotoLibrary style={{ color: "green" }} />
-                <h3>Photos</h3>
-              </div>
-            </label>
-            <button onClick={handleSubmit} type="submit">
-              Hidden submit
-            </button>
-          </form> */}
 
           <form
-            action="/"
+            action="/feed/post"
             method="POST"
-            enctype="multipart/form-data"
+            encType="multipart/form-data"
             id="myForm"
-            autocomplete="off"
-            onsubmit="return validateForm()"
+            autoComplete="off"
+            // onSubmit="return validateForm()"
           >
             <input
               type="file"
               className="messageSender_inputFile"
               name="file"
               id="input-files"
-              class="form-control-file border"
               accept="image/*"
               draggable="true"
               multiple
+              value={file}
+              onChange={(e) => setFile(e.target.value)}
             />
             <input
-              value={input}
+              value={message}
+              name="file"
               type="text"
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(e) => setMessage(e.target.value)}
               className="messageSender_input"
               placeholder={`What's on your mind?`}
             />
@@ -79,24 +68,8 @@ function MessageSender({ className }) {
         </div>
 
         <div className="messageSender_bottom">
-          {/* <div className="messageSender_option">
-            <VideocamIcon style={{ color: "red" }} />
-            <h3>Livestream</h3>
-          </div>
-
-          <div className="messageSender_option">
-            <PhotoLibrary style={{ color: "green" }} />
-            <h3>Photos</h3>
-          </div> */}
-
-          {/* <div className="messageSender_option">
-            <InsertEmoticonIcon style={{ color: "orange" }} />
-            <h3>Feeling/Activity</h3>
-          </div> */}
-
-          
+          <MapList/>
         </div>
-
       </div>
     </div>
   );

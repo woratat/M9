@@ -1,16 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "@mui/icons-material/Home";
-import FlagIcon from "@mui/icons-material/Flag";
-import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
-import StorefrontIcon from "@mui/icons-material/Storefront";
+import MapIcon from '@mui/icons-material/Map';
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
-import { Avatar, IconButton } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import ForumIcon from "@mui/icons-material/Forum";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Avatar } from "@mui/material";
 import logo from "../assets/images/logo.jpg";
 
 function Header({ className }) {
@@ -29,13 +24,7 @@ function Header({ className }) {
             <HomeIcon fontSize="large" />
           </div>
           <div className="header_option">
-            <FlagIcon fontSize="large" />
-          </div>
-          <div className="header_option">
-            <SubscriptionsIcon fontSize="large" />
-          </div>
-          <div className="header_option">
-            <StorefrontIcon fontSize="large" />
+            <MapIcon fontSize="large" />
           </div>
           <div className="header_option">
             <SupervisorAccountIcon fontSize="large" />
@@ -45,20 +34,8 @@ function Header({ className }) {
           <div className="header_info">
             <Avatar />
             <h4>Username</h4>
+            <Link to="/login" className="signOutLink">Sign out</Link>
           </div>
-
-          <IconButton>
-            <AddIcon />
-          </IconButton>
-          <IconButton>
-            <ForumIcon />
-          </IconButton>
-          <IconButton>
-            <NotificationsIcon />
-          </IconButton>
-          <IconButton>
-            <ExpandMoreIcon />
-          </IconButton>
         </div>
       </div>
     </div>
@@ -97,7 +74,7 @@ export default styled(Header)`
   }
 
   .header_left > img {
-    height: 50px;
+    height: 60px;
   }
 
   .header_input > input {
@@ -117,15 +94,15 @@ export default styled(Header)`
   }
   
   .header_option:hover > .MuiSvgIcon-root {
-    color: #2e81f4;
+    color: red;
   }
 
   .header_option--active > .MuiSvgIcon-root {
-    color: #2e81f4;
+    color: red;
   }
 
   .header_option--active {
-    border-bottom: 4px solid #2e81f4;
+    border-bottom: 4px solid red;
   }
 
   .header_option {
@@ -150,6 +127,16 @@ export default styled(Header)`
 
   .header_info > h4 {
     margin-left: 10px;
+    margin-right: 15px;
+  }
+
+  .header_info > .signOutLink {
+    margin-left: 20px;
+    font-weight: semibold;
+  }
+
+  .header_info > .signOutLink:hover {
+    color: red;
   }
 
   .header_right {
