@@ -3,14 +3,14 @@ import passport from "passport";
 import controller from "../controller";
 
 //middleware 
-import upload from "../middleware/upload";
+import {uploadFile} from "../middleware/upload";
 
 const { uploadFiles } = controller.post;
 
 const route = Router();
-route.get(
+route.post(
   "/post",
-  upload.single("file"), 
+  uploadFile.single("file"), 
   uploadFiles
 );
 

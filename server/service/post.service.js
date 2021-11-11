@@ -11,11 +11,11 @@ const postImageService = async (message, image) => {
       };
     } else {
       const content = { message, image, uri };
-      const content = await postImageDB(content);
+      const post = await postImageDB(content);
       return {
         error: false,
         message: "Post success!",
-        data: content,
+        data: post,
       };
     }
   } catch (error) {

@@ -1,6 +1,13 @@
-const multer = require("multer");
+import multer from 'multer';
 
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 global.__basedir = __dirname;
+
+console.log("Middleware!");
 
 const imageFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image")) {
@@ -20,4 +27,4 @@ var storage = multer.diskStorage({
 });
 
 var uploadFile = multer({ storage: storage, fileFilter: imageFilter });
-module.exports = uploadFile;
+export {uploadFile};
