@@ -2,7 +2,7 @@ export default function accountModel(sequelize, DataTypes) {
   const account = sequelize.define("account", {
     accountID: {
       type: DataTypes.INTEGER,
-      field: 'account_id',
+      field: "account_id",
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
@@ -26,5 +26,3 @@ export default function accountModel(sequelize, DataTypes) {
   });
   return account;
 }
-
-

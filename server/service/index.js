@@ -1,7 +1,9 @@
-import {LoginBasicService} from './account.service';
+import { LoginBasicService, createAccountService } from "./account.service";
+import { postImageService } from "./post.service";
 
 const service = {
-    account: {LoginBasicService},
-}
+  account: { LoginBasicService, createAccountService },
+  post: { postImageService },
+};
 
 export default service;

@@ -1,9 +1,10 @@
-import {getAccountDetailDB} from "./account.helper";
+import { getAccountDetailDB, createUserAccountDB, getUserOrEmailAccountDB } from "./account.helper";
+import { postImageDB } from "./post.helper";
 
 const helper = {
-    account: {getAccountDetailDB},
-    // friend: {}
-}
+  account: { getAccountDetailDB, createUserAccountDB, getUserOrEmailAccountDB },
+  post: { postImageDB },
+};
 
 export default helper;
 

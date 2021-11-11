@@ -9,12 +9,14 @@ export default function postModel(sequelize, DataTypes) {
     },
     message: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     image: {
-      type: DataTypes.BLOB,
+      type: DataTypes.BLOB('long'),
       allowNull: false,
     },
+    like: { 
+      type: DataTypes.INTEGER,
+    }
   });
   return post;
 }

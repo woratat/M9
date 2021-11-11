@@ -57,5 +57,11 @@ db.account.hasMany(db.comment, {
 db.comment.belongsTo(db.account, {
   foreignKey: { name: "accountID", field: "account_id" },
 });
+db.typeAccount.hasMany(db.account, {
+  foreignKey: { name: "typeAccountID", field: "type_account_id" },
+});
+db.account.belongsTo(db.typeAccount, {
+  foreignKey: { name: "typeAccountID", field: "type_account_id" },
+});
 
 export default db;

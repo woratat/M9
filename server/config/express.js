@@ -20,9 +20,11 @@ export default function start(port) {
   db.sequelize.sync();
   socket(server);
 
-  app.use('/api', routes);
+  app.use("/api", routes);
+  app.use("/image", express.static("./resources/assets/uploads"));
+
 
   server.listen(port, () => {
-    console.log(`App is listening on http://localhost:${port}`)
-  })
+    console.log(`App is listening on http://localhost:${port}`);
+  });
 }
