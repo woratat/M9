@@ -3,10 +3,12 @@ import lodash from "lodash";
 import bcrypt from "bcrypt";
 import validator from "validator";
 
-import {isPassword} from "../validation";
+import { isPassword } from "../validation";
 
 const { getAccountDetailDB, createUserAccountDB, getUserOrEmailAccountDB } =
   helper.account;
+
+const saltRound = 10;
 
 const LoginBasicService = async (username, password) => {
   try {
@@ -78,13 +80,16 @@ const createAccountService = async (content) => {
           };
         }
       } else {
+        const salt = bcrypt.genSaltSync(saltRound);
+        const hash = await bcrypt.hash(password, salt);
+        content.password = hash;
         const newContent = { ...content, typeAccountID: 2 };
         const newAccount = await createUserAccountDB(newContent);
         return {
           error: false,
           message: "Your account have been created.",
           data: newAccount,
-        }
+        };
       }
     } catch (error) {
       throw new Error(error);

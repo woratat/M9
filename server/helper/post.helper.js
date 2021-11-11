@@ -6,7 +6,7 @@ const postImageDB = (content) => {
     try {
       const postImage = await post.create(content);
 
-      return resolve(user.dataValues);
+      return resolve(postImage);
     } catch (error) {
       return reject(error);
     }

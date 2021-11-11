@@ -7,15 +7,15 @@ const postImageService = async (message, image) => {
     if (lodash.isEmpty(message) || lodash.isEmpty(image)) {
       return {
         error: true,
-        message: "Please fill in caption or select image.",
+        message: "Please fill in caption or select an image.",
       };
     } else {
-      const data = { message: message, image: image };
-      const post = await postImageDB(data);
+      const content = { message, image, uri };
+      const content = await postImageDB(content);
       return {
         error: false,
         message: "Post success!",
-        data: post,
+        data: content,
       };
     }
   } catch (error) {

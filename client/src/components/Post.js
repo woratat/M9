@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Avatar } from "@mui/material";
 
-function Post({ className, profileSPic, image, username, timestamp, message }) {
+function Post({ className, profileSPic, image, username, message, like }) {
   return (
     <div className={className}>
       <div className="post">

@@ -1,5 +1,7 @@
 const multer = require("multer");
 
+global.__basedir = __dirname;
+
 const imageFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image")) {
     cb(null, true);

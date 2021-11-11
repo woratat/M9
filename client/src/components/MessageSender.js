@@ -11,7 +11,7 @@ function MessageSender({ className }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setInput('');
+    setInput("");
   };
 
   return (
@@ -19,12 +19,58 @@ function MessageSender({ className }) {
       <div className="messageSender">
         <div className="messageSender_top">
           <Avatar />
-          <form>
+          {/* <form action="/feed" method="post" enctype="multipart/form-data">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className="messageSender_input"
               placeholder={`What's onn your mind`}
+            />
+            <input
+              type="file"
+              name="file"
+              id="file"
+              className="messageSender_inputFile"
+              accept="image/*"
+              draggable="true"
+              multiple
+              hidden
+            />
+            <label for="file">
+              <div className="messageSender_photo">
+                <PhotoLibrary style={{ color: "green" }} />
+                <h3>Photos</h3>
+              </div>
+            </label>
+            <button onClick={handleSubmit} type="submit">
+              Hidden submit
+            </button>
+          </form> */}
+
+          <form
+            action="/"
+            method="POST"
+            enctype="multipart/form-data"
+            id="myForm"
+            autocomplete="off"
+            onsubmit="return validateForm()"
+          >
+            <input
+              type="file"
+              className="messageSender_inputFile"
+              name="file"
+              id="input-files"
+              class="form-control-file border"
+              accept="image/*"
+              draggable="true"
+              multiple
+            />
+            <input
+              value={input}
+              type="text"
+              onChange={(e) => setInput(e.target.value)}
+              className="messageSender_input"
+              placeholder={`What's on your mind?`}
             />
             <button onClick={handleSubmit} type="submit">
               Hidden submit
@@ -33,7 +79,7 @@ function MessageSender({ className }) {
         </div>
 
         <div className="messageSender_bottom">
-          <div className="messageSender_option">
+          {/* <div className="messageSender_option">
             <VideocamIcon style={{ color: "red" }} />
             <h3>Livestream</h3>
           </div>
@@ -41,19 +87,25 @@ function MessageSender({ className }) {
           <div className="messageSender_option">
             <PhotoLibrary style={{ color: "green" }} />
             <h3>Photos</h3>
-          </div>
+          </div> */}
 
-          <div className="messageSender_option">
+          {/* <div className="messageSender_option">
             <InsertEmoticonIcon style={{ color: "orange" }} />
             <h3>Feeling/Activity</h3>
-          </div>
+          </div> */}
+
+          
         </div>
+
       </div>
     </div>
   );
 }
 
 export default styled(MessageSender)`
+  input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+  }
   .messageSender {
     display: flex;
     margin-top: 30px;
@@ -113,6 +165,25 @@ export default styled(MessageSender)`
   }
 
   .messageSender_option:hover {
+    background-color: #eff2f5;
+    border-radius: 20px;
+  }
+
+  .messageSender_photo {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    color: gray;
+    margin: 2px;
+  }
+
+  .messageSender_photo > h3 {
+    font-size: medium;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  .messageSender_photo:hover {
     background-color: #eff2f5;
     border-radius: 20px;
   }

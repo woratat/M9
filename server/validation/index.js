@@ -2,7 +2,7 @@ import lodash from "lodash";
 
 const isPassword = async (password) => {
     if (!lodash.isEmpty(password)) {
-        const check = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!_-])[A-Za-z\d!_-]{8,}$/g;
+        const check = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/g;
         return check.test(password);
     } else {
         return false;
@@ -10,3 +10,6 @@ const isPassword = async (password) => {
 }
 
 export { isPassword };
+
+//test
+//12345678-Tat

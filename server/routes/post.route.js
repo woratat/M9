@@ -2,14 +2,16 @@ import { Router } from "express";
 import passport from "passport";
 import controller from "../controller";
 
+//middleware 
 import upload from "../middleware/upload";
-// const { LoginBasicController } = controller.account;
+
+const { uploadFiles } = controller.post;
 
 const route = Router();
 route.get(
   "/post",
   upload.single("file"), 
-  uploadController.uploadFiles
+  uploadFiles
 );
 
 export default route;
