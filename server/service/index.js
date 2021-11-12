@@ -1,11 +1,11 @@
 import { LoginBasicService, createAccountService, loginJWTService } from "./account.service";
 import { postImageService } from "./post.service";
-import { getLocationService } from "./location.service";
+import { getLocationService , postLocationService } from "./location.service";
 
 const service = {
   account: { LoginBasicService, createAccountService, loginJWTService },
   post: { postImageService },
-  lications : { getLocationService },
+  locations : { getLocationService, postLocationService },
 };
 
 export default service;
