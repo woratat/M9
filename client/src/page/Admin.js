@@ -13,8 +13,8 @@ function Admin({ className }) {
               <input
                 className="input"
                 type="text"
-                id="Email"
-                name="Email"
+                id="name"
+                name="name"
               ></input>
             </div>
             <div className="title-input">Description</div>
@@ -22,8 +22,8 @@ function Admin({ className }) {
               <textarea
                 className="input"
                 type="textarea"
-                id="Email"
-                name="Email"
+                id="description"
+                name="description"
               ></textarea>
             </div>
             <div className="box-latlon">
@@ -32,9 +32,9 @@ function Admin({ className }) {
                 <div className="input-box">
                   <input
                     className="input"
-                    type="text"
-                    id="Email"
-                    name="Email"
+                    type="number"
+                    id="lat"
+                    name="lat"
                   ></input>
                 </div>
               </div>
@@ -43,9 +43,9 @@ function Admin({ className }) {
                 <div className="input-box">
                   <input
                     className="input"
-                    type="text"
-                    id="Email"
-                    name="Email"
+                    type="number"
+                    id="lon"
+                    name="lon"
                   ></input>
                 </div>
               </div>
