@@ -13,4 +13,16 @@ const postImageDB = async (content) => {
   });
 };
 
-export { postImageDB };
+const getPostDB = (content, column) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const postImage = await post.findOne({ where: { [column]: content } });
+
+      return resolve(postImage);
+    } catch (error) {
+      return reject(error);
+    }
+  });
+};
+
+export { postImageDB, getPostDB };

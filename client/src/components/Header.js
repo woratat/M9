@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "@mui/icons-material/Home";
-import MapIcon from '@mui/icons-material/Map';
+import MapIcon from "@mui/icons-material/Map";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { Avatar } from "@mui/material";
 import logo from "../assets/images/logo.jpg";
+import { useSelector, useDispatch } from "react-redux";
+import authUser from "../auth";
+import { fetchUser } from "../actions/userAction";
 
 function Header({ className }) {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const refreshUser = async () => {
+      dispatch(fetchUser(await authUser()));
+    };
+
+    refreshUser();
+  }, [dispatch]);
+
   return (
     <div className={className}>
       <div className="header">
@@ -16,7 +31,7 @@ function Header({ className }) {
           <img src={logo} alt="Facebook" />
           <div className="header_input">
             <SearchIcon />
-            <input type="text" placeholder="Search"/>
+            <input type="text" placeholder="Search" />
           </div>
         </div>
         <div className="header_center">
@@ -33,8 +48,11 @@ function Header({ className }) {
         <div className="header_right">
           <div className="header_info">
             <Avatar />
-            <h4>Username</h4>
-            <Link to="/login" className="signOutLink">Sign out</Link>
+            <h4>{user.username}</h4>
+            <Link to="/login" className="signOutLink">
+              <LogoutIcon className="logout_icon" id="logout_icon" />
+              <label for="logout_icon" className="label_logout">Logout</label>
+            </Link>
           </div>
         </div>
       </div>
@@ -82,7 +100,7 @@ export default styled(Header)`
     background-color: transparent;
     outline-width: 0;
   }
-  
+
   .header_center {
     display: flex;
     flex: 1;
@@ -92,7 +110,7 @@ export default styled(Header)`
   .header_option > .MuiSvgIcon-root {
     color: gray;
   }
-  
+
   .header_option:hover > .MuiSvgIcon-root {
     color: red;
   }
@@ -132,7 +150,10 @@ export default styled(Header)`
 
   .header_info > .signOutLink {
     margin-left: 20px;
+    margin-right: 5px;
     font-weight: semibold;
+    display: flex;
+    cursor: pointer;
   }
 
   .header_info > .signOutLink:hover {
@@ -141,5 +162,18 @@ export default styled(Header)`
 
   .header_right {
     display: flex;
+  }
+
+  .logout_icon:hover {
+    color: red;
+    cursor: pointer;
+  }
+
+  .label_logout {
+    margin-left: 2px;
+  }
+
+  .label_logout:hover {
+    cursor: pointer;
   }
 `;

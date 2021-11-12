@@ -1,8 +1,8 @@
-import { LoginBasicService, createAccountService } from "./account.service";
+import { LoginBasicService, createAccountService, loginJWTService } from "./account.service";
 import { postImageService } from "./post.service";
 
 const service = {
-  account: { LoginBasicService, createAccountService },
+  account: { LoginBasicService, createAccountService, loginJWTService },
   post: { postImageService },
 };
 

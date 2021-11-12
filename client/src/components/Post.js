@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Avatar } from "@mui/material";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import RoomIcon from '@mui/icons-material/Room';
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import RoomIcon from "@mui/icons-material/Room";
 
 function Post({ className, profileSPic, image, username, message, like }) {
   return (
@@ -15,11 +15,13 @@ function Post({ className, profileSPic, image, username, message, like }) {
             <h3>{username}</h3>
             <div className="post_time_lo">
               <p>timestamp</p>
-              <RoomIcon fontSize="small" sx={{mt: 1}} style={{color: "#125688"}}/>
+              <RoomIcon
+                fontSize="small"
+                sx={{ mt: 1 }}
+                style={{ color: "#125688" }}
+              />
               <p>location</p>
             </div>
-            
-            
           </div>
         </div>
 
@@ -31,12 +33,24 @@ function Post({ className, profileSPic, image, username, message, like }) {
           <img src={image} alt="" />
         </div>
 
-        <div className="">
-          <FavoriteBorderIcon className="like_button" id="like_button_outline"/>
-          <FavoriteIcon className="like_button" id="like_button" style={{display: "none"}}/>
-          <input type="text" placeholder={`Comment...`}/>
-      </div>
+        <div className="comment_like">
+          <FavoriteBorderIcon
+            className="like_button"
+            id="like_button_outline"
+          />
+          <h6>123 likes</h6>
+          <FavoriteIcon
+            className="like_button"
+            id="like_button"
+            style={{ display: "none" }}
+          />
+          <input
+            type="text"
+            placeholder={`Comment...`}
+            className="comment_box"
+          />
         </div>
+      </div>
     </div>
   );
 }
@@ -89,6 +103,7 @@ export default styled(Post)`
   .like_button {
     cursor: pointer;
     color: #fb3958;
+    margin: 20px 5px 0 5px;
   }
 
   .post_time_lo {
@@ -96,11 +111,21 @@ export default styled(Post)`
     font-size: small;
   }
 
-  .post_time_lo > p{
+  .post_time_lo > p {
     margin-right: 12px;
   }
 
-  .room_icon {
+  .comment_like {
+    display: flex;
+  }
 
+  .comment_box {
+    outline-width: 0;
+    border: none;
+    padding: 5px 15px;
+    margin: 10px 10px;
+    border-radius: 999px;
+    background-color: #eff2f5;
+    flex: 1;
   }
 `;

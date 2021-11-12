@@ -19,7 +19,7 @@ const LoginBasicController = async (req, res) => {
       algorithm: "RS256",
       expiresIn: "1d",
     });
-    return res.status(200).json({ token: token });
+    return res.status(200).json({ token: token, username });
   }
 };
 
@@ -45,4 +45,16 @@ const createAccountController = async (req, res) => {
   }
 };
 
-export { LoginBasicController, createAccountController };
+const loginJWTController = async (req, res) => {
+  const { username, accountID, name } = req.user.data;
+    const privateKey = await readFile(
+      path.resolve("./") + "\\config\\key\\jwtRS256.key"
+    );
+    const token = jwt.sign({ username, accountID, name }, privateKey, {
+      algorithm: "RS256",
+      expiresIn: "1d",
+    });
+    return res.status(200).json({ token: token, username });
+}
+
+export { LoginBasicController, createAccountController, loginJWTController};

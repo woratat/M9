@@ -1,10 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 import MessageSender from "./MessageSender";
 import Post from "./Post";
 
 function Feed({className}) {
+  // const createPost = () => {
+  //   axios.get("")
+  // }
+
   return (
     <div className={className}>
       <div className="feed">

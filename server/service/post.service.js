@@ -13,6 +13,7 @@ const postImageService = async (content) => {
       const postData = {
         message: content.message,
         image: content.uri,
+        imageName: content.imageName,
       };
       const post = await postImageDB(postData);
       return {
@@ -26,4 +27,12 @@ const postImageService = async (content) => {
   }
 };
 
-export { postImageService };
+const getPostService = async (username, password) => {
+  try {
+    
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export { postImageService, getPostService };

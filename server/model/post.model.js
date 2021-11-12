@@ -14,6 +14,10 @@ export default function postModel(sequelize, DataTypes) {
       type: DataTypes.BLOB('long'),
       allowNull: false,
     },
+    imageName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     like: { 
       type: DataTypes.INTEGER,
       defaultValue: 0,
