@@ -29,10 +29,8 @@ function MessageSender({ className }) {
     const data = new FormData();
     data.append("message", message);
     data.append("file", file);
-    console.log(data.get("message"));
-    console.log(data.get("file"));
 
-    Axios.post("http://localhost:5000/api/post", data)
+    Axios.post("http://localhost:5000/api/feed/post", data)
       .then(function (response) {
         console.log(response);
       })
@@ -106,7 +104,7 @@ function MessageSender({ className }) {
 
         <div className="messageSender_bottom">
           <img src={preview} alt="" id="preview_image"/>
-          <MapList />
+          <MapList sx={{ height: '75%' }}/>
         </div>
       </div>
     </div>

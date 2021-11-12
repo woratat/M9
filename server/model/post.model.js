@@ -16,6 +16,7 @@ export default function postModel(sequelize, DataTypes) {
     },
     like: { 
       type: DataTypes.INTEGER,
+      defaultValue: 0,
     }
   });
   return post;

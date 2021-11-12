@@ -1,8 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import img from "../assets/images/logo.jpg";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login({ className }) {
+  let path = useNavigate();
+
+  const routeChange = () => {
+    path('/register')
+  };
+
   return (
     <div className={className}>
       <div className="login">
@@ -26,7 +34,12 @@ function Login({ className }) {
               placeholder="Your Password..."
             ></input>
             <input className="btn-Login" type="button" value="Login"></input>
-            <input className="btn-regis" type="button" value="Register"></input>
+            <input
+              className="btn-regis"
+              type="button"
+              value="Register"
+              onClick={routeChange}
+            ></input>
           </div>
         </div>
       </div>
@@ -52,7 +65,6 @@ export default styled(Login)`
     margin: 27px 175px;
   }
   .Text-Email {
-    
     width: 60px;
     height: 28px;
     margin: 15px 45px;
@@ -76,7 +88,6 @@ export default styled(Login)`
   }
 
   .Text-Password {
-    
     width: 60px;
     height: 28px;
     margin: 15px 45px;
@@ -88,7 +99,6 @@ export default styled(Login)`
     color: #ffffff;
   }
   .btn-Login {
-    
     width: 125px;
     height: 50px;
     margin: 15px 0 0 95px;
@@ -101,7 +111,7 @@ export default styled(Login)`
     line-height: 28px;
     text-align: center;
   }
-  .btn-Login:hover{
+  .btn-Login:hover {
     color: #ffffff;
     background: #e70000;
   }
@@ -118,7 +128,7 @@ export default styled(Login)`
     line-height: 28px;
     text-align: center;
   }
-  .btn-regis:hover{
+  .btn-regis:hover {
     color: #000000;
     background: #e70000;
   }

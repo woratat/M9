@@ -1,7 +1,7 @@
 import db from "../config/database";
 
 const post = db.post;
-const postImageDB = (content) => {
+const postImageDB = async (content) => {
   return new Promise(async (resolve, reject) => {
     try {
       const postImage = await post.create(content);

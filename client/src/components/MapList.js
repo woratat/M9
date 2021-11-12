@@ -8,7 +8,6 @@ import Collapse from '@mui/material/Collapse';
 import RoomIcon from '@mui/icons-material/Room';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
 
 export default function NestedList() {
   const [open, setOpen] = React.useState(false);

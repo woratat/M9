@@ -1,13 +1,15 @@
 import fs from "fs";
 import service from "../service";
+import path from "path";
 
 const { postImageService } = service.post;
 
 const uploadFiles = async (req, res) => {
   try {
-    console.log(req.file);
-
-    const content = req.body;
+    const content = {
+      message: req.body.message,
+      file: req.file
+    }
 
     if (req.file == undefined) {
       console.log("File not found.");
@@ -16,7 +18,7 @@ const uploadFiles = async (req, res) => {
       var encoding = "base64";
       var data = fs
         .readFileSync(
-          __basedir + "/resources/assets/uploads/" + req.file.filename
+          path.join(path.resolve('./') + "\\resources\\assets\\uploads\\" + req.file.filename)
         )
         .toString(encoding);
       var uri = data;

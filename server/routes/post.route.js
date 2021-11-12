@@ -9,7 +9,7 @@ const { uploadFiles } = controller.post;
 
 const route = Router();
 route.post(
-  "/",
+  "/post",
   uploadFile.single("file"), 
   uploadFiles
 );
