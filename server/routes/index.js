@@ -4,6 +4,6 @@ import postRoute from "./post.route";
 
 const route = express();
 route.use("/auth", accountRoute);
-route.use("/feed", postRoute);
+route.use("/api", postRoute);
 
 export default route;

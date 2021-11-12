@@ -1,22 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import Axios from "axios";
 import { Avatar } from "@mui/material";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
 import MapList from "./MapList";
 
 function MessageSender({ className }) {
   const [message, setMessage] = useState("");
   const [file, setFile] = useState("");
+  const [preview, setPreview] = useState("");
+  const fileInputRef = useRef("");
+
+  useEffect(() => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result);
+      }
+      reader.readAsDataURL(file);
+    } else {
+        setPreview(null);
+    }
+  }, [file]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = {};
-    data.message = message;
-    data.file = file;
-    console.log(data);
+    const data = new FormData();
+    data.append("message", message);
+    data.append("file", file);
+    console.log(data.get("message"));
+    console.log(data.get("file"));
 
-    Axios.post("http://localhost:5000/feed/post", data)
+    Axios.post("http://localhost:5000/api/post", data)
       .then(function (response) {
         console.log(response);
       })
@@ -40,7 +56,6 @@ function MessageSender({ className }) {
             encType="multipart/form-data"
             id="myForm"
             autoComplete="off"
-            // onSubmit="return validateForm()"
           >
             <input
               type="file"
@@ -50,9 +65,31 @@ function MessageSender({ className }) {
               accept="image/*"
               draggable="true"
               multiple
-              value={file}
-              onChange={(e) => setFile(e.target.value)}
+              ref={fileInputRef}
+              onChange={(e) => {
+                const image = e.target.files[0];
+                if (image && image.type.substr(0, 5) === "image") {
+                  setFile(image);
+                } else {
+                  setFile(null);
+                }
+              }}
+              style={{ display: "none" }}
             />
+            <label
+              htmlFor="input-files"
+              style={{ cursor: "pointer" }}
+              onClick={(e) => {
+                e.preventDefault();
+                fileInputRef.current.click();
+              }}
+            >
+              <AddPhotoAlternateIcon
+                fontSize="large"
+                color="success"
+                sx={{ mt: 0.4, ml: 4, mr: 2 }}
+              />
+            </label>
             <input
               value={message}
               name="file"
@@ -68,7 +105,8 @@ function MessageSender({ className }) {
         </div>
 
         <div className="messageSender_bottom">
-          <MapList/>
+          <img src={preview} alt="" id="preview_image"/>
+          <MapList />
         </div>
       </div>
     </div>
@@ -79,6 +117,7 @@ export default styled(MessageSender)`
   input[type="file"]::-webkit-file-upload-button {
     visibility: hidden;
   }
+
   .messageSender {
     display: flex;
     margin-top: 30px;
@@ -116,6 +155,10 @@ export default styled(MessageSender)`
 
   .messageSender_input {
     flex: 1;
+  }
+
+  .messageSender_inputFile {
+    cursor: pointer;
   }
 
   .messageSender_bottom {
@@ -159,5 +202,18 @@ export default styled(MessageSender)`
   .messageSender_photo:hover {
     background-color: #eff2f5;
     border-radius: 20px;
+  }
+
+  .messageSender_bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #preview_image {
+    margin: 10px 0px;
+    width: 20%;
+    border-radius: 10px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5)
   }
 `;
