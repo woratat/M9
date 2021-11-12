@@ -2,16 +2,19 @@ import helper from "../helper";
 import lodash from "lodash";
 
 const { postImageDB } = helper.post;
-const postImageService = async (message, image) => {
+const postImageService = async (content) => {
   try {
-    if (lodash.isEmpty(message) || lodash.isEmpty(image)) {
+    if (lodash.isEmpty(content.message) || lodash.isEmpty(content.uri)) {
       return {
         error: true,
         message: "Please fill in caption or select an image.",
       };
     } else {
-      const content = { message, image, uri };
-      const post = await postImageDB(content);
+      const postData = {
+        message: content.message,
+        image: content.uri,
+      };
+      const post = await postImageDB(postData);
       return {
         error: false,
         message: "Post success!",

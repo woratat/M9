@@ -1,13 +1,5 @@
 import multer from 'multer';
-
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-global.__basedir = __dirname;
-
-console.log("Middleware!");
+import path from 'path';
 
 const imageFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image")) {
@@ -19,7 +11,7 @@ const imageFilter = (req, file, cb) => {
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, __basedir + "/resources/assets/uploads/");
+    cb(null, path.join(path.resolve('./') + "\\resources\\assets\\uploads"));
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-image-${file.originalname}`);
