@@ -23,6 +23,7 @@ const uploadFiles = async (req, res) => {
         .toString(encoding);
       var uri = data;
       content.uri = uri;
+      content.imageName = req.file.filename;
 
       const newPost = await postImageService(content);
 

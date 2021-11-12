@@ -31,8 +31,17 @@ const LoginBasicService = async (username, password) => {
   }
 };
 
-const loginJWTService = async (content) => {
+const loginJWTService = async (payload) => {
   try {
+    const { accountID } = payload; 
+    const account = await getAccountDetailDB(accountID, 'account_id');
+
+    return {
+      error: false,
+      message: "Login successful",
+      data: account,
+    }
+
   } catch (error) {
     throw new Error(error);
   }

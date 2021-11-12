@@ -1,9 +1,9 @@
-import { LoginBasicController, createAccountController } from "./account.controller";
+import { LoginBasicController, createAccountController, loginJWTController } from "./account.controller";
 import { uploadFiles } from "./post.controller";
 import { getLocationsController } from "./location.controller";
 
 const controller = {
-  account: { LoginBasicController, createAccountController },
+  account: { LoginBasicController, createAccountController, loginJWTController },
   post: { uploadFiles },
   location : { getLocationsController } ,
   
