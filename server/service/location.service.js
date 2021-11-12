@@ -13,7 +13,7 @@ const getLocationService = async () => {
   }
 };
 const postLocationService = async (content) => {
-  console.log('content :>> ', content);
+  
   try {
     if (
       lodash.isEmpty(content.name) ||

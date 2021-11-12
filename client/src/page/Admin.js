@@ -1,7 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-
+import swal from "sweetalert2";
+import axios from "axios";
 function Admin({ className }) {
+  const [inputs, setInputs] = useState({
+    name: "",
+    description: "",
+    latitude: "",
+    longtitude: "",
+  });
+  const handleChanged = (e) => {
+    const { value, name } = e.target;
+    setInputs((inputs) => ({ ...inputs, [name]: value }));
+  };
+  const registerHandler = (e) => {
+    e.preventDefault();
+
+    const postUser = async () => {
+      try {
+        const res = await axios.post(
+          "http://localhost:5000/api/locations/post",
+          {
+            name: inputs.name,
+            description: inputs.description,
+            latitude: inputs.latitude,
+            longtitude: inputs.longtitude,
+          },
+          { timeout: 2000 }
+        );
+
+        if (res.status === 200) {
+          swal
+            .fire({
+              title: "Add Location",
+              text: res.data.message,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1200,
+              allowOutsideClick: false,
+            })
+            .then(
+              setInputs({
+                name: "",
+                description: "",
+                latitude: "",
+                longtitude: "",
+              })
+            );
+        }
+      } catch (error) {
+        console.log(error.response);
+      }
+    };
+
+    postUser();
+  };
   return (
     <div>
       <div className={className}>
@@ -15,6 +68,9 @@ function Admin({ className }) {
                 type="text"
                 id="name"
                 name="name"
+                value={inputs.name}
+                onChange={handleChanged}
+                autoComplete="off"
               ></input>
             </div>
             <div className="title-input">Description</div>
@@ -24,6 +80,9 @@ function Admin({ className }) {
                 type="textarea"
                 id="description"
                 name="description"
+                value={inputs.description}
+                onChange={handleChanged}
+                autoComplete="off"
               ></textarea>
             </div>
             <div className="box-latlon">
@@ -32,9 +91,12 @@ function Admin({ className }) {
                 <div className="input-box">
                   <input
                     className="input"
-                    type="number"
-                    id="lat"
-                    name="lat"
+                    type="text"
+                    id="latitude"
+                    name="latitude"
+                    value={inputs.latitude}
+                    onChange={handleChanged}
+                    autoComplete="off"
                   ></input>
                 </div>
               </div>
@@ -43,9 +105,12 @@ function Admin({ className }) {
                 <div className="input-box">
                   <input
                     className="input"
-                    type="number"
-                    id="lon"
-                    name="lon"
+                    type="text"
+                    id="longtitude"
+                    name="longtitude"
+                    value={inputs.longtitude}
+                    onChange={handleChanged}
+                    autoComplete="off"
                   ></input>
                 </div>
               </div>
@@ -54,7 +119,8 @@ function Admin({ className }) {
               <input
                 className="btn-submit"
                 type="button"
-                value="Register"
+                value="Add"
+                onClick={registerHandler}
               ></input>
             </div>
           </div>
@@ -100,7 +166,7 @@ export default styled(Admin)`
     display: flex;
   }
   .btn-submit {
-      margin-top: 25px;
+    margin-top: 25px;
     height: 50px;
     width: 150px;
     font-style: normal;
@@ -109,7 +175,7 @@ export default styled(Admin)`
     background: #e70000;
     color: #ffffff;
   }
-  .btn-submit:hover{
+  .btn-submit:hover {
     background: #ffffff;
     color: #e70000;
   }
