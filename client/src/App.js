@@ -6,6 +6,7 @@ import Home from "./page/Home";
 import Admin from "./page/Admin";
 import Login from "./page/Login";
 import Register from "./page/Register";
+import Location from "./page/Location";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/location" element={<Location />} />
         <Route path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>
