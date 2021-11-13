@@ -28,7 +28,7 @@ const getAllPostDB = async () => {
 const putLikeDB = async (content) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const putLike = await post.update({ like: content.like }, {where: {postID: content.postID}});
+      const putLike = await post.increment('like', {by: 1, where: {post_id: content.postID}});
       return resolve(putLike);
     } catch (error) {
       return reject(error);
@@ -36,4 +36,15 @@ const putLikeDB = async (content) => {
   });
 }
 
-export { postImageDB, getAllPostDB, putLikeDB };
+const putUnlikeDB = async (content) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const putUnlike = await post.decrement('like', {by: 1, where: {post_id: content.postID}});
+      return resolve(putUnlike);
+    } catch (error) {
+      return reject(error);
+    }
+  });
+}
+
+export { postImageDB, getAllPostDB, putLikeDB, putUnlikeDB };

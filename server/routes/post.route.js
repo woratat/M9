@@ -5,7 +5,7 @@ import controller from "../controller";
 //middleware 
 import {uploadFile} from "../middleware/upload";
 
-const { uploadFiles, updateLike, getAllPostController } = controller.post;
+const { uploadFiles, updateLike, getAllPostController, updateUnlike } = controller.post;
 
 const route = Router();
 route.post(
@@ -13,7 +13,10 @@ route.post(
   uploadFile.single("file"), 
   uploadFiles
 );
-route.put("/like", updateLike);
+
 route.get("/post", getAllPostController);
 
+route.put("/like", updateLike);
+
+route.put("/unlike", updateUnlike);
 export default route;

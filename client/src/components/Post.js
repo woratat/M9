@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Avatar } from "@mui/material";
@@ -16,23 +16,31 @@ function Post({
   username,
   timestamp,
   message,
+  like
 }) {
   const [clicked, setClicked] = useState(false);
-  // const [likes, setLikes] = useState("");
 
-  // const likeHandler = async () => {
-  //   axios
-  //     .put("http://localhost:5000/api/feed/like",  { postID: id })
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-  // useEffect(() => {
-  //   likeHandler();
-  // }, []);
+  const likeHandler = async (id) => {
+    axios
+      .put("http://localhost:5000/api/feed/like",  { postID: id })
+      .then((response) => {
+        // console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const unlikeHandler = async (id) => {
+    axios
+      .put("http://localhost:5000/api/feed/unlike",  { postID: id })
+      .then((response) => {
+        // console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className={className}>
@@ -65,11 +73,11 @@ function Post({
           <IconButton onClick={() => setClicked(!clicked)} className="like_button">
             <ToggleIcon
               on={clicked}
-              onIcon={<FavoriteIcon className="like_button" />}
-              offIcon={<FavoriteBorderIcon className="like_button"/>}
+              onIcon={<FavoriteIcon className="like_button" id={`button-${id}`} onClick={() => {unlikeHandler(id)}}/>}
+              offIcon={<FavoriteBorderIcon className="like_button" id={`button-${id}`} onClick={() => {likeHandler(id)}}/>}
             />
           </IconButton>
-          <h6>likes</h6>
+          <h6>{like} likes</h6>
           <input
             type="text"
             placeholder={`Comment...`}
@@ -98,8 +106,9 @@ export default styled(Post)`
   .post_top {
     display: flex;
     position: relative;
-    padding: 10px;
+    padding: 10px 10px 2px 10px;
     align-items: center;
+    box-shadow: 0px 5px 8px -9px rgba(0, 0, 0, 0.50);
   }
 
   .post_image {
@@ -134,7 +143,11 @@ export default styled(Post)`
   .post_bottom {
     margin-top: 5px;
     margin-bottom: 5px;
-    padding: 3px 25px;
+    padding: 0px 25px;
+  }
+
+  .post_bottom > p{
+    margin-top: 10px;
   }
 
   .like_button {

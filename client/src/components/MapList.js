@@ -1,5 +1,5 @@
 import * as React from 'react';
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 import MapIcon from '@mui/icons-material/Map';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';

@@ -47,8 +47,9 @@ function Feed({ className }) {
                 profileSPic=""
                 image={`http://localhost:5000/image/${b.imageName}`}
                 username={user.username}
-                timestamp={b.createdAt}
+                timestamp={b.date}
                 message={b.message}
+                like={b.like}
               />
             ))}
           </div>
@@ -58,18 +59,6 @@ function Feed({ className }) {
             <p>Loading feed....</p>
           </div>
         )}
-
-        {/* {post.map((b) => (
-          <Post
-            key={b.postID}
-            // profileSrc={src}
-            image={`http://localhost:5000/image/${b.imageName}`}
-            username={user.username}
-            timestamp={b.createdAt}
-            message={b.message}
-          />
-        ))} */}
-
       </div>
     </div>
   );

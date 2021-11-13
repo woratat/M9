@@ -2,8 +2,8 @@ import fs from "fs";
 import service from "../service";
 import path from "path";
 
-const { postImageService, getAllPostService, putLikeService } = service.post;
-var totalLike = 0;
+const { postImageService, getAllPostService, putLikeService, putUnlikeService } =
+  service.post;
 
 const uploadFiles = async (req, res) => {
   try {
@@ -30,6 +30,11 @@ const uploadFiles = async (req, res) => {
       content.uri = uri;
       content.imageName = req.file.filename;
 
+      const timeElapsed = Date.now();
+      const today = new Date(timeElapsed).toUTCString();
+      const newDate = today.split(' ').slice(0, 5).join(' ');
+      content.date = newDate;
+
       const newPost = await postImageService(content);
 
       if (newPost.error) {
@@ -51,14 +56,31 @@ const uploadFiles = async (req, res) => {
 
 const updateLike = async (req, res) => {
   try {
-    totalLike++;
-
     const content = {
-      like: totalLike,
+      like: 1,
       postID: req.body.postID,
     };
 
     const newLike = await putLikeService(content);
+
+    return res.status(200).json({
+      like: content.like,
+      postID: content.postID,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(500);
+  }
+};
+
+const updateUnlike = async (req, res) => {
+  try {
+    const content = {
+      like: 1,
+      postID: req.body.postID,
+    };
+
+    const newLike = await putUnlikeService(content);
 
     return res.status(200).json({
       like: content.like,
@@ -75,12 +97,12 @@ const getAllPostController = async (req, res) => {
     const allPost = await getAllPostService();
 
     return res.status(200).json({
-      post: allPost
+      post: allPost,
     });
   } catch (error) {
     console.log(error.message);
     return res.sendStatus(500);
   }
-}
+};
 
-export { uploadFiles, updateLike, getAllPostController };
+export { uploadFiles, updateLike, getAllPostController, updateUnlike };
