@@ -3,8 +3,16 @@ import styled from "styled-components";
 import Header from "../components/Header";
 import Feed from "../components/Feed";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useSelector } from "react-redux";
+import lodash from 'lodash';
+import { useNavigate, Navigate } from "react-router-dom";
 
 function Home({ className }) {
+  const user = useSelector(state => state.user);
+
+  if (!user.token) {
+    return <Navigate to="/Login" />;
+  }
 
   return (
     <HelmetProvider>

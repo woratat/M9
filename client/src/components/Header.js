@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "@mui/icons-material/Home";
@@ -10,11 +10,19 @@ import { Avatar } from "@mui/material";
 import logo from "../assets/images/logo.jpg";
 import { useSelector, useDispatch } from "react-redux";
 import authUser from "../auth";
-import { fetchUser } from "../actions/userAction";
+import { fetchUser, deleteUser } from "../actions/userAction";
 
 function Header({ className }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const path = useNavigate();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem('user_token');
+    dispatch(deleteUser({}));
+    path('/Login');
+  }
 
   useEffect(() => {
     const refreshUser = async () => {
@@ -49,7 +57,7 @@ function Header({ className }) {
           <div className="header_info">
             <Avatar />
             <h4>{user.username}</h4>
-            <Link to="/login" className="signOutLink">
+            <Link to="/login" className="signOutLink" onClick={handleLogout}>
               <LogoutIcon className="logout_icon" id="logout_icon" />
               <label htmlFor="logout_icon" className="label_logout">Logout</label>
             </Link>

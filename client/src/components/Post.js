@@ -147,7 +147,7 @@ export default styled(Post)`
   }
 
   .post_bottom > p{
-    margin-top: 10px;
+    margin-top: 15px;
   }
 
   .like_button {
