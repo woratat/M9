@@ -5,7 +5,7 @@ import { getLocationService, postLocationService } from "./location.service";
 const service = {
   account: { LoginBasicService, createAccountService, loginJWTService },
   post: { postImageService, getAllPostService, putLikeService },
-  locations: { postLocationService, postLocationService},
+  locations: { getLocationService, postLocationService},
 };
 
 export default service;

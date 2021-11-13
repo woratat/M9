@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios, { Axios } from 'axios';
 import MapIcon from '@mui/icons-material/Map';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -11,6 +12,15 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 
 export default function NestedList() {
   const [open, setOpen] = React.useState(false);
+  const [locations,setLocations] = React.useState([]);
+
+    React.useEffect (()=>{
+       getdata();
+    },[]);
+  const getdata = async ()=>{
+    const location = await axios.get("http://localhost:5000/api/locations");
+    setLocations(location.data);
+  }
 
   const handleClick = () => {
     setOpen(!open);
@@ -29,14 +39,19 @@ export default function NestedList() {
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
+      
         <List component="div" disablePadding>
+        {locations.map((data)=>{
+          return (
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
               <RoomIcon />
             </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItemButton>
+            <ListItemText primary={data.name} />
+          </ListItemButton>);
+          })}
         </List>
+        
       </Collapse>
     </List>
   );
