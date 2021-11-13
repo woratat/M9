@@ -1,12 +1,9 @@
 import { LoginBasicController, createAccountController, loginJWTController } from "./account.controller";
-import { uploadFiles } from "./post.controller";
-import { getLocationsController, postLocationController } from "./location.controller";
+import { uploadFiles, updateLike, getAllPostController } from "./post.controller";
 
 const controller = {
   account: { LoginBasicController, createAccountController, loginJWTController },
-  post: { uploadFiles },
-  location : { getLocationsController , postLocationController} ,
-  
+  post: { uploadFiles, updateLike, getAllPostController },
 };
 
 export default controller;

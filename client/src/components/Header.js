@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
@@ -51,7 +51,7 @@ function Header({ className }) {
             <h4>{user.username}</h4>
             <Link to="/login" className="signOutLink">
               <LogoutIcon className="logout_icon" id="logout_icon" />
-              <label for="logout_icon" className="label_logout">Logout</label>
+              <label htmlFor="logout_icon" className="label_logout">Logout</label>
             </Link>
           </div>
         </div>

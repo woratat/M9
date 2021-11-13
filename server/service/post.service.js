@@ -1,7 +1,8 @@
 import helper from "../helper";
 import lodash from "lodash";
 
-const { postImageDB } = helper.post;
+const { postImageDB, getAllPostDB, putLikeDB } = helper.post;
+
 const postImageService = async (content) => {
   try {
     if (lodash.isEmpty(content.message) || lodash.isEmpty(content.uri)) {
@@ -27,12 +28,32 @@ const postImageService = async (content) => {
   }
 };
 
-const getPostService = async (username, password) => {
+const getAllPostService = async () => {
   try {
-    
+    const post = await getAllPostDB();
+    return {
+      data: post
+    }
   } catch (error) {
     throw new Error(error);
   }
 };
 
-export { postImageService, getPostService };
+const putLikeService = async (content) => {
+  try {
+    const postData = {
+      like: content.like,
+      postID: content.postID,
+    };
+    const like = await putLikeDB(postData);
+    return {
+      error: false,
+      message: "Liked!",
+      data: like,
+    };
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export { postImageService, getAllPostService, putLikeService };

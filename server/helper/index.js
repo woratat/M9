@@ -1,11 +1,9 @@
 import { getAccountDetailDB, createUserAccountDB, getUserOrEmailAccountDB } from "./account.helper";
-import { postImageDB } from "./post.helper";
-import { getLocationDB , postLocationDB } from "./location.helper";
+import { postImageDB, getAllPostDB, putLikeDB } from "./post.helper";
 
 const helper = {
   account: { getAccountDetailDB, createUserAccountDB, getUserOrEmailAccountDB },
-  post: { postImageDB },
-  locations : {getLocationDB, postLocationDB },
+  post: { postImageDB, getAllPostDB, putLikeDB },
 };
 
 export default helper;
