@@ -1,11 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { Avatar } from "@mui/material";
+import RoomIcon from "@mui/icons-material/Room";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import RoomIcon from "@mui/icons-material/Room";
+import IconButton from "@material-ui/core/IconButton";
+import ToggleIcon from "material-ui-toggle-icon";
 
-function Post({ className, profileSPic, image, username, message, like }) {
+function Post({
+  className,
+  id,
+  profileSPic,
+  image,
+  username,
+  timestamp,
+  message,
+}) {
+  const [clicked, setClicked] = useState(false);
+  // const [likes, setLikes] = useState("");
+
+  // const likeHandler = async () => {
+  //   axios
+  //     .put("http://localhost:5000/api/feed/like",  { postID: id })
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+  // useEffect(() => {
+  //   likeHandler();
+  // }, []);
+
   return (
     <div className={className}>
       <div className="post">
@@ -14,7 +42,7 @@ function Post({ className, profileSPic, image, username, message, like }) {
           <div className="post_topInfo">
             <h3>{username}</h3>
             <div className="post_time_lo">
-              <p>timestamp</p>
+              <p>{timestamp}</p>
               <RoomIcon
                 fontSize="small"
                 sx={{ mt: 1 }}
@@ -34,16 +62,14 @@ function Post({ className, profileSPic, image, username, message, like }) {
         </div>
 
         <div className="comment_like">
-          <FavoriteBorderIcon
-            className="like_button"
-            id="like_button_outline"
-          />
-          <h6>123 likes</h6>
-          <FavoriteIcon
-            className="like_button"
-            id="like_button"
-            style={{ display: "none" }}
-          />
+          <IconButton onClick={() => setClicked(!clicked)} className="like_button">
+            <ToggleIcon
+              on={clicked}
+              onIcon={<FavoriteIcon className="like_button" />}
+              offIcon={<FavoriteBorderIcon className="like_button"/>}
+            />
+          </IconButton>
+          <h6>likes</h6>
           <input
             type="text"
             placeholder={`Comment...`}
@@ -114,7 +140,10 @@ export default styled(Post)`
   .like_button {
     cursor: pointer;
     color: #fb3958;
-    margin: 20px 5px 0 5px;
+  }
+
+  .like_button:hover {
+    background-color: #fff;
   }
 
   .post_time_lo {
