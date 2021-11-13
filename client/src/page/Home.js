@@ -2,11 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import Feed from "../components/Feed";
-import Login from "../page/Login";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function Home({ className }) {
 
   return (
+    <HelmetProvider>
+      <Helmet>
+        <title>Pholio | Home</title>
+      </Helmet>
     <div className={className}>
       <div className="home">
         <Header />
@@ -16,6 +20,7 @@ function Home({ className }) {
         </div>
       </div>
     </div>
+    </HelmetProvider>
   );
 }
 
@@ -24,8 +29,4 @@ export default styled(Home)`
     background-color: #f1f2f5;
     height: 100vh;
   }
-
-  /* .home_body {
-    display: flex;
-  } */
 `;

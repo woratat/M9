@@ -60,8 +60,9 @@ export default styled(Post)`
   flex-direction: column;
   align-content: center;
   place-items: center;
+
   .post {
-    width: 90%;
+    width: 600px;
     margin-top: 15px;
     border-radius: 15px;
     background-color: #fff;
@@ -75,9 +76,19 @@ export default styled(Post)`
     align-items: center;
   }
 
+  .post_image {
+    display: flex;
+    justify-content: center;
+  }
+
   .post_image > img {
-    width: 100%;
-    border-radius: 3px;
+    height: auto;
+    max-height: 500px;
+    width: auto;
+    max-width: 500px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border-radius: 10px;
   }
 
   .post_avatar {
