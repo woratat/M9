@@ -11,42 +11,49 @@ import ToggleIcon from "material-ui-toggle-icon";
 function Post({
   className,
   id,
-  profileSPic,
   image,
   username,
   timestamp,
   message,
-  like
+  like,
 }) {
   const [clicked, setClicked] = useState(false);
+  var executed = false;
+  var check = false;
 
   const likeHandler = async (id) => {
-    axios
-      .put("http://localhost:5000/api/feed/like",  { postID: id })
-      .then((response) => {
-        // console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (!executed) {
+      executed = true;
+      axios
+        .put("http://localhost:5000/api/feed/like", { postID: id })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   const unlikeHandler = async (id) => {
-    axios
-      .put("http://localhost:5000/api/feed/unlike",  { postID: id })
-      .then((response) => {
-        // console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (!check) {
+      check = true;
+      axios
+        .put("http://localhost:5000/api/feed/unlike", { postID: id })
+        .then((response) => {
+          // console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (
     <div className={className}>
       <div className="post">
         <div className="post_top">
-          <Avatar src={profileSPic} className="post_avatar" />
+          <Avatar className="post_avatar" />
           <div className="post_topInfo">
             <h3>{username}</h3>
             <div className="post_time_lo">
@@ -70,11 +77,30 @@ function Post({
         </div>
 
         <div className="comment_like">
-          <IconButton onClick={() => setClicked(!clicked)} className="like_button">
+          <IconButton
+            onClick={() => setClicked(!clicked)}
+            className="like_button"
+          >
             <ToggleIcon
               on={clicked}
-              onIcon={<FavoriteIcon className="like_button" id={`button-${id}`} onClick={() => {unlikeHandler(id)}}/>}
-              offIcon={<FavoriteBorderIcon className="like_button" id={`button-${id}`} onClick={() => {likeHandler(id)}}/>}
+              onIcon={
+                <FavoriteIcon
+                  className="like_button"
+                  id={`button-${id}`}
+                  onClick={() => {
+                    unlikeHandler(id);
+                  }}
+                />
+              }
+              offIcon={
+                <FavoriteBorderIcon
+                  className="like_button"
+                  id={`button-${id}`}
+                  onClick={() => {
+                    likeHandler(id);
+                  }}
+                />
+              }
             />
           </IconButton>
           <h6>{like} likes</h6>
@@ -108,7 +134,7 @@ export default styled(Post)`
     position: relative;
     padding: 10px 10px 2px 10px;
     align-items: center;
-    box-shadow: 0px 5px 8px -9px rgba(0, 0, 0, 0.50);
+    box-shadow: 0px 5px 8px -9px rgba(0, 0, 0, 0.5);
   }
 
   .post_image {
@@ -146,7 +172,7 @@ export default styled(Post)`
     padding: 0px 25px;
   }
 
-  .post_bottom > p{
+  .post_bottom > p {
     margin-top: 15px;
   }
 

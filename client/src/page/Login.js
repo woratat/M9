@@ -6,6 +6,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { fetchUser } from "../actions/userAction";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import Swal from "sweetalert2";
 
 function Login({ className }) {
   let path = useNavigate();
@@ -33,7 +34,7 @@ function Login({ className }) {
             username: inputs.username,
             password: inputs.password,
           },
-        });
+        })
 
         if (res.status === 200) {
           localStorage.setItem("user_token", res.data.token);
@@ -41,8 +42,25 @@ function Login({ className }) {
           dispatch(
             fetchUser({ token: res.data.token, username: res.data.username })
           );
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
           
-          path("/");
+          Toast.fire({
+            icon: 'success',
+            title: 'Signed in successfully'
+          }).then(() => {
+            path("/");
+          })
+          
         }
       } catch (error) {
         console.log(error.response);

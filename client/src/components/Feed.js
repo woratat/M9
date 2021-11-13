@@ -44,7 +44,6 @@ function Feed({ className }) {
               <Post
                 key={b.postID}
                 id={b.postID}
-                profileSPic=""
                 image={`http://localhost:5000/image/${b.imageName}`}
                 username={user.username}
                 timestamp={b.date}

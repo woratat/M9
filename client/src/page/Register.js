@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import swal from "sweetalert2";
+import Swal from "sweetalert2";
 
 function Register({ className }) {
   const [inputs, setInputs] = useState({
@@ -36,18 +36,24 @@ function Register({ className }) {
         );
 
         if (res.status === 200) {
-          swal
-            .fire({
-              title: "Sign up",
-              text: res.data.message,
-              icon: "success",
-              showConfirmButton: false,
-              timer: 1200,
-              allowOutsideClick: false,
-            })
-            .then(() => {
-              path("/login");
-            });
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+          
+          Toast.fire({
+            icon: 'success',
+            title: 'Signed in successfully'
+          }).then(() => {
+            path("/");
+          })
         }
       } catch (error) {
         console.log(error.response);

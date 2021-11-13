@@ -1,18 +1,35 @@
-import React from "react";
+import React, { useEffect} from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import Feed from "../components/Feed";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useSelector } from "react-redux";
-import lodash from 'lodash';
-import { useNavigate, Navigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { fetchUser } from "../actions/userAction";
+import authUser from "../auth";
+
 
 function Home({ className }) {
-  const user = useSelector(state => state.user);
+  // const user = useSelector(state => state.user);
+  // const dispatch = useDispatch();
 
-  if (!user.token) {
-    return <Navigate to="/Login" />;
-  }
+  // useEffect(() => {
+  //   const refreshUser = async () => {
+  //     try {
+  //       const getUser = await authUser()
+  //     dispatch(fetchUser(getUser));
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+      
+  //   };
+
+  //   refreshUser();
+  // }, [dispatch]);
+
+  // if (!user.token) {
+  //   return <Navigate to="/Login" />;
+  // }
 
   return (
     <HelmetProvider>

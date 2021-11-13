@@ -40,4 +40,22 @@ const getUserOrEmailAccountDB = async (username, email) => {
   });
 };
 
-export { getAccountDetailDB, createUserAccountDB, getUserOrEmailAccountDB };
+const getUserAccountDB = async (content) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const checkAccount = await account.findOne({
+        where: { username: content },
+      });
+      return resolve(checkAccount);
+    } catch (error) {
+      return reject(error);
+    }
+  });
+};
+
+export {
+  getAccountDetailDB,
+  createUserAccountDB,
+  getUserOrEmailAccountDB,
+  getUserAccountDB,
+};

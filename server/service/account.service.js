@@ -5,7 +5,7 @@ import validator from "validator";
 
 import { isPassword } from "../validation";
 
-const { getAccountDetailDB, createUserAccountDB, getUserOrEmailAccountDB } =
+const { getAccountDetailDB, createUserAccountDB, getUserOrEmailAccountDB, getUserAccountDB } =
   helper.account;
 
 const saltRound = 10;
@@ -23,6 +23,26 @@ const LoginBasicService = async (username, password) => {
       return {
         error: false,
         message: "Login successful",
+        data: user,
+      };
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const getUserAccountService = async (username) => {
+  try {
+    const user = await getUserAccountDB(username);
+    if (lodash.isEmpty(user)) {
+      return {
+        error: true,
+        message: "Username and password do not match",
+      };
+    } else {
+      return {
+        error: false,
+        message: "Get account_id successful",
         data: user,
       };
     }
@@ -106,4 +126,4 @@ const createAccountService = async (content) => {
   }
 };
 
-export { LoginBasicService, loginJWTService, createAccountService };
+export { LoginBasicService, loginJWTService, createAccountService, getUserAccountService };

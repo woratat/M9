@@ -3,26 +3,45 @@ import styled from "styled-components";
 import Axios from "axios";
 import { Avatar } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import { useSelector } from "react-redux";
 
 import MapList from "./MapList";
+import axios from "axios";
 
 function MessageSender({ className }) {
   const [message, setMessage] = useState("");
   const [file, setFile] = useState("");
   const [preview, setPreview] = useState("");
   const fileInputRef = useRef("");
+  const user = useSelector((state) => state.user);
+  const [username] = useState(user.username);
 
   useEffect(() => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
         setPreview(reader.result);
-      }
+      };
       reader.readAsDataURL(file);
     } else {
-        setPreview(null);
+      setPreview(null);
     }
   }, [file]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/auth/id", {
+        params: { 
+          username: username
+        }
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [username]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -103,8 +122,8 @@ function MessageSender({ className }) {
         </div>
 
         <div className="messageSender_bottom">
-          <img src={preview} alt="" id="preview_image"/>
-          <MapList sx={{ height: '75%' }}/>
+          <img src={preview} alt="" id="preview_image" />
+          <MapList sx={{ height: "75%" }} />
         </div>
       </div>
     </div>
@@ -207,11 +226,11 @@ export default styled(MessageSender)`
     flex-direction: column;
     align-items: center;
   }
-  
+
   #preview_image {
     margin: 10px 0px;
     width: 20%;
     border-radius: 10px;
-    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5)
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
   }
 `;

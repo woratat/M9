@@ -11,6 +11,7 @@ import logo from "../assets/images/logo.jpg";
 import { useSelector, useDispatch } from "react-redux";
 import authUser from "../auth";
 import { fetchUser, deleteUser } from "../actions/userAction";
+import lodash from 'lodash';
 
 function Header({ className }) {
   const user = useSelector((state) => state.user);
@@ -26,11 +27,16 @@ function Header({ className }) {
 
   useEffect(() => {
     const refreshUser = async () => {
-      dispatch(fetchUser(await authUser()));
+      const getUser = await authUser();
+      if (lodash.isEmpty(getUser)) {
+        path('/Login');
+      } else {
+        dispatch(fetchUser(getUser));
+      }
     };
 
     refreshUser();
-  }, [dispatch]);
+  }, [dispatch, path]);
 
   return (
     <div className={className}>
