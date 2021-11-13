@@ -14,20 +14,20 @@ function Feed({ className }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const getAllPost = async () => {
-    await axios
-      .get("http://localhost:5000/api/feed/post")
-      .then((response) => {
-        setPost(response.data.post.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   useEffect(() => {
     const refreshUser = async () => {
       dispatch(fetchUser(await authUser()));
+    };
+
+    const getAllPost = async () => {
+      await axios
+        .get("http://localhost:5000/api/feed/post")
+        .then((response) => {
+          setPost(response.data.post.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
 
     refreshUser();
@@ -38,19 +38,13 @@ function Feed({ className }) {
     <div className={className}>
       <div className="feed">
         <MessageSender />
-        {/* <Post
-          profileSrc="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTY2NzAyMDMwMjQzNTA1NTA0/donald_trump_photo_michael_stewartwireimage_gettyimages-169093538jpg.jpg"
-          image="https://media-cdn.tripadvisor.com/media/photo-s/18/18/e0/af/burgers-is-our-specialty.jpg"
-          username="Woratat"
-          timestamp="This is time stamp"
-          message="Burger!"
-        /> */}
         {post.length > 0 ? (
           <div>
             {post.map((b) => (
               <Post
                 key={b.postID}
-                // profileSrc={src}
+                id={b.postID}
+                profileSPic=""
                 image={`http://localhost:5000/image/${b.imageName}`}
                 username={user.username}
                 timestamp={b.createdAt}

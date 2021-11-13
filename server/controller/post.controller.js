@@ -58,7 +58,6 @@ const updateLike = async (req, res) => {
       postID: req.body.postID,
     };
 
-
     const newLike = await putLikeService(content);
 
     return res.status(200).json({
