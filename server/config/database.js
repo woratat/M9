@@ -45,12 +45,6 @@ db.location.hasOne(db.post, {
 db.post.belongsTo(db.location, {
   foreignKey: { name: "locationID", field: "location_id" },
 });
-db.comment.hasMany(db.post, {
-  foreignKey: { name: "commentID", field: "comment_id" },
-});
-db.post.belongsTo(db.comment, {
-  foreignKey: { name: "commentID", field: "comment_id" },
-});
 db.account.hasMany(db.comment, {
   foreignKey: { name: "accountID", field: "account_id" },
 });
@@ -62,6 +56,12 @@ db.typeAccount.hasMany(db.account, {
 });
 db.account.belongsTo(db.typeAccount, {
   foreignKey: { name: "typeAccountID", field: "type_account_id" },
+});
+db.post.hasMany(db.comment, {
+  foreignKey: { name: "postID", field: "post_id" },
+});
+db.comment.belongsTo(db.post, {
+  foreignKey: { name: "postID", field: "post_id" },
 });
 
 export default db;
