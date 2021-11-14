@@ -8,6 +8,7 @@ import LoopIcon from '@mui/icons-material/Loop';
 
 import MessageSender from "./MessageSender";
 import Post from "./Post";
+import Addcomment from "./Addcomment";
 
 function Feed({ className }) {
   const [post, setPost] = useState([]);
@@ -51,6 +52,8 @@ function Feed({ className }) {
                 like={b.like}
               />
             ))}
+            <Addcomment />
+
           </div>
         ) : (
           <div className="loading_feed">
