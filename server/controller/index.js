@@ -1,13 +1,13 @@
 import { LoginBasicController, createAccountController, loginJWTController, getUserAccountController, getAllAccountController, getUsernameController } from "./account.controller";
 import { uploadFiles, updateLike, getAllPostController, updateUnlike, getUserPostController, getLikeController } from "./post.controller";
 import { getLocationsController, postLocationController } from "./location.controller";
-import { postCommentController } from "./comment.controller";
+import { postCommentController , getCommentController } from "./comment.controller";
 
 const controller = {
   account: { LoginBasicController, createAccountController, loginJWTController, getUserAccountController, getAllAccountController, getUsernameController },
   post: { uploadFiles, updateLike, getAllPostController, updateUnlike, getUserPostController, getLikeController },
   locations: { getLocationsController, postLocationController },
-  comment: { postCommentController },
+  comment: { postCommentController , getCommentController },
 };
 
 export default controller;
