@@ -53,6 +53,19 @@ const getUserAccountDB = async (content) => {
   });
 };
 
+const getUsernameDB = async (content) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const checkAccount = await account.findOne({
+        where: { accountID: content },
+      });
+      return resolve(checkAccount);
+    } catch (error) {
+      return reject(error);
+    }
+  });
+};
+
 const getAllAccountDB = async () => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -69,5 +82,6 @@ export {
   createUserAccountDB,
   getUserOrEmailAccountDB,
   getUserAccountDB,
-  getAllAccountDB
+  getAllAccountDB,
+  getUsernameDB
 };

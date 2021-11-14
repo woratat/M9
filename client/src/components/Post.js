@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -19,6 +19,7 @@ function Post({
   like,
 }) {
   const [clicked, setClicked] = useState(false);
+  const [name, setName] = useState("");
   var executed = false;
   var check = false;
 
@@ -28,7 +29,7 @@ function Post({
       axios
         .put("http://localhost:5000/api/feed/like", { postID: id })
         .then((response) => {
-          // console.log(response);
+          // console.log(response.data.like);
         })
         .catch((error) => {
           console.log(error);
@@ -50,13 +51,32 @@ function Post({
     }
   };
 
+  const getUsernamePost = async () => {
+    await axios
+      .get("http://localhost:5000/api/auth/username", {
+        params: {
+          id: username
+        }
+      })
+      .then((response) => {
+        setName(response.data.username)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    getUsernamePost();
+  },[]);
+
   return (
     <div className={className}>
       <div className="post">
         <div className="post_top">
           <Avatar className="post_avatar" />
           <div className="post_topInfo">
-            <h3>{username}</h3>
+            <h3>{name}</h3>
             <div className="post_time_lo">
               <p>{timestamp}</p>
               <RoomIcon

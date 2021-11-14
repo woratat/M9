@@ -24,6 +24,17 @@ const getAllPostDB = async () => {
   });
 };
 
+const getUserPostDB = async (content) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const getImage = await post.findAll({where: {accountID: content.account_id}});
+      return resolve(getImage);
+    } catch (error) {
+      return reject(error);
+    }
+  });
+};
+
 const putLikeDB = async (content) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -46,4 +57,15 @@ const putUnlikeDB = async (content) => {
   });
 }
 
-export { postImageDB, getAllPostDB, putLikeDB, putUnlikeDB };
+const getAllLikeDB = async (content) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const getLike = await post.findOne({where: {post_id: content.postID}});
+      return resolve(getLike);
+    } catch (error) {
+      return reject(error);
+    }
+  });
+}
+
+export { postImageDB, getAllPostDB, putLikeDB, putUnlikeDB, getUserPostDB, getAllLikeDB };

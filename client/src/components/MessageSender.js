@@ -13,7 +13,7 @@ function MessageSender({ className }) {
   const [preview, setPreview] = useState("");
   const [acID, setACID] = useState("");
   const fileInputRef = useRef("");
-  const testID = localStorage.getItem("username_account");
+  const userID = localStorage.getItem("username_account");
 
   useEffect(() => {
     if (file) {
@@ -31,7 +31,7 @@ function MessageSender({ className }) {
     axios
       .get("http://localhost:5000/api/auth/id", {
         params: {
-          username: testID,
+          username: userID,
         },
       })
       .then(function (response) {
@@ -41,7 +41,7 @@ function MessageSender({ className }) {
       .catch(function (error) {
         console.log(error);
       });
-  }, [testID]);
+  }, [userID]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

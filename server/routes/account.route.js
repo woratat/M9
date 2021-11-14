@@ -7,7 +7,8 @@ const {
   createAccountController,
   loginJWTController,
   getUserAccountController,
-  getAllAccountController
+  getAllAccountController,
+  getUsernameController
 } = controller.account;
 
 const route = Router();
@@ -22,6 +23,7 @@ route.get(
   loginJWTController
 );
 route.get("/id", getUserAccountController);
+route.get("/username", getUsernameController);
 route.get("/all", getAllAccountController);
 route.post("/register", createAccountController);
 

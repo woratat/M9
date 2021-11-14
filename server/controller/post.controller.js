@@ -2,7 +2,7 @@ import fs from "fs";
 import service from "../service";
 import path from "path";
 
-const { postImageService, getAllPostService, putLikeService, putUnlikeService } =
+const { postImageService, getAllPostService, putLikeService, putUnlikeService, getUserPostService, getLikeService } =
   service.post;
 
 const uploadFiles = async (req, res) => {
@@ -93,6 +93,23 @@ const updateUnlike = async (req, res) => {
   }
 };
 
+const getLikeController = async (req, res) => {
+  try {
+    const content = {
+      postID: req.query.postID,
+    };
+
+    const newLike = await getLikeService(content);
+
+    return res.status(200).json({
+      newLike
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(500);
+  }
+};
+
 const getAllPostController = async (req, res) => {
   try {
     const allPost = await getAllPostService();
@@ -106,4 +123,20 @@ const getAllPostController = async (req, res) => {
   }
 };
 
-export { uploadFiles, updateLike, getAllPostController, updateUnlike };
+const getUserPostController = async (req, res) => {
+  const content = {
+    account_id: req.query.id
+  }
+  try {
+    const userPost = await getUserPostService(content);
+
+    return res.status(200).json({
+      post: userPost,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(500);
+  }
+};
+
+export { uploadFiles, updateLike, getAllPostController, updateUnlike, getUserPostController, getLikeController };

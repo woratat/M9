@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import authUser from "../auth";
 import { fetchUser } from "../actions/userAction";
-import LoopIcon from '@mui/icons-material/Loop';
+import LoopIcon from "@mui/icons-material/Loop";
 
 import MessageSender from "./MessageSender";
 import Post from "./Post";
 
 function Feed({ className }) {
   const [post, setPost] = useState([]);
-  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,20 +18,25 @@ function Feed({ className }) {
       dispatch(fetchUser(await authUser()));
     };
 
-    const getAllPost = async () => {
-      await axios
-        .get("http://localhost:5000/api/feed/post")
-        .then((response) => {
-          setPost(response.data.post.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-
     refreshUser();
+  }, [dispatch]);
+
+  const getAllPost = async () => {
+    await axios
+      .get("http://localhost:5000/api/feed/post")
+      .then((response) => {
+        // console.log(response);
+        setPost(response.data.post.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
     getAllPost();
-  }, [dispatch, post]);
+    // getUsernamePost();
+  }, []);
 
   return (
     <div className={className}>
@@ -40,12 +44,13 @@ function Feed({ className }) {
         <MessageSender />
         {post.length > 0 ? (
           <div>
-            {post.map((b) => (
+            {post.map((b) =>
+            (
               <Post
                 key={b.postID}
                 id={b.postID}
                 image={`http://localhost:5000/image/${b.imageName}`}
-                username={user.username}
+                username={b.accountID}
                 timestamp={b.date}
                 message={b.message}
                 like={b.like}
@@ -54,7 +59,7 @@ function Feed({ className }) {
           </div>
         ) : (
           <div className="loading_feed">
-            <LoopIcon/>
+            <LoopIcon />
             <p>Loading feed....</p>
           </div>
         )}

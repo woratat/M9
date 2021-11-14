@@ -7,7 +7,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import MapIcon from "@mui/icons-material/Map";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import LogoutIcon from "@mui/icons-material/Logout";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import { Avatar } from "@mui/material";
 import logo from "../assets/images/logo.jpg";
 import { useSelector, useDispatch } from "react-redux";
@@ -62,7 +62,6 @@ function Header({ className }) {
     setWordEntered("");
   };
 
-
   useEffect(() => {
     const refreshUser = async () => {
       const getUser = await authUser();
@@ -81,21 +80,23 @@ function Header({ className }) {
     <div className={className}>
       <div className="header">
         <div className="header_left">
-          <img src={logo} alt="Pholio" />
+          <Link to="/" className="logo_home">
+            <img src={logo} alt="Pholio" className="logo_img" />
+          </Link>
           <div className="header_search">
             <div className="header_input">
-            {filterData.length === 0 ? (
-            <SearchIcon />
-          ) : (
-            <CloseIcon id="clearBtn" onClick={clearInput} />
-          )}
+              {filterData.length === 0 ? (
+                <SearchIcon />
+              ) : (
+                <CloseIcon id="clearBtn" onClick={clearInput} />
+              )}
               <input type="text" placeholder="Search" onChange={handleSearch} />
             </div>
             {filterData.length !== 0 && (
               <div className="search_result">
                 {filterData.slice(0, 10).map((value, key) => {
                   return (
-                    <Link className="dataItem" to="#">
+                    <Link className="dataItem" to="/Profile">
                       <Avatar sx={{ ml: 1 }} />
                       <p>{value.username}</p>
                     </Link>
@@ -135,7 +136,7 @@ function Header({ className }) {
         </div>
         <div className="header_right">
           <div className="header_info">
-            <Avatar />
+            <Avatar></Avatar>
             <h4>{user.username}</h4>
             <Link to="/login" className="signOutLink" onClick={handleLogout}>
               <LogoutIcon className="logout_icon" id="logout_icon" />
@@ -168,6 +169,14 @@ export default styled(Header)`
     justify-content: space-evenly;
   }
 
+  .logo_img {
+    cursor: pointer;
+  }
+
+  .logo_home:hover {
+    background-color: #fff;
+  }
+
   .header_input {
     display: flex;
     align-items: center;
@@ -182,7 +191,7 @@ export default styled(Header)`
     height: 45px;
   }
 
-  .header_left > img {
+  .header_left > a > img {
     height: 60px;
   }
 
@@ -304,6 +313,6 @@ export default styled(Header)`
   }
 
   #clearBtn {
-  cursor: pointer;
-}
+    cursor: pointer;
+  }
 `;

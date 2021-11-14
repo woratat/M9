@@ -1,7 +1,7 @@
 import helper from "../helper";
 import lodash from "lodash";
 
-const { postImageDB, getAllPostDB, putLikeDB, putUnlikeDB } = helper.post;
+const { postImageDB, getAllPostDB, putLikeDB, putUnlikeDB, getUserPostDB, getAllLikeDB } = helper.post;
 
 const postImageService = async (content) => {
   try {
@@ -33,6 +33,17 @@ const postImageService = async (content) => {
 const getAllPostService = async () => {
   try {
     const post = await getAllPostDB();
+    return {
+      data: post
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const getUserPostService = async (content) => {
+  try {
+    const post = await getUserPostDB(content);
     return {
       data: post
     }
@@ -75,4 +86,19 @@ const putUnlikeService = async (content) => {
   }
 };
 
-export { postImageService, getAllPostService, putLikeService, putUnlikeService };
+const getLikeService = async (content) => {
+  try {
+    const postData = {
+      postID: content.postID,
+    };
+    const like = await getAllLikeDB(postData);
+    return {
+      error: false,
+      data: like,
+    };
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export { postImageService, getAllPostService, putLikeService, putUnlikeService, getUserPostService, getLikeService };

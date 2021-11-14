@@ -40,9 +40,9 @@ export default function NestedList() {
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {locations.map((data) => {
+          {locations.map((data, key) => {
             return (
-              <ListItemButton sx={{ pl: 4 }}>
+              <ListItemButton sx={{ pl: 4 }} key={key}>
                 <ListItemIcon>
                   <RoomIcon />
                 </ListItemIcon>
