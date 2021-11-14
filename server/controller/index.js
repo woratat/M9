@@ -1,9 +1,9 @@
-import { LoginBasicController, createAccountController, loginJWTController, getUserAccountController } from "./account.controller";
+import { LoginBasicController, createAccountController, loginJWTController, getUserAccountController, getAllAccountController } from "./account.controller";
 import { uploadFiles, updateLike, getAllPostController, updateUnlike } from "./post.controller";
 import { getLocationsController, postLocationController } from "./location.controller";
 
 const controller = {
-  account: { LoginBasicController, createAccountController, loginJWTController, getUserAccountController },
+  account: { LoginBasicController, createAccountController, loginJWTController, getUserAccountController, getAllAccountController },
   post: { uploadFiles, updateLike, getAllPostController, updateUnlike },
   locations: { getLocationsController, postLocationController },
 };

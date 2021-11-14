@@ -66,7 +66,7 @@ function Feed({ className }) {
 export default styled(Feed)`
   .feed {
     flex: 1;
-    padding: 30px 150px;
+    padding: 20px 150px;
     display: flex;
     flex-direction: column;
     justify-content: center;

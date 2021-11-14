@@ -1,63 +1,137 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "@mui/icons-material/Home";
 import MapIcon from "@mui/icons-material/Map";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import LogoutIcon from "@mui/icons-material/Logout";
+import CloseIcon from '@mui/icons-material/Close';
 import { Avatar } from "@mui/material";
 import logo from "../assets/images/logo.jpg";
 import { useSelector, useDispatch } from "react-redux";
 import authUser from "../auth";
 import { fetchUser, deleteUser } from "../actions/userAction";
-import lodash from 'lodash';
+import lodash from "lodash";
 
 function Header({ className }) {
   const user = useSelector((state) => state.user);
+  const [accounts, setAccounts] = useState([]);
+  const [filterData, setFilterData] = useState([]);
+  const [wordEntered, setWordEntered] = useState("");
   const dispatch = useDispatch();
   const path = useNavigate();
 
   const handleLogout = (e) => {
     e.preventDefault();
-    localStorage.removeItem('user_token');
+    localStorage.removeItem("user_token");
     dispatch(deleteUser({}));
-    path('/Login');
-  }
+    path("/Login");
+  };
+
+  const getAllUser = async () => {
+    axios
+      .get("http://localhost:5000/api/auth/all")
+      .then((response) => {
+        setAccounts(response.data.content);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleSearch = (event) => {
+    const searchWord = event.target.value;
+    setWordEntered(searchWord);
+    const newFilter = accounts.filter((value) => {
+      return value.username.toLowerCase().includes(searchWord.toLowerCase());
+    });
+
+    console.log(newFilter);
+
+    if (searchWord === "") {
+      setFilterData([]);
+    } else {
+      setFilterData(newFilter);
+    }
+  };
+
+  const clearInput = () => {
+    setFilterData([]);
+    setWordEntered("");
+  };
+
 
   useEffect(() => {
     const refreshUser = async () => {
       const getUser = await authUser();
       if (lodash.isEmpty(getUser)) {
-        path('/Login');
+        path("/Login");
       } else {
         dispatch(fetchUser(getUser));
       }
     };
 
     refreshUser();
+    getAllUser();
   }, [dispatch, path]);
 
   return (
     <div className={className}>
       <div className="header">
         <div className="header_left">
-          <img src={logo} alt="Facebook" />
-          <div className="header_input">
+          <img src={logo} alt="Pholio" />
+          <div className="header_search">
+            <div className="header_input">
+            {filterData.length === 0 ? (
             <SearchIcon />
-            <input type="text" placeholder="Search" />
+          ) : (
+            <CloseIcon id="clearBtn" onClick={clearInput} />
+          )}
+              <input type="text" placeholder="Search" onChange={handleSearch} />
+            </div>
+            {filterData.length !== 0 && (
+              <div className="search_result">
+                {filterData.slice(0, 10).map((value, key) => {
+                  return (
+                    <Link className="dataItem" to="#">
+                      <Avatar sx={{ ml: 1 }} />
+                      <p>{value.username}</p>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
         <div className="header_center">
-          <div className="header_option header_option--active">
+          <NavLink
+            className={(isActive) =>
+              "header_option" + (!isActive ? " header_option--active" : " ")
+            }
+            to="/"
+          >
             <HomeIcon fontSize="large" />
-          </div>
-          <div className="header_option">
+          </NavLink>
+          <NavLink
+            className={(isActive) =>
+              "header_option" +
+              (!isActive ? " header_option header_option--active" : "")
+            }
+            to="/location"
+          >
             <MapIcon fontSize="large" />
-          </div>
-          <div className="header_option">
+          </NavLink>
+          <NavLink
+            className={(isActive) =>
+              "header_option" +
+              (!isActive ? " header_option header_option--active" : "")
+            }
+            to="/"
+          >
             <SupervisorAccountIcon fontSize="large" />
-          </div>
+          </NavLink>
         </div>
         <div className="header_right">
           <div className="header_info">
@@ -65,7 +139,9 @@ function Header({ className }) {
             <h4>{user.username}</h4>
             <Link to="/login" className="signOutLink" onClick={handleLogout}>
               <LogoutIcon className="logout_icon" id="logout_icon" />
-              <label htmlFor="logout_icon" className="label_logout">Logout</label>
+              <label htmlFor="logout_icon" className="label_logout">
+                Logout
+              </label>
             </Link>
           </div>
         </div>
@@ -84,6 +160,7 @@ export default styled(Header)`
     top: 0;
     z-index: 100;
     box-shadow: 0px 5px 8px -9px rgba(0, 0, 0, 0.75);
+    position: relative;
   }
 
   .header_left {
@@ -190,4 +267,43 @@ export default styled(Header)`
   .label_logout:hover {
     cursor: pointer;
   }
+
+  .search_result {
+    position: absolute;
+    margin-top: 5px;
+    width: 300px;
+    height: 200px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    overflow: hidden;
+    overflow-y: auto;
+    border-radius: 10px;
+  }
+
+  .search_result::-webkit-scrollbar {
+    display: none;
+  }
+
+  .search_result .dataItem {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    color: black;
+  }
+
+  .dataItem p {
+    margin-left: 10px;
+  }
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    background-color: lightgrey;
+  }
+
+  #clearBtn {
+  cursor: pointer;
+}
 `;

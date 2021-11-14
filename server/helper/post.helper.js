@@ -6,7 +6,6 @@ const postImageDB = async (content) => {
   return new Promise(async (resolve, reject) => {
     try {
       const postImage = await post.create(content);
-
       return resolve(postImage);
     } catch (error) {
       return reject(error);

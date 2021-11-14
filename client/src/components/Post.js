@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import RoomIcon from "@mui/icons-material/Room";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -27,7 +28,7 @@ function Post({
       axios
         .put("http://localhost:5000/api/feed/like", { postID: id })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
         })
         .catch((error) => {
           console.log(error);
@@ -63,7 +64,7 @@ function Post({
                 sx={{ mt: 1 }}
                 style={{ color: "#125688" }}
               />
-              <p>location</p>
+              <Link to="#" className="link_location">location</Link>
             </div>
           </div>
         </div>
@@ -206,5 +207,9 @@ export default styled(Post)`
     border-radius: 999px;
     background-color: #eff2f5;
     flex: 1;
+  }
+
+  .link_location {
+    align-self: center;
   }
 `;

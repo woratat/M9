@@ -1,9 +1,9 @@
-import { LoginBasicService, createAccountService, loginJWTService, getUserAccountService } from "./account.service";
+import { LoginBasicService, createAccountService, loginJWTService, getUserAccountService, getAllAccountService } from "./account.service";
 import { postImageService, getAllPostService, putLikeService, putUnlikeService } from "./post.service";
 import { getLocationService, postLocationService } from "./location.service";
 
 const service = {
-  account: { LoginBasicService, createAccountService, loginJWTService, getUserAccountService },
+  account: { LoginBasicService, createAccountService, loginJWTService, getUserAccountService, getAllAccountService },
   post: { postImageService, getAllPostService, putLikeService, putUnlikeService },
   locations: { getLocationService, postLocationService},
 };

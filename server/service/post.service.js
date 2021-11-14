@@ -16,6 +16,7 @@ const postImageService = async (content) => {
         image: content.uri,
         imageName: content.imageName,
         date: content.date,
+        accountID: content.account_id,
       };
       const post = await postImageDB(postData);
       return {

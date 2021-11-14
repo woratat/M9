@@ -5,7 +5,7 @@ import validator from "validator";
 
 import { isPassword } from "../validation";
 
-const { getAccountDetailDB, createUserAccountDB, getUserOrEmailAccountDB, getUserAccountDB } =
+const { getAccountDetailDB, createUserAccountDB, getUserOrEmailAccountDB, getUserAccountDB, getAllAccountDB } =
   helper.account;
 
 const saltRound = 10;
@@ -46,6 +46,19 @@ const getUserAccountService = async (username) => {
         data: user,
       };
     }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const getAllAccountService = async () => {
+  try {
+    const user = await getAllAccountDB();
+      return {
+        error: false,
+        message: "Get all accounts successful",
+        data: user,
+      };
   } catch (error) {
     throw new Error(error);
   }
@@ -126,4 +139,4 @@ const createAccountService = async (content) => {
   }
 };
 
-export { LoginBasicService, loginJWTService, createAccountService, getUserAccountService };
+export { LoginBasicService, loginJWTService, createAccountService, getUserAccountService, getAllAccountDB, getAllAccountService };

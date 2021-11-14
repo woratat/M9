@@ -10,6 +10,7 @@ const uploadFiles = async (req, res) => {
     const content = {
       message: req.body.message,
       file: req.file,
+      account_id: req.body.acID,
     };
 
     if (req.file == undefined) {

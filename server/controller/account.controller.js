@@ -5,7 +5,7 @@ import path from "path";
 import util from "util";
 
 const readFile = util.promisify(fs.readFile);
-const { createAccountService, getUserAccountService } = service.account;
+const { createAccountService, getUserAccountService, getAllAccountService } = service.account;
 
 const LoginBasicController = async (req, res) => {
   if (req.user.error) {
@@ -67,6 +67,26 @@ const getUserAccountController = async (req, res) => {
   }
 };
 
+const getAllAccountController = async (req, res) => {
+  try {
+    const accountID = await getAllAccountService();
+
+    if (accountID.error) {
+      return res.status(400).json({
+        message: accountID.message,
+      });
+    } else {
+      return res.status(200).json({
+        message: accountID.message,
+        content: accountID.data,
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(500);
+  }
+};
+
 const loginJWTController = async (req, res) => {
   const { username, accountID, name } = req.user.data;
     const privateKey = await readFile(
@@ -79,4 +99,4 @@ const loginJWTController = async (req, res) => {
     return res.status(200).json({ token: token, username });
 }
 
-export { LoginBasicController, createAccountController, loginJWTController, getUserAccountController };
+export { LoginBasicController, createAccountController, loginJWTController, getUserAccountController, getAllAccountController };

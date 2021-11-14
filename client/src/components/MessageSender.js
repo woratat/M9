@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Axios from "axios";
 import { Avatar } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import { useSelector } from "react-redux";
 
 import MapList from "./MapList";
 import axios from "axios";
@@ -12,9 +11,9 @@ function MessageSender({ className }) {
   const [message, setMessage] = useState("");
   const [file, setFile] = useState("");
   const [preview, setPreview] = useState("");
+  const [acID, setACID] = useState("");
   const fileInputRef = useRef("");
-  const user = useSelector((state) => state.user);
-  const [username] = useState(user.username);
+  const testID = localStorage.getItem("username_account");
 
   useEffect(() => {
     if (file) {
@@ -31,27 +30,29 @@ function MessageSender({ className }) {
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/auth/id", {
-        params: { 
-          username: username
-        }
+        params: {
+          username: testID,
+        },
       })
       .then(function (response) {
-        console.log(response);
+        setACID(response.data.content.accountID);
+        // console.log(response);
       })
       .catch(function (error) {
         console.log(error);
       });
-  }, [username]);
+  }, [testID]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData();
     data.append("message", message);
     data.append("file", file);
+    data.append("acID", acID);
 
     Axios.post("http://localhost:5000/api/feed/post", data)
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
       })
       .catch(function (error) {
         console.log(error);
@@ -123,7 +124,7 @@ function MessageSender({ className }) {
 
         <div className="messageSender_bottom">
           <img src={preview} alt="" id="preview_image" />
-          <MapList sx={{ height: "75%" }} />
+          <MapList/>
         </div>
       </div>
     </div>
@@ -137,7 +138,8 @@ export default styled(MessageSender)`
 
   .messageSender {
     display: flex;
-    margin-top: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     flex-direction: column;
     background-color: #fff;
     border-radius: 15px;

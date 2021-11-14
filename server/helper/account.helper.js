@@ -53,9 +53,21 @@ const getUserAccountDB = async (content) => {
   });
 };
 
+const getAllAccountDB = async () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const allAccount = await account.findAll();
+      return resolve(allAccount);
+    } catch (error) {
+      return reject(error);
+    }
+  });
+};
+
 export {
   getAccountDetailDB,
   createUserAccountDB,
   getUserOrEmailAccountDB,
   getUserAccountDB,
+  getAllAccountDB
 };
