@@ -14,4 +14,16 @@ const postCommentDB= async (content) => {
     });
   };
 
-export { postCommentDB };
+const getCommentDB = () =>{
+  return new Promise(async (resolve,reject)=>{
+    try {
+      const getComments = await Comment.findAll();
+
+      return resolve(getComments);
+    } catch (error) {
+      return reject(error);
+    }
+  });
+};
+
+export { postCommentDB , getCommentDB };
