@@ -1,8 +1,8 @@
 import helper from "../helper";
 import lodash from "lodash";
-import jwt from "jsonwebtoken";
 
-const { postCommentDB } = helper.comment;
+
+const { postCommentDB , getCommentDB } = helper.comment;
 
 const postCommentService = async (content) => {
   const { message } = content;
@@ -23,5 +23,14 @@ const postCommentService = async (content) => {
     
   }
 };
+const getCommentService = async () => {
+  try {
+    const comments = await getCommentDB();
 
-export { postCommentService };
+    return comments;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export { postCommentService , getCommentService };
