@@ -145,7 +145,7 @@ const createAccountService = async (content) => {
         const salt = bcrypt.genSaltSync(saltRound);
         const hash = await bcrypt.hash(password, salt);
         content.password = hash;
-        const newContent = { ...content, typeAccountID: 2 };
+        const newContent = { ...content, typeAccountID: 1 };
         const newAccount = await createUserAccountDB(newContent);
         return {
           error: false,

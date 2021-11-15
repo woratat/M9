@@ -96,7 +96,11 @@ function Header({ className }) {
               <div className="search_result">
                 {filterData.slice(0, 10).map((value, key) => {
                   return (
-                    <Link className="dataItem" to="/Profile">
+                    <Link
+                      className="dataItem"
+                      to="/profile"
+                      state={{ from: value.username }}
+                    >
                       <Avatar sx={{ ml: 1 }} />
                       <p>{value.username}</p>
                     </Link>
@@ -136,8 +140,14 @@ function Header({ className }) {
         </div>
         <div className="header_right">
           <div className="header_info">
-            <Avatar></Avatar>
-            <h4>{user.username}</h4>
+            <Link
+              className="user_profile"
+              to="/profile"
+              state={{ from: user.username }}
+            >
+              <Avatar></Avatar>
+              <h4>{user.username}</h4>
+            </Link>
             <Link to="/login" className="signOutLink" onClick={handleLogout}>
               <LogoutIcon className="logout_icon" id="logout_icon" />
               <label htmlFor="logout_icon" className="label_logout">
@@ -314,5 +324,15 @@ export default styled(Header)`
 
   #clearBtn {
     cursor: pointer;
+  }
+
+  .user_profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .user_profile:hover {
+    background-color: #fff;
   }
 `;

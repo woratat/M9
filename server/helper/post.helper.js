@@ -27,7 +27,7 @@ const getAllPostDB = async () => {
 const getUserPostDB = async (content) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const getImage = await post.findAll({where: {accountID: content.account_id}});
+      const getImage = await post.findAll({where: {accountID: content.accountID}});
       return resolve(getImage);
     } catch (error) {
       return reject(error);

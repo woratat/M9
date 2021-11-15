@@ -2,32 +2,29 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Axios from "axios";
 import Header from "../components/Header";
-import LoopIcon from '@mui/icons-material/Loop';
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import { Avatar } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import axios from "axios";
 import Post from "../components/Post";
-
-
+import { useLocation } from "react-router-dom";
 
 function Profile({ className }) {
   const [user, setUser] = useState("");
   const [post, setPost] = useState([]);
+  const [profile, setProfile] = useState([]);
   const userID = localStorage.getItem("username_account");
-  // const date = user.createdAt.splice(0, 10).split("-");
-  // const test = date.join("/");
-  // let re = /(\w+)\/(\w+)\/(\w+)/;
-  // let newstr = test.replace(re, "$3/$2/$1");
-
+  const params = useLocation();
+  const { from } = params.state;
 
   const getUserPost = async () => {
     await axios
-      .get("http://localhost:5000/api/feed/user",{
+      .get("http://localhost:5000/api/feed/user", {
         params: {
-          id: user.accountID,
-        }
+          id: profile.accountID,
+        },
       })
       .then((response) => {
         setPost(response.data.post.data);
@@ -36,10 +33,29 @@ function Profile({ className }) {
         console.log(error);
       });
   };
-  
+
   useEffect(() => {
     getUserPost();
-  }, [user]);
+  }, [profile]);
+
+  const getUserProfile = async () => {
+    await axios
+      .get("http://localhost:5000/api/auth/id", {
+        params: {
+          username: from,
+        },
+      })
+      .then((response) => {
+        setProfile(response.data.content);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getUserProfile();
+  }, [from]);
 
   useEffect(() => {
     Axios.get("http://localhost:5000/api/auth/id", {
@@ -70,41 +86,42 @@ function Profile({ className }) {
             <Avatar className="svg_icons" />
           </div>
           <div className="profile_center">
-            <h1>Name: {user.name}</h1>
-            <h3>Contact: {user.email}</h3>
+            <h1>Name: {profile.name}</h1>
+            <h3>Contact: {profile.email}</h3>
           </div>
           <div className="profile_right">
-            <Button
-              className="btn_add"
-              variant="contained"
-            >
-              Add friend
-              <AddIcon sx={{ ml: 0.5 }} />
-            </Button>
+            {user.username == profile.name ? (
+              <div></div>
+            ) : (
+              <Button className="btn_add" variant="contained">
+                Add friend
+                <AddIcon sx={{ ml: 0.5 }} />
+              </Button>
+            )}
           </div>
         </div>
 
         <div className="home_body">
-        {post.length > 0 ? (
-          <div className="post_card">
-            {post.map((b) => (
-              <Post
-                key={b.postID}
-                id={b.postID}
-                image={`http://localhost:5000/image/${b.imageName}`}
-                username={user.username}
-                timestamp={b.date}
-                message={b.message}
-                like={b.like}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="loading_feed">
-            <LoopIcon/>
-            <p>Loading feed....</p>
-          </div>
-        )}
+          {post.length > 0 ? (
+            <div className="post_card">
+              {post.map((b, key) => (
+                <Post
+                  key={key}
+                  id={b.postID}
+                  image={`http://localhost:5000/image/${b.imageName}`}
+                  username={b.accountID}
+                  timestamp={b.date}
+                  message={b.message}
+                  like={b.like}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="loading_feed">
+              <SentimentVeryDissatisfiedIcon />
+              <p>This user has not post anything yet.</p>
+            </div>
+          )}
         </div>
       </div>
     </HelmetProvider>

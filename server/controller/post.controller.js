@@ -125,7 +125,7 @@ const getAllPostController = async (req, res) => {
 
 const getUserPostController = async (req, res) => {
   const content = {
-    account_id: req.query.id
+    accountID: req.query.id
   }
   try {
     const userPost = await getUserPostService(content);

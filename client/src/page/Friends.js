@@ -2,50 +2,35 @@ import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
 import Header from "../components/Header";
 import styled from "styled-components";
-import LoopIcon from "@mui/icons-material/Loop";
 import axios from "axios";
 
-
 function Friends({ className }) {
-    const [user, setUser] = useState([]);
+  const [user, setUser] = useState([]);
 
+  const getAllUser = async () => {
+    await axios
+      .get("http://localhost:5000/api/auth/all")
+      .then((response) => {
+        setUser(response.data.content);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-    const getAllUser = async () => {
-        await axios
-          .get("http://localhost:5000/api/auth/all")
-          .then((response) => {
-            setUser(response.data.content)
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      };
-    
-      useEffect(() => {
-        getAllUser();
-      }, []);
+  useEffect(() => {
+    getAllUser();
+  }, []);
 
   return (
     <div className={className}>
       <Header />
       <div className="cards">
-        {user.length > 0 ? (
-          <div>
-            {user.map((b, key) => (
-              <Card 
-              className="card-items" 
-              key={key}
-              id={key}
-              name={b.name}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="loading_feed">
-            <LoopIcon />
-            <p>Loading page....</p>
-          </div>
-        )}
+        <div className="card-main">
+          {user.map((b, key) => (
+            <Card className="card-items" key={key} id={b.accountID} name={b.name} />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -53,12 +38,13 @@ function Friends({ className }) {
 
 export default styled(Friends)`
   .cards {
+    margin: 50px 100px;
+  }
+
+  .card-main {
     display: grid;
     grid-template-columns: auto auto auto;
     padding: 10px;
     grid-gap: 10px;
-  }
-
-  .card-items {
   }
 `;

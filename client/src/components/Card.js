@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -7,7 +8,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Avatar } from "@mui/material/";
 
-export default function BasicCard({ className, key, id, name }) {
+export default function BasicCard({ className, id, name }) {
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -22,7 +23,9 @@ export default function BasicCard({ className, key, id, name }) {
         </div>
       </CardContent>
       <CardActions>
-        <Button size="small" variant="outlined" style={{color: "red", border: "1px solid red"}}>See More</Button>
+        <Link to="/profile" state={{ from: name }}>
+          <Button size="small" variant="outlined" style={{color: "red", border: "1px solid red"}}>See More</Button>
+        </Link>
       </CardActions>
     </Card>
   );

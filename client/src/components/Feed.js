@@ -26,7 +26,6 @@ function Feed({ className }) {
     await axios
       .get("http://localhost:5000/api/feed/post")
       .then((response) => {
-        // console.log(response);
         setPost(response.data.post.data);
       })
       .catch((error) => {
@@ -36,7 +35,7 @@ function Feed({ className }) {
 
   useEffect(() => {
     getAllPost();
-  });
+  },[]);
 
   return (
     <div className={className}>
@@ -44,10 +43,10 @@ function Feed({ className }) {
         <MessageSender />
         {post.length > 0 ? (
           <div>
-            {post.map((b) =>
+            {post.map((b, key) =>
             (
               <Post
-                key={b.postID}
+                key={key}
                 id={b.postID}
                 image={`http://localhost:5000/image/${b.imageName}`}
                 username={b.accountID}
