@@ -11,6 +11,7 @@ const uploadFiles = async (req, res) => {
       message: req.body.message,
       file: req.file,
       account_id: req.body.acID,
+      location: req.body.location,
     };
 
     if (req.file == undefined) {
@@ -82,9 +83,8 @@ const updateUnlike = async (req, res) => {
     };
 
     const newLike = await putUnlikeService(content);
-
     return res.status(200).json({
-      like: content.like,
+      like: newLike,
       postID: content.postID,
     });
   } catch (error) {

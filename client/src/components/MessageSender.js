@@ -3,16 +3,16 @@ import styled from "styled-components";
 import Axios from "axios";
 import { Avatar } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-
 import MapList from "./MapList";
 import axios from "axios";
-import { drop } from "lodash";
 
 function MessageSender({ className }) {
   const [message, setMessage] = useState("");
   const [file, setFile] = useState("");
   const [preview, setPreview] = useState("");
   const [acID, setACID] = useState("");
+  const [location, setLocation] = useState("");
+  const [locationName, setLocationName] = useState("");
   const fileInputRef = useRef("");
   const userID = localStorage.getItem("username_account");
 
@@ -50,6 +50,7 @@ function MessageSender({ className }) {
     data.append("message", message);
     data.append("file", file);
     data.append("acID", acID);
+    data.append("location", location);
 
     Axios.post("http://localhost:5000/api/feed/post", data)
       .then(function (response) {
@@ -62,6 +63,11 @@ function MessageSender({ className }) {
     setMessage("");
     setFile("");
   };
+
+  const handleCallback = (childData) => {
+    setLocation(childData.locationID);
+    setLocationName(childData.name);
+  }
 
   return (
     <div className={className}>
@@ -125,7 +131,12 @@ function MessageSender({ className }) {
 
         <div className="messageSender_bottom">
           <img src={preview} alt="" id="preview_image" />
-          <MapList/>
+          <MapList parentCallback={handleCallback}/>
+          {location !== "" ? (
+            <h4>{locationName}</h4>
+          ):(
+            <div></div>
+          )}
         </div>
       </div>
     </div>

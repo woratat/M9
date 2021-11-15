@@ -50,7 +50,8 @@ const putUnlikeDB = async (content) => {
   return new Promise(async (resolve, reject) => {
     try {
       const putUnlike = await post.decrement('like', {by: 1, where: {post_id: content.postID}});
-      return resolve(putUnlike);
+      const newLike = await post.findOne({attributes: ['like'], where: {post_id: content.postID}})
+      return resolve(newLike);
     } catch (error) {
       return reject(error);
     }

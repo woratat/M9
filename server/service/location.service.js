@@ -1,7 +1,7 @@
 import helper from "../helper";
 import lodash from "lodash";
 
-const { getLocationDB , postLocationDB } = helper.locations;
+const { getLocationDB , postLocationDB, getLocationNameDB } = helper.locations;
 
 const getLocationService = async () => {
   try {
@@ -12,6 +12,17 @@ const getLocationService = async () => {
     throw new Error(error);
   }
 };
+
+const getLocationNameService = async (content) => {
+  try {
+    const name = await getLocationNameDB(content);
+
+    return name;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 const postLocationService = async (content) => {
   
   try {
@@ -44,4 +55,4 @@ const postLocationService = async (content) => {
     throw new Error(error);
   }
 };
-export { getLocationService, postLocationService };
+export { getLocationService, postLocationService, getLocationNameService };

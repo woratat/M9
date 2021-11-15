@@ -21,6 +21,8 @@ export default function postModel(sequelize, DataTypes) {
     like: { 
       type: DataTypes.INTEGER,
       defaultValue: 0,
+      min: 0,
+      allowNull: false,
     },
     date: {
       type: DataTypes.STRING,

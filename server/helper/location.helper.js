@@ -13,6 +13,7 @@ const getLocationDB = () => {
     }
   });
 };
+
 const postLocationDB = async (content) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -25,4 +26,16 @@ const postLocationDB = async (content) => {
   });
 };
 
-export { getLocationDB, postLocationDB };
+const getLocationNameDB = async (content) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const getLocation = await Locations.findOne({where: {locationID: content.locationID}});
+
+      return resolve(getLocation);
+    } catch (error) {
+      return reject(error);
+    }
+  });
+};
+
+export { getLocationDB, postLocationDB, getLocationNameDB };

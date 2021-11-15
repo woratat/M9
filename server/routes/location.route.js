@@ -10,10 +10,11 @@ const corsOption = {
     allowedHeaders: ["Content-Type"],
   },
 };
-const { getLocationsController, postLocationController } = controller.locations;
+const { getLocationsController, postLocationController, getLocationNameController } = controller.locations;
 
 route.options("/", cors(corsOption.corsLocation));
 route.get("/", getLocationsController);
+route.get("/name", getLocationNameController);
 route.post("/post", postLocationController);
 
 export default route;

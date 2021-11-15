@@ -54,6 +54,7 @@ function Feed({ className }) {
                 timestamp={b.date}
                 message={b.message}
                 like={b.like}
+                locationID={b.locationID}
               />
             ))}
             <Addcomment />

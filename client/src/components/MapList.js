@@ -10,7 +10,7 @@ import RoomIcon from "@mui/icons-material/Room";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-export default function NestedList() {
+export default function NestedList({parentCallback}) {
   const [open, setOpen] = React.useState(false);
   const [locations, setLocations] = React.useState([]);
 
@@ -26,9 +26,14 @@ export default function NestedList() {
     setOpen(!open);
   };
 
+  const childToParent = (location) => {
+    parentCallback(location)
+  }
+  
+
   return (
     <List
-      sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+      sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" , display: "flex", flexDirection: "column"}}
       component="nav"
     >
       <ListItemButton onClick={handleClick}>
@@ -39,14 +44,14 @@ export default function NestedList() {
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
+        <List component="div" disablePadding sx={{display: "flex", flexDirection: "column", flex: 1}}>
           {locations.map((data, key) => {
             return (
               <ListItemButton sx={{ pl: 4 }} key={key}>
                 <ListItemIcon>
                   <RoomIcon />
                 </ListItemIcon>
-                <ListItemText primary={data.name} />
+                <ListItemText primary={data.name} onClick={() => childToParent(data)}/>
               </ListItemButton>
             );
           })}

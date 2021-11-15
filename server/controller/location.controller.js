@@ -1,6 +1,6 @@
 import service from "../service";
 
-const { getLocationService, postLocationService } = service.locations;
+const { getLocationService, postLocationService, getLocationNameService } = service.locations;
 
 const getLocationsController = async (req, res) => {
   try {
@@ -12,6 +12,21 @@ const getLocationsController = async (req, res) => {
     return res.sendStatus(500);
   }
 };
+
+const getLocationNameController = async (req, res) => {
+  const content = {
+    locationID: req.query.locationID
+  }
+  try {
+    const name = await getLocationNameService(content);
+
+    return res.status(200).json(name);
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(500);
+  }
+};
+
 const postLocationController = async (req, res) => {
   const content = req.body;
 
@@ -34,4 +49,4 @@ const postLocationController = async (req, res) => {
   }
 };
 
-export { getLocationsController, postLocationController };
+export { getLocationsController, postLocationController, getLocationNameController };

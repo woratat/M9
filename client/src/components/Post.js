@@ -17,10 +17,11 @@ function Post({
   timestamp,
   message,
   like,
+  locationID
 }) {
   const [clicked, setClicked] = useState(false);
   const [name, setName] = useState("");
-  const [postLike, setPostLike] = useState("");
+  const [location, setLocation] = useState("");
   var executed = false;
   var check = false;
 
@@ -71,24 +72,25 @@ function Post({
     getUsernamePost();
   });
 
-  // useEffect(() => {
-  //   const getLike = () => {
-  //     axios
-  //     .get("http://localhost:5000/api/feed/like", {
-  //       params: {
-  //         postID: id
-  //       }
-  //     })
-  //     .then((response) => {
-  //       // console.log(response.data.like);
-  //       setPostLike(response.data.like)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  //   }
-  //   getLike()
-  // }, [id]);
+  const getLocation = async () => {
+    await axios
+      .get("http://localhost:5000/api/locations/name", {
+        params: {
+          locationID: locationID
+        }
+      })
+      .then((response) => {
+        // console.log(response.data.name);
+        setLocation(response.data.name)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    getLocation();
+  }, [locationID]);
 
   return (
     <div className={className}>
@@ -104,7 +106,7 @@ function Post({
                 sx={{ mt: 1 }}
                 style={{ color: "#125688" }}
               />
-              <Link to="#" className="link_location">location</Link>
+              <Link to="/location" className="link_location">{location}</Link>
             </div>
           </div>
         </div>
