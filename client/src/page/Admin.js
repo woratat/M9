@@ -13,8 +13,8 @@ function Admin({ className }) {
     const { value, name } = e.target;
     setInputs((inputs) => ({ ...inputs, [name]: value }));
   };
-  const registerHandler = (e) => {
-    e.preventDefault();
+  const registerHandler = () => {
+    
 
     const postUser = async () => {
       try {

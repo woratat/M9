@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchComment } from "../actions/CommentAction";
 import styled from "styled-components";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -8,6 +10,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import IconButton from "@material-ui/core/IconButton";
 import ToggleIcon from "material-ui-toggle-icon";
+import socketIOClient from "socket.io-client";
 
 function Post({
   className,
@@ -17,11 +20,14 @@ function Post({
   timestamp,
   message,
   like,
-  locationID
+  locationID,
 }) {
   const [clicked, setClicked] = useState(false);
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
+  const [comment, setComment] = useState("");
+  const [comments,setComments] = useState([]);
+  const dispatch = useDispatch();
   var executed = false;
   var check = false;
 
@@ -57,16 +63,16 @@ function Post({
     await axios
       .get("http://localhost:5000/api/auth/username", {
         params: {
-          id: username
-        }
+          id: username,
+        },
       })
       .then((response) => {
-        setName(response.data.username)
+        setName(response.data.username);
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   useEffect(() => {
     getUsernamePost();
@@ -76,21 +82,67 @@ function Post({
     await axios
       .get("http://localhost:5000/api/locations/name", {
         params: {
-          locationID: locationID
-        }
+          locationID: locationID,
+        },
       })
       .then((response) => {
         // console.log(response.data.name);
-        setLocation(response.data.name)
+        setLocation(response.data.name);
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   useEffect(() => {
     getLocation();
   }, [locationID]);
+
+  useEffect(() => {
+    const getComment = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/comment/get`,
+          {
+            timeout: 2000,
+          }
+        );
+
+        if (res.status === 200) {
+          setComments(res.data);
+          console.log(res.data);
+        }
+      } catch (error) {
+        console.log(error.response);
+      }
+    };
+
+    getComment();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/comment/post",
+        {
+          message: comment,
+          post_id: id,
+        },
+        {
+          timeout: 2000,
+        }
+      );
+
+      if (res.status === 200) {
+        const socket = socketIOClient("http://localhost:5000");
+        socket.emit("room", id);
+        socket.emit("sand-message", comment);
+        setComment("");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className={className}>
@@ -106,7 +158,9 @@ function Post({
                 sx={{ mt: 1 }}
                 style={{ color: "#125688" }}
               />
-              <Link to="/location" className="link_location">{location}</Link>
+              <Link to="/location" className="link_location">
+                {location}
+              </Link>
             </div>
           </div>
         </div>
@@ -151,7 +205,19 @@ function Post({
             type="text"
             placeholder={`Comment...`}
             className="comment_box"
+            value={comment}
+            onChange={(event) => setComment(event.target.value)}
           />
+          <button onClick={handleSubmit} type="submit">
+            Send
+          </button>
+        </div>
+        <div className="Comment">
+          {comments.map(data=>{
+            return(
+              <div>{data.message}</div>
+            );
+          }) }
         </div>
       </div>
     </div>
