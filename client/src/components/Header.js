@@ -129,7 +129,7 @@ function Header({ className }) {
               "header_option" +
               (!isActive ? " header_option header_option--active" : "")
             }
-            to="/"
+            to="/friend"
           >
             <SupervisorAccountIcon fontSize="large" />
           </NavLink>

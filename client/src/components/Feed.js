@@ -36,8 +36,7 @@ function Feed({ className }) {
 
   useEffect(() => {
     getAllPost();
-    // getUsernamePost();
-  }, []);
+  });
 
   return (
     <div className={className}>

@@ -6,6 +6,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
 import MapList from "./MapList";
 import axios from "axios";
+import { drop } from "lodash";
 
 function MessageSender({ className }) {
   const [message, setMessage] = useState("");
