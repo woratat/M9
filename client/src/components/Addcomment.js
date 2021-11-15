@@ -1,34 +1,55 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import socketIOClient from 'socket.io-client';
+import socketIOClient from "socket.io-client";
 import styled from "styled-components";
-import { useSelector } from 'react-redux';
-
+import { useSelector } from "react-redux";
 
 function AddComment({ className, id }) {
   const user = useSelector((state) => state.user);
   const [comment, setComment] = useState("");
+  const [news,setnew]=useState("");
+
+  useEffect(() => {
+    const socket = socketIOClient(`http://localhost:5000`);
+    const response = () => {
+      socket.emit("room", 'id');
+      socket.on("message", (newMessage) => {
+        setnew(newMessage)
+        console.log('newM :>> ', newMessage);
+      });
+      console.log('object :>> ', news);
+    };
+
+    response();
+    return () => {
+      socket.disconnect();
+    };
+  }, [news, id]);
 
   function onSubmit(event) {
-    console.log("s")
+    console.log("s");
     event.preventDefault();
     addCommentData();
   }
 
   async function addCommentData() {
     try {
-      const res = await axios.post('http://localhost:5000/api/comment/post', {
-        message: comment
-      }, {
-        timeout: 2000,
-      });
+      const res = await axios.post(
+        "http://localhost:5000/api/comment/post",
+        {
+          message: comment,
+        },
+        {
+          timeout: 2000,
+        }
+      );
 
       if (res.status === 200) {
-        setComment('');
-        const socket = socketIOClient('http://localhost:3000');
-        socket.emit('room', id);
-        socket.emit('sand-message', res.data);
+        const socket = socketIOClient("http://localhost:5000");
+        socket.emit("room", "id");
+        socket.emit("sand-message", comment);
+        setComment("");
       }
     } catch (error) {
       console.log(error);
@@ -52,20 +73,19 @@ function AddComment({ className, id }) {
         {/* { user.length === 1 ? <button type="submit">Post</button> : <Link to="/login" className="btn-back">Post</Link> } */}
       </form>
     </div>
-    
   );
 }
 
 AddComment.propTypes = {
   className: PropTypes.string.isRequired,
   movieToken: PropTypes.string,
-  id: PropTypes.number
+  id: PropTypes.number,
 };
 
 export default styled(AddComment)`
   box-sizing: border-box;
 
-  .input-group textarea{
+  .input-group textarea {
     width: 100%;
     height: 60px;
     padding: 13px;
@@ -76,13 +96,14 @@ export default styled(AddComment)`
     margin-top: 20px;
     border: 1px solid #bfbfbf;
   }
-  textarea:focus{
+  textarea:focus {
     border: 2px solid rgba(48, 87, 225, 1);
   }
-  textarea::-webkit-scrollbar{
+  textarea::-webkit-scrollbar {
     width: 0px;
   }
-  button, .btn-back {
+  button,
+  .btn-back {
     float: right;
     width: 5rem;
     height: 2rem;

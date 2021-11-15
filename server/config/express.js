@@ -26,13 +26,14 @@ export default function start(port) {
   app.use(helmet());
   passport();
   db.sequelize.sync();
-  socket(server);
+  // socket(server);
 
   io.sockets.on('connection', (socket) => {
     socket.on('room', (room) => { //room = Post id
         socket.join(room);
         socket.on('sand-message', (message) => {
             io.sockets.in(room).emit('message', message);
+            console.log('message :>> ', message);
         });
 
         socket.on('sand-update', (message) => {
