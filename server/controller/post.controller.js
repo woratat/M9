@@ -102,7 +102,7 @@ const getLikeController = async (req, res) => {
     const newLike = await getLikeService(content);
 
     return res.status(200).json({
-      newLike
+      like: newLike.data.like
     });
   } catch (error) {
     console.log(error.message);

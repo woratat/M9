@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
 import Header from "../components/Header";
 import styled from "styled-components";
 import LoopIcon from "@mui/icons-material/Loop";
-import React, { useState, useEffect } from "react";
-
+import axios from "axios";
 
 
 function Friends({ className }) {
+    const [user, setUser] = useState([]);
+
 
     const getAllUser = async () => {
         await axios
           .get("http://localhost:5000/api/auth/all")
           .then((response) => {
-            console.log(response.data);
+            setUser(response.data.content)
           })
           .catch((error) => {
             console.log(error);
@@ -22,17 +23,20 @@ function Friends({ className }) {
     
       useEffect(() => {
         getAllUser();
-      });
+      }, []);
 
   return (
     <div className={className}>
       <Header />
       <div className="cards">
-        {post.length > 0 ? (
+        {user.length > 0 ? (
           <div>
-            {post.map((b) => (
-              <Card className="card-items" 
-              
+            {user.map((b, key) => (
+              <Card 
+              className="card-items" 
+              key={key}
+              id={key}
+              name={b.name}
               />
             ))}
           </div>

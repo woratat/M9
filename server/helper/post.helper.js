@@ -60,7 +60,7 @@ const putUnlikeDB = async (content) => {
 const getAllLikeDB = async (content) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const getLike = await post.findOne({where: {post_id: content.postID}});
+      const getLike = await post.findOne({where: {postID: content.postID}});
       return resolve(getLike);
     } catch (error) {
       return reject(error);

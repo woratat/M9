@@ -19,6 +19,8 @@ route.get("/post", getAllPostController);
 
 route.get("/user", getUserPostController);
 
+route.get("/like", getLikeController);
+
 route.put("/like", updateLike);
 
 route.put("/unlike", updateUnlike);

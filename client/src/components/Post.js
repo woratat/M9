@@ -20,6 +20,7 @@ function Post({
 }) {
   const [clicked, setClicked] = useState(false);
   const [name, setName] = useState("");
+  const [postLike, setPostLike] = useState("");
   var executed = false;
   var check = false;
 
@@ -68,7 +69,26 @@ function Post({
 
   useEffect(() => {
     getUsernamePost();
-  },[]);
+  });
+
+  // useEffect(() => {
+  //   const getLike = () => {
+  //     axios
+  //     .get("http://localhost:5000/api/feed/like", {
+  //       params: {
+  //         postID: id
+  //       }
+  //     })
+  //     .then((response) => {
+  //       // console.log(response.data.like);
+  //       setPostLike(response.data.like)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  //   }
+  //   getLike()
+  // }, [id]);
 
   return (
     <div className={className}>
@@ -175,11 +195,13 @@ export default styled(Post)`
 
   .post_avatar {
     margin-right: 15px;
+    margin-left: 15px;
+    transform: scale(1.2);
   }
 
   .post_topInfo > h3 {
     font-size: medium;
-    margin: 3px 0px;
+    margin: 10px 0px 0px 0px;
   }
 
   .post_topInfo > p {
