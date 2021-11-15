@@ -8,8 +8,7 @@ const getAccountDetailDB = (content, column) => {
   return new Promise(async (resolve, reject) => {
     try {
       const user = await account.findOne({ where: { [column]: content } });
-
-      return resolve(user.dataValues);
+      return resolve(user.dataValues); //dataValues
     } catch (error) {
       return reject(error);
     }
@@ -69,7 +68,7 @@ const getUsernameDB = async (content) => {
 const getAllAccountDB = async () => {
   return new Promise(async (resolve, reject) => {
     try {
-      const allAccount = await account.findAll();
+      const allAccount = await account.findAll({where: {typeAccountID: 1}});
       return resolve(allAccount);
     } catch (error) {
       return reject(error);

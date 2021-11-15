@@ -129,6 +129,12 @@ function Profile({ className }) {
 }
 
 export default styled(Profile)`
+  overflow: hidden;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
   .profile {
     display: flex;
     height: 40vh;

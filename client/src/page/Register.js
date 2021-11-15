@@ -57,6 +57,11 @@ function Register({ className }) {
         }
       } catch (error) {
         console.log(error.response);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error...',
+          text: 'Please fill all information.',
+        })
       }
     };
 
@@ -136,6 +141,11 @@ export default styled(Register)`
   align-content: center;
   place-items: center;
   margin-top: 40px;
+  overflow: hidden;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
   .container {
     width: 450px;
     height: 600px;

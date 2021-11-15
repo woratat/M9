@@ -64,6 +64,11 @@ function Login({ className }) {
         }
       } catch (error) {
         console.log(error.response);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong! Try again.',
+        })
       }
     };
 

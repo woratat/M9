@@ -76,7 +76,7 @@ function Post({
 
   useEffect(() => {
     getUsernamePost();
-  });
+  }, []);
 
   const getLocation = async () => {
     await axios
@@ -110,7 +110,7 @@ function Post({
 
         if (res.status === 200) {
           setComments(res.data);
-          console.log(res.data);
+          // console.log(res.data);
         }
       } catch (error) {
         console.log(error.response);
