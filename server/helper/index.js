@@ -2,12 +2,14 @@ import { getAccountDetailDB, createUserAccountDB, getUserOrEmailAccountDB, getUs
 import { postImageDB, getAllPostDB, putLikeDB, putUnlikeDB, getUserPostDB, getAllLikeDB, deletePostDB } from "./post.helper";
 import { getLocationDB, postLocationDB, getLocationNameDB } from "./location.helper";
 import { postCommentDB , getCommentDB } from "./comment.helper";
+import { addFriendDB, getRequestDB } from "./friend.helper";
 
 const helper = {
   account: { getAccountDetailDB, createUserAccountDB, getUserOrEmailAccountDB, getUserAccountDB, getAllAccountDB, getUsernameDB },
   post: { postImageDB, getAllPostDB, putLikeDB, putUnlikeDB, getUserPostDB, getAllLikeDB, deletePostDB },
   locations: { getLocationDB, postLocationDB, getLocationNameDB},
-  comment : { postCommentDB , getCommentDB },
+  comment: { postCommentDB , getCommentDB },
+  friend: { addFriendDB, getRequestDB }
 };
 
 export default helper;
