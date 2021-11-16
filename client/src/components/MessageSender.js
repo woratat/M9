@@ -216,6 +216,7 @@ export default styled(MessageSender)`
   .messageSender_bottom {
     display: flex;
     justify-content: space-evenly;
+    margin-bottom: 5px;
   }
 
   .messageSender_option {

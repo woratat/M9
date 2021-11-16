@@ -6,7 +6,8 @@ const postCommentDB= async (content) => {
   const data = {
     message: content.message,
     postID: content.post_id,
-    accountID: content.accountID
+    accountID: content.accountID,
+    username: content.username,
   }
     return new Promise(async (resolve, reject) => {
       try {

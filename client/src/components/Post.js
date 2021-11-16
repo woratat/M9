@@ -142,6 +142,7 @@ function Post({
           message: comment,
           post_id: id,
           accountID: username,
+          username: user.username,
         },
         {
           timeout: 2000,
@@ -272,7 +273,7 @@ function Post({
             return <div className="comment-display">
               <Avatar className="avatar-profile"/>
               <div className="user-message">
-                <p><span>{user.username}</span> : {data.message}</p>
+                <p><span>{data.username}</span> : {data.message}</p>
               </div>
             </div>;
           })}
