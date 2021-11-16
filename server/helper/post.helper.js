@@ -69,4 +69,17 @@ const getAllLikeDB = async (content) => {
   });
 }
 
-export { postImageDB, getAllPostDB, putLikeDB, putUnlikeDB, getUserPostDB, getAllLikeDB };
+const deletePostDB = async (content) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const deletePost = await post.destroy({where: {postID: content.postID}});
+      return resolve(deletePost);
+    } catch (error) {
+      return reject(error);
+    }
+  });
+}
+
+
+
+export { postImageDB, getAllPostDB, putLikeDB, putUnlikeDB, getUserPostDB, getAllLikeDB, deletePostDB };

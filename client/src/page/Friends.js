@@ -28,7 +28,12 @@ function Friends({ className }) {
       <div className="cards">
         <div className="card-main">
           {user.map((b, key) => (
-            <Card className="card-items" key={key} id={b.accountID} name={b.name} />
+            <Card
+              className="card-items"
+              key={key}
+              id={b.accountID}
+              name={b.name}
+            />
           ))}
         </div>
       </div>
@@ -37,6 +42,12 @@ function Friends({ className }) {
 }
 
 export default styled(Friends)`
+  overflow: hidden;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
   .cards {
     margin: 50px 100px;
   }

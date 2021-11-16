@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Axios from "axios";
 import { Avatar } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import CloseIcon from "@mui/icons-material/Close";
 import MapList from "./MapList";
 import axios from "axios";
 
@@ -67,7 +68,15 @@ function MessageSender({ className }) {
   const handleCallback = (childData) => {
     setLocation(childData.locationID);
     setLocationName(childData.name);
-  }
+  };
+
+  const handleClose = () => {
+    setLocationName("");
+  };
+
+  const handleClosePreview = () => {
+    setFile("")
+  };
 
   return (
     <div className={className}>
@@ -130,11 +139,23 @@ function MessageSender({ className }) {
         </div>
 
         <div className="messageSender_bottom">
-          <img src={preview} alt="" id="preview_image" />
-          <MapList parentCallback={handleCallback}/>
-          {location !== "" ? (
-            <h4>{locationName}</h4>
-          ):(
+          {file !== "" ? (
+            <div className="close_preview">
+            <img src={preview} alt="" id="preview_image" />
+            <CloseIcon className="close-icon" onClick={handleClosePreview} />
+          </div>
+          ): (
+            <div></div>
+          )}
+          
+          {/* <img src={preview} alt="" id="preview_image" /> */}
+          <MapList parentCallback={handleCallback} />
+          {locationName !== "" ? (
+            <div className="close-btn">
+              <h4>{locationName}</h4>
+              <CloseIcon className="close-icon" onClick={handleClose} />
+            </div>
+          ) : (
             <div></div>
           )}
         </div>
@@ -246,5 +267,25 @@ export default styled(MessageSender)`
     width: 20%;
     border-radius: 10px;
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+  }
+
+  .close-btn {
+    display: flex;
+    align-items: center;
+  }
+
+  .close-icon {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  .close-icon:hover {
+    color: red;
+  }
+
+  .close_preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;

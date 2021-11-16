@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import swal from "sweetalert2";
 import axios from "axios";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import Header from "../components/Header";
 function Admin({ className }) {
   const [inputs, setInputs] = useState({
     name: "",
@@ -14,8 +16,6 @@ function Admin({ className }) {
     setInputs((inputs) => ({ ...inputs, [name]: value }));
   };
   const registerHandler = () => {
-    
-
     const postUser = async () => {
       try {
         const res = await axios.post(
@@ -56,77 +56,83 @@ function Admin({ className }) {
     postUser();
   };
   return (
-    <div>
-      <div className={className}>
-        <div className="container">
-          <div className="title">Add Location</div>
-          <div className="from">
-            <div className="title-input">Name</div>
-            <div className="input-box">
-              <input
-                className="input"
-                type="text"
-                id="name"
-                name="name"
-                value={inputs.name}
-                onChange={handleChanged}
-                autoComplete="off"
-              ></input>
-            </div>
-            <div className="title-input">Description</div>
-            <div className="input-box">
-              <textarea
-                className="input"
-                type="textarea"
-                id="description"
-                name="description"
-                value={inputs.description}
-                onChange={handleChanged}
-                autoComplete="off"
-              ></textarea>
-            </div>
-            <div className="box-latlon">
-              <div>
-                <div className="title-input">Latitude</div>
-                <div className="input-box">
-                  <input
-                    className="input"
-                    type="text"
-                    id="latitude"
-                    name="latitude"
-                    value={inputs.latitude}
-                    onChange={handleChanged}
-                    autoComplete="off"
-                  ></input>
+    <HelmetProvider>
+      <Helmet>
+        <title>Pholio | Admin</title>
+      </Helmet>
+      <div>
+        <div className={className}>
+          <Header/>
+          <div className="container">
+            <div className="title">Add Location</div>
+            <div className="from">
+              <div className="title-input">Name</div>
+              <div className="input-box">
+                <input
+                  className="input"
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={inputs.name}
+                  onChange={handleChanged}
+                  autoComplete="off"
+                ></input>
+              </div>
+              <div className="title-input">Description</div>
+              <div className="input-box">
+                <textarea
+                  className="input"
+                  type="textarea"
+                  id="description"
+                  name="description"
+                  value={inputs.description}
+                  onChange={handleChanged}
+                  autoComplete="off"
+                ></textarea>
+              </div>
+              <div className="box-latlon">
+                <div>
+                  <div className="title-input">Latitude</div>
+                  <div className="input-box">
+                    <input
+                      className="input"
+                      type="text"
+                      id="latitude"
+                      name="latitude"
+                      value={inputs.latitude}
+                      onChange={handleChanged}
+                      autoComplete="off"
+                    ></input>
+                  </div>
+                </div>
+                <div>
+                  <div className="title-input">Longitude</div>
+                  <div className="input-box">
+                    <input
+                      className="input"
+                      type="text"
+                      id="longtitude"
+                      name="longtitude"
+                      value={inputs.longtitude}
+                      onChange={handleChanged}
+                      autoComplete="off"
+                    ></input>
+                  </div>
                 </div>
               </div>
-              <div>
-                <div className="title-input">Longitude</div>
-                <div className="input-box">
-                  <input
-                    className="input"
-                    type="text"
-                    id="longtitude"
-                    name="longtitude"
-                    value={inputs.longtitude}
-                    onChange={handleChanged}
-                    autoComplete="off"
-                  ></input>
-                </div>
+              <div className="title-input">
+                <input
+                  className="btn-submit"
+                  type="button"
+                  value="Add"
+                  onClick={registerHandler}
+                ></input>
               </div>
-            </div>
-            <div className="title-input">
-              <input
-                className="btn-submit"
-                type="button"
-                value="Add"
-                onClick={registerHandler}
-              ></input>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </HelmetProvider>
   );
 }
 export default styled(Admin)`

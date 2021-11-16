@@ -35,7 +35,7 @@ function Feed({ className }) {
 
   useEffect(() => {
     getAllPost();
-  },[]);
+  },[post]);
 
   return (
     <div className={className}>
@@ -54,6 +54,7 @@ function Feed({ className }) {
                 message={b.message}
                 like={b.like}
                 locationID={b.locationID}
+                isUser={""}
               />
             ))}
             
@@ -62,7 +63,7 @@ function Feed({ className }) {
         ) : (
           <div className="loading_feed">
             <LoopIcon />
-            <p>Loading feed....</p>
+            <p>There is nothing left....</p>
           </div>
         )}
       </div>

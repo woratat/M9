@@ -34,7 +34,7 @@ function Login({ className }) {
             username: inputs.username,
             password: inputs.password,
           },
-        })
+        });
 
         if (res.status === 200) {
           localStorage.setItem("user_token", res.data.token);
@@ -42,28 +42,37 @@ function Login({ className }) {
           dispatch(
             fetchUser({ token: res.data.token, username: res.data.username })
           );
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          })
-          
-          Toast.fire({
-            icon: 'success',
-            title: 'Signed in successfully'
-          }).then(() => {
-            path("/");
-          })
-          
+
+          if (res.data.typeAccountID === 2) {
+            path("/admin");
+          } else {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
+
+            Toast.fire({
+              icon: "success",
+              title: "Signed in successfully",
+            }).then(() => {
+              path("/");
+            });
+          }
         }
       } catch (error) {
         console.log(error.response);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong! Try again.",
+        });
       }
     };
 

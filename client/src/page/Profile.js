@@ -113,6 +113,8 @@ function Profile({ className }) {
                   timestamp={b.date}
                   message={b.message}
                   like={b.like}
+                  locationID={b.locationID}
+                  isUser={user.accountID}
                 />
               ))}
             </div>
@@ -129,6 +131,12 @@ function Profile({ className }) {
 }
 
 export default styled(Profile)`
+  overflow: hidden;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
   .profile {
     display: flex;
     height: 40vh;

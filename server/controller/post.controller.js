@@ -2,7 +2,7 @@ import fs from "fs";
 import service from "../service";
 import path from "path";
 
-const { postImageService, getAllPostService, putLikeService, putUnlikeService, getUserPostService, getLikeService } =
+const { postImageService, getAllPostService, putLikeService, putUnlikeService, getUserPostService, getLikeService, deletePostService } =
   service.post;
 
 const uploadFiles = async (req, res) => {
@@ -139,4 +139,20 @@ const getUserPostController = async (req, res) => {
   }
 };
 
-export { uploadFiles, updateLike, getAllPostController, updateUnlike, getUserPostController, getLikeController };
+const deletePostController = async (req, res) => {
+  const content = {
+    postID: req.query.postID
+  }
+  try {
+    const deletePost = await deletePostService(content);
+
+    return res.status(200).json({
+      message: "Post have been deleted."
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(500);
+  }
+};
+
+export { uploadFiles, updateLike, getAllPostController, updateUnlike, getUserPostController, getLikeController, deletePostController };

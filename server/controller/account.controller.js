@@ -11,15 +11,15 @@ const LoginBasicController = async (req, res) => {
   if (req.user.error) {
     return res.status(400).json({ message: req.user.message });
   } else {
-    const { username, accountID, name } = req.user.data;
+    const { username, accountID, name, typeAccountID } = req.user.data;
     const privateKey = await readFile(
       path.resolve("./") + "\\config\\key\\jwtRS256.key"
     );
-    const token = jwt.sign({ username, accountID, name }, privateKey, {
+    const token = jwt.sign({ username, accountID, name, typeAccountID }, privateKey, {
       algorithm: "RS256",
       expiresIn: "1d",
     });
-    return res.status(200).json({ token: token, username });
+    return res.status(200).json({ token: token, username, typeAccountID });
   }
 };
 
@@ -110,15 +110,15 @@ const getAllAccountController = async (req, res) => {
 };
 
 const loginJWTController = async (req, res) => {
-  const { username, accountID, name } = req.user.data;
+  const { username, accountID, name, typeAccountID } = req.user.data;
     const privateKey = await readFile(
       path.resolve("./") + "\\config\\key\\jwtRS256.key"
     );
-    const token = jwt.sign({ username, accountID, name }, privateKey, {
+    const token = jwt.sign({ username, accountID, name, typeAccountID }, privateKey, {
       algorithm: "RS256",
       expiresIn: "1d",
     });
-    return res.status(200).json({ token: token, username });
+    return res.status(200).json({ token: token, username, typeAccountID });
 }
 
 export {LoginBasicController, createAccountController, loginJWTController, getUserAccountController, getAllAccountController, getUsernameController};
