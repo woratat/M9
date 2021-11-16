@@ -4,22 +4,25 @@ import Header from "../components/Header";
 import { longdo, map, LongdoMap } from "../components/longdo-map/LongdoMap";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-function Location({ className, name, description, lat, lon }) {
+function Location({ className }) {
+  const id = localStorage.getItem("location");
+  const location = JSON.parse(localStorage.getItem(id));
   function initMap() {
     map.Layers.setBase(longdo.Layers.GRAY);
     map.Ui.Crosshair.visible(false);
-    if (name) {
+    
       map.Overlays.add(
         new longdo.Marker(
-          { lon: lon, lat: lat },
+          { lon: location.lon, lat: location.lat },
           {
-            title: name,
-            detail: description,
+            title: location.name,
+            detail: location.description,
           }
         )
       );
-    }
+    
   }
+
   const mapKey = "5e3612dcbfa88a77bf9cc6773e5a1545";
   return (
     <HelmetProvider>
@@ -31,9 +34,9 @@ function Location({ className, name, description, lat, lon }) {
         <div className="map-box">
           <LongdoMap id="longdo-map" mapKey={mapKey} callback={initMap} />
         </div>
-        <div className="name-location">{name}</div>
+        <div className="name-location">{location.name}</div>
         <div className="description-box">
-          <div className="des-text">{description}</div>
+          <div className="des-text">{location.description}</div>
         </div>
       </div>
     </HelmetProvider>

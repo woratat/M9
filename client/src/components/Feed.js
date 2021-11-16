@@ -12,6 +12,7 @@ import Addcomment from "./Addcomment";
 
 function Feed({ className }) {
   const [post, setPost] = useState([]);
+  const [locations, setLocations] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,10 +33,24 @@ function Feed({ className }) {
         console.log(error);
       });
   };
+  const getAllLocation = async () => {
+    await axios.get('http://localhost:5000/api/locations').then((response) => {
+      setLocations(response.data);
+    })
+    
+
+  }
 
   useEffect(() => {
     getAllPost();
   },[post]);
+  useEffect(()=>{
+    getAllLocation();
+    locations.map((data) => {
+      console.log('data :>> ', JSON.stringify(data));
+      localStorage.setItem(data.locationID,JSON.stringify(data));
+    });
+  },[]);
 
   return (
     <div className={className}>

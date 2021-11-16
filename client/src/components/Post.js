@@ -209,7 +209,9 @@ function Post({
                 sx={{ mt: 1 }}
                 style={{ color: "#125688" }}
               />
-              <Link to="/location" className="link_location">
+              <Link to="/location" className="link_location" onClick={()=>{
+                localStorage.setItem("location",locationID);
+              }} >
                 {location}
               </Link>
             </div>
