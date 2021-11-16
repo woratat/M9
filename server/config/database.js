@@ -63,5 +63,17 @@ db.post.hasMany(db.comment, {
 db.comment.belongsTo(db.post, {
   foreignKey: { name: "postID", field: "post_id" },
 });
+db.post.hasMany(db.like, {
+  foreignKey: { name: "postID", field: "post_id" },
+});
+db.like.belongsTo(db.post, {
+  foreignKey: { name: "postID", field: "post_id" },
+});
+db.account.hasMany(db.like, {
+  foreignKey: { name: "accountID", field: "account_id" },
+});
+db.like.belongsTo(db.account, {
+  foreignKey: { name: "accountID", field: "account_id" },
+});
 
 export default db;
