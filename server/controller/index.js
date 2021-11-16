@@ -3,6 +3,7 @@ import { uploadFiles, updateLike, getAllPostController, updateUnlike, getUserPos
 import { getLocationsController, postLocationController, getLocationNameController } from "./location.controller";
 import { postCommentController , getCommentController } from "./comment.controller";
 import { addFriendController, getRequestController } from "./friend.controller";
+import { getlikeController , postLikeController } from "./like.controller";
 
 const controller = {
   account: { LoginBasicController, createAccountController, loginJWTController, getUserAccountController, getAllAccountController, getUsernameController },
@@ -10,6 +11,7 @@ const controller = {
   locations: { getLocationsController, postLocationController, getLocationNameController },
   comment: { postCommentController , getCommentController },
   friend: { addFriendController, getRequestController },
+  like: { postLikeController , getlikeController },
 };
 
 export default controller;
