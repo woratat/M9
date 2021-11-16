@@ -3,6 +3,7 @@ import styled from "styled-components";
 import swal from "sweetalert2";
 import axios from "axios";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import Header from "../components/Header";
 function Admin({ className }) {
   const [inputs, setInputs] = useState({
     name: "",
@@ -61,6 +62,7 @@ function Admin({ className }) {
       </Helmet>
       <div>
         <div className={className}>
+          <Header/>
           <div className="container">
             <div className="title">Add Location</div>
             <div className="from">

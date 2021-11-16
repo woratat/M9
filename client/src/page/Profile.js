@@ -113,6 +113,8 @@ function Profile({ className }) {
                   timestamp={b.date}
                   message={b.message}
                   like={b.like}
+                  locationID={b.locationID}
+                  isUser={user.accountID}
                 />
               ))}
             </div>

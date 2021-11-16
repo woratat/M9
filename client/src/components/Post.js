@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchComment } from "../actions/CommentAction";
 import styled from "styled-components";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import RoomIcon from "@mui/icons-material/Room";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -11,6 +11,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import IconButton from "@material-ui/core/IconButton";
 import ToggleIcon from "material-ui-toggle-icon";
 import socketIOClient from "socket.io-client";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Swal from "sweetalert2";
 
 function Post({
   className,
@@ -21,16 +23,19 @@ function Post({
   message,
   like,
   locationID,
+  isUser,
 }) {
   const [clicked, setClicked] = useState(false);
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [comment, setComment] = useState("");
-  const [comments,setComments] = useState([]);
+  const [comments, setComments] = useState([]);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const path = useNavigate();
   var executed = false;
   var check = false;
-
+  
   const likeHandler = async (id) => {
     if (!executed) {
       executed = true;
@@ -96,17 +101,14 @@ function Post({
 
   useEffect(() => {
     getLocation();
-  }, [locationID]);
+  }, []);
 
   useEffect(() => {
     const getComment = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5000/api/comment/get`,
-          {
-            timeout: 2000,
-          }
-        );
+        const res = await axios.get(`http://localhost:5000/api/comment/get`, {
+          timeout: 2000,
+        });
 
         if (res.status === 200) {
           setComments(res.data);
@@ -144,13 +146,51 @@ function Post({
     }
   };
 
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      axios
+      .delete("http://localhost:5000/api/feed/post", {
+        params: {
+          postID: id,
+        },
+      })
+      .then(function (response) {
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
+  }
+
   return (
     <div className={className}>
       <div className="post">
         <div className="post_top">
           <Avatar className="post_avatar" />
           <div className="post_topInfo">
-            <h3>{name}</h3>
+            <div className="name_del">
+              <h3>{name}</h3>
+              {isUser == username ? <DeleteIcon className="del_icon" onClick={handleDelete}/> : <div></div>}
+            </div>
             <div className="post_time_lo">
               <p>{timestamp}</p>
               <RoomIcon
@@ -213,11 +253,9 @@ function Post({
           </button>
         </div>
         <div className="Comment">
-          {comments.map(data=>{
-            return(
-              <div>{data.message}</div>
-            );
-          }) }
+          {comments.map((data) => {
+            return <div>{data.message}</div>;
+          })}
         </div>
       </div>
     </div>
@@ -321,5 +359,24 @@ export default styled(Post)`
 
   .link_location {
     align-self: center;
+  }
+
+  .name_del {
+    display: flex;
+    align-items: center;
+    margin: 10px 10px 0 10px;
+  }
+
+  .name_del > h3 {
+    margin: 0 10px;
+  }
+
+  .name_del > .del_icon {
+    cursor: pointer;
+    transform: scale(0.9)
+  }
+
+  .name_del > .del_icon:hover {
+    color: red;
   }
 `;

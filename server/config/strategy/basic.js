@@ -9,7 +9,6 @@ export default function basic() {
     new BasicStrategy(async (username, password, done) => {
       try {
         const user = await LoginBasicService(username, password);
-
         if (user.error) {
           return done(null, user);
         } else {
