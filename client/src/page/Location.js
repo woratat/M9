@@ -13,7 +13,7 @@ function Location({ className }) {
     
       map.Overlays.add(
         new longdo.Marker(
-          { lon: location.lon, lat: location.lat },
+          { lon: location.longtitude, lat: location.latitude },
           {
             title: location.name,
             detail: location.description,

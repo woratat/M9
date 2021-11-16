@@ -34,23 +34,21 @@ function Feed({ className }) {
       });
   };
   const getAllLocation = async () => {
-    await axios.get('http://localhost:5000/api/locations').then((response) => {
+    await axios.get("http://localhost:5000/api/locations").then((response) => {
       setLocations(response.data);
-    })
-    
-
-  }
+    });
+  };
 
   useEffect(() => {
     getAllPost();
-  },[post]);
-  useEffect(()=>{
+  }, [post]);
+  useEffect(() => {
     getAllLocation();
-    locations.map((data) => {
-      console.log('data :>> ', JSON.stringify(data));
-      localStorage.setItem(data.locationID,JSON.stringify(data));
-    });
-  },[]);
+  }, []);
+  locations.map((data) => {
+    console.log("data :>> ", JSON.stringify(data));
+    localStorage.setItem(data.locationID, JSON.stringify(data));
+  });
 
   return (
     <div className={className}>
@@ -58,8 +56,7 @@ function Feed({ className }) {
         <MessageSender />
         {post.length > 0 ? (
           <div>
-            {post.map((b, key) =>
-            (
+            {post.map((b, key) => (
               <Post
                 key={key}
                 id={b.postID}
@@ -72,8 +69,6 @@ function Feed({ className }) {
                 isUser={""}
               />
             ))}
-            
-
           </div>
         ) : (
           <div className="loading_feed">
