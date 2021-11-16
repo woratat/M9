@@ -35,7 +35,7 @@ function Post({
   const path = useNavigate();
   var executed = false;
   var check = false;
-  
+
   const likeHandler = async (id) => {
     if (!executed) {
       executed = true;
@@ -107,7 +107,7 @@ function Post({
     try {
       const res = await axios.get(`http://localhost:5000/api/comment/get`, {
         params: {
-          postID: id
+          postID: id,
         },
         timeout: 2000,
       });
@@ -163,37 +163,63 @@ function Post({
   const handleDelete = async (e) => {
     e.preventDefault();
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       axios
-      .delete("http://localhost:5000/api/feed/post", {
-        params: {
-          postID: id,
-        },
-      })
-      .then(function (response) {
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+        .delete("http://localhost:5000/api/feed/post", {
+          params: {
+            postID: id,
+          },
+        })
+        .then(function (response) {
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       if (result.isConfirmed) {
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
+        Swal.fire("Deleted!", "Your post has been deleted.", "success");
       }
-    })
-  }
+    });
+  };
+
+  const deleteComment = async (commentID) => {
+    if (commentID === undefined) {
+      console.log("No comment ID specified to delete.");
+    } else {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        axios
+          .delete("http://localhost:5000/api/comment/delete", {
+            params: { commentID: commentID },
+          })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        if (result.isConfirmed) {
+          Swal.fire("Deleted!", "Your comment has been deleted.", "success");
+        }
+      });
+    }
+  };
 
   return (
     <div className={className}>
@@ -203,7 +229,11 @@ function Post({
           <div className="post_topInfo">
             <div className="name_del">
               <h3>{name}</h3>
-              {isUser == username ? <DeleteIcon className="del_icon" onClick={handleDelete}/> : <div></div>}
+              {isUser == username ? (
+                <DeleteIcon className="del_icon" onClick={handleDelete} />
+              ) : (
+                <div></div>
+              )}
             </div>
             <div className="post_time_lo">
               <p>{timestamp}</p>
@@ -212,9 +242,13 @@ function Post({
                 sx={{ mt: 1 }}
                 style={{ color: "#125688" }}
               />
-              <Link to="/location" className="link_location" onClick={()=>{
-                localStorage.setItem("location",locationID);
-              }} >
+              <Link
+                to="/location"
+                className="link_location"
+                onClick={() => {
+                  localStorage.setItem("location", locationID);
+                }}
+              >
                 {location}
               </Link>
             </div>
@@ -269,13 +303,27 @@ function Post({
           </button>
         </div>
         <div className="Comment">
-          {comments.map((data) => {
-            return <div className="comment-display">
-              <Avatar className="avatar-profile"/>
-              <div className="user-message">
-                <p><span>{data.username}</span> : {data.message}</p>
+          {comments.map((data, key) => {
+            return (
+              <div className="comment-display" key={key}>
+                <Avatar className="avatar-profile" />
+                <div className="user-message">
+                  <p>
+                    <span>{data.username}</span> : {data.message}
+                  </p>
+                  {user.username == data.username ? (
+                    <DeleteIcon
+                      className="del_icon_comment"
+                      onClick={() => {
+                        deleteComment(data.commentID);
+                      }}
+                    />
+                  ) : (
+                    <div></div>
+                  )}
+                </div>
               </div>
-            </div>;
+            );
           })}
         </div>
       </div>
@@ -394,7 +442,7 @@ export default styled(Post)`
 
   .name_del > .del_icon {
     cursor: pointer;
-    transform: scale(0.9)
+    transform: scale(0.9);
   }
 
   .name_del > .del_icon:hover {
@@ -404,40 +452,54 @@ export default styled(Post)`
   .comment-btn {
     background-color: #fff;
     border: none;
-    margin: 0px 20px 0px 10px; 
+    margin: 0px 20px 0px 10px;
     border-radius: 15px;
     cursor: pointer;
   }
 
   .comment-btn:hover {
+    transform: scale(1.1);
     color: red;
   }
 
   .comment-display {
     display: flex;
     align-items: center;
-    margin-left: 20px
+    margin-left: 20px;
   }
 
-  .user-message > p{
+  .user-message > p {
     margin-top: 0px;
-    margin-bottom: 0px; 
+    margin-bottom: 0px;
   }
 
-  .user-message > p > span{
+  .user-message > p > span {
     font-size: small;
   }
-  
+
   .user-message {
     margin: 4px 20px 10px 20px;
     padding: 10px;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     border-radius: 8px;
     width: 500px;
-    background-color: #F9F9F8;
+    background-color: #f9f9f8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .avatar-profile {
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  }
+
+  .del_icon_comment {
+    cursor: pointer;
+    transform: scale(0.9)
+  }
+
+  .del_icon_comment:hover {
+    cursor: pointer;
+    transform: scale(1.1)
   }
 `;

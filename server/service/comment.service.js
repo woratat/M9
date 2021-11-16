@@ -1,8 +1,7 @@
 import helper from "../helper";
 import lodash from "lodash";
 
-
-const { postCommentDB , getCommentDB } = helper.comment;
+const { postCommentDB, getCommentDB, deleteCommentDB } = helper.comment;
 
 const postCommentService = async (content) => {
   const { message } = content;
@@ -12,17 +11,16 @@ const postCommentService = async (content) => {
       message: "Please fill data.",
     };
   } else {
-        const newContent = { ...content };
-        const newComment = await postCommentDB(newContent);
-        return {
-          error: false,
-          message: "Comment Sucsess.",
-          data: newComment,
-        }
-
-    
+    const newContent = { ...content };
+    const newComment = await postCommentDB(newContent);
+    return {
+      error: false,
+      message: "Comment Sucsess.",
+      data: newComment,
+    };
   }
 };
+
 const getCommentService = async (content) => {
   const { postID } = content;
   try {
@@ -34,4 +32,25 @@ const getCommentService = async (content) => {
   }
 };
 
-export { postCommentService , getCommentService };
+const deleteCommentService = async (content) => {
+  const { commentID } = content;
+  try {
+    if (lodash.isEmpty(commentID)) {
+      return {
+        error: true,
+        message: "Comment id not found.",
+      };
+    } else {
+      const delComment = await deleteCommentDB(commentID);
+      return {
+        error: false,
+        message: "Comment has been deleted.",
+        data: delComment,
+      }
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export { postCommentService, getCommentService, deleteCommentService };

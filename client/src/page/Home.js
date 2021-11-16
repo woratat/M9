@@ -14,7 +14,7 @@ function Home({ className }) {
         <div className="home">
           <Header />
 
-          <div className="home_body">
+          <div className="home_body">            
             <Feed />
           </div>
         </div>

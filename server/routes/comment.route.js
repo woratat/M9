@@ -10,9 +10,10 @@ const corsOption = {
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   },
 };
-const { postCommentController , getCommentController } = controller.comment;
+const { postCommentController , getCommentController, deleteCommentController } = controller.comment;
 route.use(cors(corsOption));
-route.post("/post",postCommentController);
-route.get("/get",getCommentController);
+route.post("/post", postCommentController);
+route.get("/get", getCommentController);
+route.delete("/delete", deleteCommentController);
 
 export default route;

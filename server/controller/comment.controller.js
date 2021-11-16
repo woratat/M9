@@ -1,6 +1,6 @@
 import service from "../service";
 
-const { postCommentService, getCommentService } = service.comment;
+const { postCommentService, getCommentService, deleteCommentService } = service.comment;
 
 const postCommentController = async (req, res) => {
   const content = req.body;
@@ -22,6 +22,7 @@ const postCommentController = async (req, res) => {
     return res.sendStatus(500);
   }
 };
+
 const getCommentController = async (req, res) => {
   const content = {
     postID: req.query.postID,
@@ -36,4 +37,18 @@ const getCommentController = async (req, res) => {
   }
 };
 
-export { postCommentController , getCommentController };
+const deleteCommentController = async (req, res) => {
+  const content = {
+    commentID: req.query.commentID,
+  }
+  try {
+    const comments = await deleteCommentService(content);
+
+    return res.status(200).json(comments);
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(500);
+  }
+};
+
+export { postCommentController, getCommentController, deleteCommentController };

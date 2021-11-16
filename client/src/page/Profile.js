@@ -99,6 +99,8 @@ function Profile({ className }) {
           icon: "success",
           title: "Add request has been sent.",
         })
+      }).then(function (response) {
+        localStorage.setItem("addFriend", !clicked);
       })
       .catch(function (error) {
         console.log(error);
@@ -124,7 +126,7 @@ function Profile({ className }) {
             <h3>Contact: {profile.email}</h3>
           </div>
           <div className="profile_right" style={style}>
-            {user.username == profile.name && clicked !== true ? (
+            {user.username == profile.name && clicked == false ? (
               <div></div>
             ) : (
               <Button className="btn_add" variant="contained" onClick={handleAddFriend}>
