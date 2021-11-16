@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Axios from "axios";
 import Header from "../components/Header";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import { Avatar } from "@mui/material";
@@ -9,12 +8,15 @@ import Button from "@mui/material/Button";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import axios from "axios";
 import Post from "../components/Post";
+import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
 
 function Profile({ className }) {
   const [user, setUser] = useState("");
   const [post, setPost] = useState([]);
   const [profile, setProfile] = useState([]);
+  const [style, setStyle] = useState({});
+  const [clicked, setClicked] = useState(false);
   const userID = localStorage.getItem("username_account");
   const params = useLocation();
   const { from } = params.state;
@@ -58,7 +60,7 @@ function Profile({ className }) {
   }, [from]);
 
   useEffect(() => {
-    Axios.get("http://localhost:5000/api/auth/id", {
+    axios.get("http://localhost:5000/api/auth/id", {
       params: {
         username: userID,
       },
@@ -70,6 +72,38 @@ function Profile({ className }) {
         console.log(error);
       });
   }, [userID]);
+
+  const handleAddFriend = (e) => {
+    e.preventDefault();
+    const id = {
+      accountID: profile.accountID,
+      accountFriendID: user.accountID
+    }
+    axios.post("http://localhost:5000/api/friend/add", id)
+      .then(function (response) {
+        setStyle({display: 'none'});
+        setClicked(!clicked);
+
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2000,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "Add request has been sent.",
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   return (
     <HelmetProvider>
@@ -89,11 +123,11 @@ function Profile({ className }) {
             <h1>Name: {profile.name}</h1>
             <h3>Contact: {profile.email}</h3>
           </div>
-          <div className="profile_right">
-            {user.username == profile.name ? (
+          <div className="profile_right" style={style}>
+            {user.username == profile.name && clicked !== true ? (
               <div></div>
             ) : (
-              <Button className="btn_add" variant="contained">
+              <Button className="btn_add" variant="contained" onClick={handleAddFriend}>
                 Add friend
                 <AddIcon sx={{ ml: 0.5 }} />
               </Button>
