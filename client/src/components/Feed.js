@@ -46,7 +46,7 @@ function Feed({ className }) {
     getAllLocation();
   }, []);
   locations.map((data) => {
-    console.log("data :>> ", JSON.stringify(data));
+    // console.log("data :>> ", JSON.stringify(data));
     localStorage.setItem(data.locationID, JSON.stringify(data));
   });
 

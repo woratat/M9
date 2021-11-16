@@ -103,24 +103,24 @@ function Post({
     getLocation();
   }, []);
 
-  useEffect(() => {
-    const getComment = async () => {
-      try {
-        const res = await axios.get(`http://localhost:5000/api/comment/get`, {
-          timeout: 2000,
-        });
+  const getComment = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/comment/get`, {
+        timeout: 2000,
+      });
 
-        if (res.status === 200) {
-          setComments(res.data);
-          // console.log(res.data);
-        }
-      } catch (error) {
-        console.log(error.response);
+      if (res.status === 200) {
+        setComments(res.data);
+        // console.log(res.data);
       }
-    };
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
+  useEffect(() => {
     getComment();
-  }, []);
+  }, [comments]);
 
   useEffect(() => {
     const socket = socketIOClient("http://localhost:5000");
@@ -131,7 +131,7 @@ function Post({
       });
 
     }
-  }, [ comments]);
+  }, [ comment ]);
 
   const handleSubmit = async (e) => {
     try {
@@ -261,13 +261,19 @@ function Post({
             value={comment}
             onChange={(event) => setComment(event.target.value)}
           />
-          <button onClick={handleSubmit} type="submit">
+          <button onClick={handleSubmit} type="submit" className="comment-btn">
             Send
           </button>
         </div>
         <div className="Comment">
           {comments.map((data) => {
-            return <div>{data.message}</div>;
+            return <div className="comment-display">
+              {/* <Avatar/> */}
+              <div className="user-message">
+                <p>Username said: {data.message}</p>
+                {/* <p>{data.message}</p> */}
+              </div>
+            </div>;
           })}
         </div>
       </div>
@@ -391,5 +397,32 @@ export default styled(Post)`
 
   .name_del > .del_icon:hover {
     color: red;
+  }
+
+  .comment-btn {
+    background-color: #fff;
+    border: none;
+    margin: 0px 20px 0px 10px; 
+    border-radius: 15px;
+    cursor: pointer;
+  }
+
+  .comment-btn:hover {
+    color: red;
+  }
+
+  .comment-display {
+    display: flex;
+    align-items: center;
+    margin-left: 20px
+  }
+
+  .user-message > p{
+    margin-top: 0px;
+    margin-bottom: 0px; 
+  }
+  
+  .user-message {
+    margin-left: 20px;
   }
 `;
