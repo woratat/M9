@@ -122,6 +122,17 @@ function Post({
     getComment();
   }, []);
 
+  useEffect(() => {
+    const socket = socketIOClient("http://localhost:5000");
+    socket.emit("room", id);
+    if (socket) {
+      socket.on("message", (msg) => {
+        setComments([msg, ...comments]);
+      });
+
+    }
+  }, [ comments]);
+
   const handleSubmit = async (e) => {
     try {
       const res = await axios.post(

@@ -57,7 +57,7 @@ function Feed({ className }) {
                 isUser={""}
               />
             ))}
-            <Addcomment />
+            
 
           </div>
         ) : (
