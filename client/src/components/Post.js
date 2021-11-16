@@ -31,6 +31,7 @@ function Post({
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const user = useSelector((state) => state.user);
+  const [Likes,setLikes] = useState([]);
   const dispatch = useDispatch();
   const path = useNavigate();
   var executed = false;
@@ -84,9 +85,11 @@ function Post({
       },
     }).then((res)=>{
       console.log(id,res.data)
-      const dat=res.data;
+      setLikes(res.data);
+      const dat = res.data;
       if(dat.length  > 0){
         setClicked(true)
+        console.log(id,Likes)
       }
     })
   }
@@ -320,7 +323,7 @@ function Post({
               }
             />
           </IconButton>
-          <h6>{like} likes</h6>
+          <h6>{Likes.length} likes</h6>
           <input
             type="text"
             placeholder={`Comment...`}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import authUser from "../auth";
 import { fetchUser } from "../actions/userAction";
 import LoopIcon from "@mui/icons-material/Loop";
@@ -10,6 +10,7 @@ import MessageSender from "./MessageSender";
 import Post from "./Post";
 
 function Feed({ className }) {
+  const user = useSelector((state) => state.user);
   const [post, setPost] = useState([]);
   const [locations, setLocations] = useState([]);
   const dispatch = useDispatch();
@@ -67,6 +68,7 @@ function Feed({ className }) {
                 locationID={b.locationID}
                 isUser={""}
               />
+              
             ))}
           </div>
         ) : (
