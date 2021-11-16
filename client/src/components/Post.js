@@ -53,7 +53,7 @@ function Post({
       accountID: username,
       postID: id,
     })
-    console.log("fdfd")
+    console.log(clicked)
   };
 
   const unlikeHandler = async (id) => {
@@ -68,7 +68,31 @@ function Post({
     //       console.log(error);
     //     });
     // }
+    await axios.delete('http://localhost:5000/api/like/delete',{
+      params: {
+      accountID: username,
+      postID: id,
+      },
+    });
+    
   };
+  const getLike = async () => {
+    await axios.get("http://localhost:5000/api/like/get" , {
+      params: {
+        postID: id,
+        accountID: username,
+      },
+    }).then((res)=>{
+      console.log(id,res.data)
+      const dat=res.data;
+      if(dat.length  > 0){
+        setClicked(true)
+      }
+    })
+  }
+  useEffect(()=>{
+    getLike();
+  },[])
 
   const getUsernamePost = async () => {
     await axios
@@ -281,7 +305,7 @@ function Post({
                   className="like_button"
                   id={`button-${id}`}
                   onClick={() => {
-                    unlikeHandler(id);
+                    unlikeHandler(id,clicked);
                   }}
                 />
               }
@@ -290,7 +314,7 @@ function Post({
                   className="like_button"
                   id={`button-${id}`}
                   onClick={() => {
-                    likeHandler(id);
+                    likeHandler(id,clicked);
                   }}
                 />
               }

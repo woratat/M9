@@ -3,7 +3,7 @@ import { postImageService, getAllPostService, putLikeService, putUnlikeService, 
 import { getLocationService, postLocationService, getLocationNameService } from "./location.service";
 import { postCommentService , getCommentService, deleteCommentService } from "./comment.service";
 import { addFriendService, getRequestService } from "./friend.service";
-import { postlikeService , getlikeService } from "./like.service";
+import { postlikeService , getlikeService , deleteLikeService} from "./like.service";
 
 const service = {
   account: { LoginBasicService, createAccountService, loginJWTService, getUserAccountService, getAllAccountService, getUsernameService },
@@ -11,7 +11,7 @@ const service = {
   locations: { getLocationService, postLocationService, getLocationNameService},
   comment: { postCommentService , getCommentService, deleteCommentService },
   friend: { addFriendService, getRequestService },
-  like: { postlikeService , getlikeService },
+  like: { postlikeService , getlikeService , deleteLikeService },
 };
 
 export default service;
