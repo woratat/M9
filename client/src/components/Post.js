@@ -106,12 +106,14 @@ function Post({
   const getComment = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/api/comment/get`, {
+        params: {
+          postID: id
+        },
         timeout: 2000,
       });
 
       if (res.status === 200) {
         setComments(res.data);
-        // console.log(res.data);
       }
     } catch (error) {
       console.log(error.response);
@@ -129,9 +131,8 @@ function Post({
       socket.on("message", (msg) => {
         setComments([msg, ...comments]);
       });
-
     }
-  }, [ comment ]);
+  }, [comment]);
 
   const handleSubmit = async (e) => {
     try {
@@ -140,6 +141,7 @@ function Post({
         {
           message: comment,
           post_id: id,
+          accountID: username,
         },
         {
           timeout: 2000,
@@ -268,10 +270,9 @@ function Post({
         <div className="Comment">
           {comments.map((data) => {
             return <div className="comment-display">
-              {/* <Avatar/> */}
+              <Avatar className="avatar-profile"/>
               <div className="user-message">
-                <p>Username said: {data.message}</p>
-                {/* <p>{data.message}</p> */}
+                <p><span>{user.username}</span> : {data.message}</p>
               </div>
             </div>;
           })}
@@ -421,8 +422,21 @@ export default styled(Post)`
     margin-top: 0px;
     margin-bottom: 0px; 
   }
+
+  .user-message > p > span{
+    font-size: small;
+  }
   
   .user-message {
-    margin-left: 20px;
+    margin: 4px 20px 10px 20px;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    border-radius: 8px;
+    width: 500px;
+    background-color: #F9F9F8;
+  }
+
+  .avatar-profile {
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   }
 `;
