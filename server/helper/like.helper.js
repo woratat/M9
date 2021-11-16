@@ -18,10 +18,10 @@ const postLikeDB = async (content) => {
         }
       });
 }
-const getLikeDB = (postID) =>{
+const getLikeDB = (postID,accountID) =>{
     return new Promise(async (resolve, reject)=>{
       try {
-        const getLike = await Comment.findAll({where: {postID: postID}});
+        const getLike = await like.findAll({where: {postID: postID}});
   
         return resolve(getLike);
       } catch (error) {

@@ -6,9 +6,9 @@ const { postLikeDB, getLikeDB } = helper.like;
 const postlikeService = async (content) => {
   const { like, postID, accountID } = content;
   if (
-    lodash.isEmpty(like) ||
-    lodash.isEmpty(postID) ||
-    lodash.isEmpty(accountID)
+    lodash.isEmpty(content.like) ||
+    lodash.isEmpty(content.postID) ||
+    lodash.isEmpty(content.accountID)
   ) {
     return {
       error: true,

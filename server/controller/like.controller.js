@@ -26,6 +26,7 @@ const postLikeController =  async (req,res) =>{
 const getlikeController = async (req, res) => {
     const content = {
       postID: req.query.postID,
+      accountID: req.query.accountID,
     }
     try {
       const Likes = await getlikeService(content);
