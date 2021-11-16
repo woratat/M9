@@ -56,7 +56,7 @@ function Feed({ className }) {
                 locationID={b.locationID}
               />
             ))}
-            <Addcomment />
+            
 
           </div>
         ) : (

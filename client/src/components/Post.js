@@ -101,12 +101,9 @@ function Post({
   useEffect(() => {
     const getComment = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5000/api/comment/get`,
-          {
-            timeout: 2000,
-          }
-        );
+        const res = await axios.get(`http://localhost:5000/api/comment/get`, {
+          timeout: 2000,
+        });
 
         if (res.status === 200) {
           setComments(res.data);
@@ -119,6 +116,17 @@ function Post({
 
     getComment();
   }, []);
+
+  useEffect(() => {
+    const socket = socketIOClient("http://localhost:5000");
+    socket.emit("room", id);
+    if (socket) {
+      socket.on("message", (msg) => {
+        setComments([msg, ...comments]);
+      });
+
+    }
+  }, [ comments]);
 
   const handleSubmit = async (e) => {
     try {
@@ -213,11 +221,9 @@ function Post({
           </button>
         </div>
         <div className="Comment">
-          {comments.map(data=>{
-            return(
-              <div>{data.message}</div>
-            );
-          }) }
+          {comments.map((data) => {
+            return <div>{data.message}</div>;
+          })}
         </div>
       </div>
     </div>
