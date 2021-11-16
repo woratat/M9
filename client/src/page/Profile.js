@@ -233,4 +233,13 @@ export default styled(Profile)`
   .post_card {
     margin-bottom: 20px;
   }
+
+  @media only screen and (max-width: 800px) {
+    .svg_icons {
+      display: none;
+    }
+    .profile {
+      width: 40%;
+    }
+  }
 `;

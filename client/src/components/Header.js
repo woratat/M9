@@ -279,12 +279,25 @@ export default styled(Header)`
     cursor: pointer;
   }
 
+  .logout_icon {
+    background-color: #fff;
+  }
+
   .label_logout {
     margin-left: 2px;
+    background-color: #fff;
   }
 
   .label_logout:hover {
     cursor: pointer;
+  }
+
+  .header_info {
+    background-color: #fff;
+  }
+
+  .signOutLink {
+    background-color: #fff;
   }
 
   .search_result {
@@ -334,5 +347,11 @@ export default styled(Header)`
 
   .user_profile:hover {
     background-color: #fff;
+  }
+
+  @media only screen and (max-width: 800px) {
+    .user_profile {
+      display: none;
+    }
   }
 `;

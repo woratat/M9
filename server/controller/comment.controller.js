@@ -23,10 +23,13 @@ const postCommentController = async (req, res) => {
   }
 };
 const getCommentController = async (req, res) => {
+  const content = {
+    postID: req.query.postID,
+  }
   try {
-    const locations = await getCommentService();
+    const comments = await getCommentService(content);
 
-    return res.status(200).json(locations);
+    return res.status(200).json(comments);
   } catch (error) {
     console.log(error.message);
     return res.sendStatus(500);

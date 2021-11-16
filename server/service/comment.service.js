@@ -23,9 +23,10 @@ const postCommentService = async (content) => {
     
   }
 };
-const getCommentService = async () => {
+const getCommentService = async (content) => {
+  const { postID } = content;
   try {
-    const comments = await getCommentDB();
+    const comments = await getCommentDB(postID);
 
     return comments;
   } catch (error) {
