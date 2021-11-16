@@ -5,19 +5,15 @@ const { postLikeDB, getLikeDB } = helper.like;
 
 const postlikeService = async (content) => {
   const { like, postID, accountID } = content;
+  console.log(content.like,content.postID,content.accountID)
   if (
     lodash.isEmpty(content.like) ||
     lodash.isEmpty(content.postID) ||
     lodash.isEmpty(content.accountID)
   ) {
-    return {
-      error: true,
-      message: "Please fill data.",
-    };
-  } else {
     const postData = {
       like: content.like,
-      postID: content.post_id,
+      postID: content.postID,
       accountID: content.accountID,
     };
     const post = await postLikeDB(postData);
@@ -26,6 +22,12 @@ const postlikeService = async (content) => {
       error: false,
       message: "Post success!",
       data: post,
+    };
+    
+  } else {
+    return {
+      error: true,
+      message: "Please fill data.",
     };
   }
 };

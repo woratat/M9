@@ -37,31 +37,37 @@ function Post({
   var check = false;
 
   const likeHandler = async (id) => {
-    if (!executed) {
-      executed = true;
-      axios
-        .put("http://localhost:5000/api/feed/like", { postID: id })
-        .then((response) => {
-          // console.log(response.data.like);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    // if (!executed) {
+    //   executed = true;
+    //   axios
+    //     .put("http://localhost:5000/api/feed/like", { postID: id })
+    //     .then((response) => {
+    //       // console.log(response.data.like);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // }
+    await axios.post('http://localhost:5000/api/like/post',{
+      like: 1,
+      accountID: username,
+      postID: id,
+    })
+    console.log("fdfd")
   };
 
   const unlikeHandler = async (id) => {
-    if (!check) {
-      check = true;
-      axios
-        .put("http://localhost:5000/api/feed/unlike", { postID: id })
-        .then((response) => {
-          // console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    // if (!check) {
+    //   check = true;
+    //   axios
+    //     .put("http://localhost:5000/api/feed/unlike", { postID: id })
+    //     .then((response) => {
+    //       // console.log(response);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // }
   };
 
   const getUsernamePost = async () => {

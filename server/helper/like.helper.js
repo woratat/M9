@@ -5,7 +5,7 @@ const like = db.like;
 const postLikeDB = async (content) => {
     const data ={
         like : content.like,
-        postID : content.post_id,
+        postID : content.postID,
         accountID: content.accountID
     }
     return new Promise(async (resolve, reject) => {
