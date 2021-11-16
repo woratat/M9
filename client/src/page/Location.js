@@ -20,6 +20,8 @@ function Location({ className }) {
           }
         )
       );
+      map.location({ lon: location.longtitude, lat: location.latitude }, true);
+      map.zoom(15, true);
     
   }
 
