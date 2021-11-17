@@ -1,11 +1,10 @@
 import helper from "../helper";
 import lodash from "lodash";
 
-const { postLikeDB, getLikeDB , deleteLikeDB} = helper.like;
+const { postLikeDB, getLikeDB , deleteLikeDB , getPostlikeDB } = helper.like;
 
 const postlikeService = async (content) => {
   const { like, postID, accountID } = content;
-  console.log(content.like,content.postID,content.accountID)
   if (
     lodash.isEmpty(content.like) ||
     lodash.isEmpty(content.postID) ||
@@ -42,10 +41,19 @@ const getlikeService = async (content) => {
       throw new Error(error);
     }
   };
+const getPostLikeService = async (content) => {
+  const { postID  } = content;
+    try {
+      const likes = await getPostlikeDB(postID);
+  
+      return likes;
+    } catch (error) {
+      throw new Error(error);
+    }
+}
 
   const deleteLikeService = async (content) => {
     const { postID, accountID } = content;
-    console.log(postID,accountID,content)
     try {
       if (lodash.isEmpty(postID) || lodash.isEmpty(accountID)) {
         return {
@@ -65,4 +73,4 @@ const getlikeService = async (content) => {
     }
   };
 
-  export { postlikeService , getlikeService , deleteLikeService };
+  export { postlikeService , getlikeService , deleteLikeService  , getPostLikeService };

@@ -1,6 +1,6 @@
 import service from "../service";
 
-const { postlikeService, getlikeService  , deleteLikeService } = service.like;
+const { postlikeService, getlikeService  , deleteLikeService , getPostLikeService } = service.like;
 
 const postLikeController = async (req, res) => {
   const content = req.body;
@@ -38,6 +38,20 @@ const getlikeController = async (req, res) => {
   }
 };
 
+const getPostlikeController = async (req, res) => {
+  const content = {
+    postID: req.query.postID,
+  };
+  try {
+    const Likes = await getPostLikeService(content);
+
+    return res.status(200).json(Likes);
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(500);
+  }
+};
+
 const deleteLikeController = async (req, res) => {
   const content = {
     postID: req.query.postID,
@@ -52,4 +66,4 @@ const deleteLikeController = async (req, res) => {
     return res.sendStatus(500);
   }
 };
-export { postLikeController, getlikeController , deleteLikeController };
+export { postLikeController, getlikeController , deleteLikeController , getPostlikeController };

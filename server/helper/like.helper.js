@@ -32,6 +32,20 @@ const getLikeDB = (postID, accountID) => {
   });
 };
 
+const getPostlikeDB = (postID) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const getLike = await like.findAll({
+        where: { postID: postID },
+      });
+
+      return resolve(getLike);
+    } catch (error) {
+      return reject(error);
+    }
+  });
+};
+
 const deleteLikeDB = (postID, accountID) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -46,4 +60,4 @@ const deleteLikeDB = (postID, accountID) => {
   });
 };
 
-export { postLikeDB, getLikeDB , deleteLikeDB };
+export { postLikeDB, getLikeDB, getPostlikeDB , deleteLikeDB };

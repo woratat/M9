@@ -32,6 +32,7 @@ function Post({
   const [comments, setComments] = useState([]);
   const user = useSelector((state) => state.user);
   const [Likes,setLikes] = useState([]);
+  const IdAccount = localStorage.getItem("account_id");
   const dispatch = useDispatch();
   const path = useNavigate();
   var executed = false;
@@ -51,7 +52,7 @@ function Post({
     // }
     await axios.post('http://localhost:5000/api/like/post',{
       like: 1,
-      accountID: username,
+      accountID: IdAccount,
       postID: id,
     })
     console.log(clicked)
@@ -71,31 +72,42 @@ function Post({
     // }
     await axios.delete('http://localhost:5000/api/like/delete',{
       params: {
-      accountID: username,
+      accountID: IdAccount,
       postID: id,
       },
     });
+    setClicked(false)
     
   };
   const getLike = async () => {
     await axios.get("http://localhost:5000/api/like/get" , {
       params: {
         postID: id,
-        accountID: username,
+        accountID: IdAccount,
       },
     }).then((res)=>{
-      console.log(id,res.data)
-      setLikes(res.data);
       const dat = res.data;
       if(dat.length  > 0){
         setClicked(true)
-        console.log(id,Likes)
       }
+    })
+  }
+  const getPostLike = async () =>{
+    await axios.get("http://localhost:5000/api/like/getPost" , {
+      params: {
+        postID: id,
+      },
+    }).then((res)=>{
+      setLikes(res.data);
     })
   }
   useEffect(()=>{
     getLike();
   },[])
+  useEffect(()=>{
+    getPostLike();
+  },[Likes]);
+
 
   const getUsernamePost = async () => {
     await axios

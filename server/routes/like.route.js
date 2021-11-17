@@ -10,10 +10,11 @@ const corsOption = {
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   },
 };
-const { postLikeController , getlikeController , deleteLikeController} = controller.like;
+const { postLikeController , getlikeController , deleteLikeController , getPostlikeController} = controller.like;
 route.use(cors(corsOption));
 route.post("/post",postLikeController);
 route.get("/get",getlikeController);
 route.delete("/delete",deleteLikeController);
+route.get("/getPost",getPostlikeController);
 
 export default route;
