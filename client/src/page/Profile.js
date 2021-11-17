@@ -17,6 +17,7 @@ function Profile({ className }) {
   const [profile, setProfile] = useState([]);
   const [statuss, setStatus] = useState("");
   const [statuss2, setStatus2] = useState("");
+  const [btnName, setbtnName] = useState("");
 
   const userID = localStorage.getItem("username_account");
   const params = useLocation();
@@ -81,6 +82,7 @@ function Profile({ className }) {
   }, [profile, user]);
 
   const handleAddFriend = (e) => {
+    setbtnName("Pending");
     e.preventDefault();
     const id = {
       accountID: user.accountID,
@@ -149,12 +151,12 @@ function Profile({ className }) {
         )
         .then((res) => {
           if (res.status == 200) {
+            setbtnName("Unfriend");
             const Toast = Swal.mixin({
               toast: true,
               position: "top-end",
               showConfirmButton: false,
-              timer: 1000,
-              timerProgressBar: true,
+              timer: 1500,
               didOpen: (toast) => {
                 toast.addEventListener("mouseenter", Swal.stopTimer);
                 toast.addEventListener("mouseleave", Swal.resumeTimer);
@@ -168,39 +170,6 @@ function Profile({ className }) {
           }
         })
         .then(() => {
-          window.location.reload();
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const handleDeleteFriend = async () => {
-    try {
-      await axios
-        .delete(
-          `http://localhost:5000/api/friend/delete?friendID=${statuss2.friendID}`
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 1000,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
-
-            Toast.fire({
-              icon: "success",
-              title: "Unfriended.",
-            });
-          }
-        })
-        .then(() => {
           setTimeout(() => {
             window.location.reload();
           }, 1000);
@@ -209,7 +178,73 @@ function Profile({ className }) {
       console.log(error);
     }
   };
+  const handleDeleteFriend = async () => {
+    try {
+      if (statuss2) {
+        await axios
+          .delete(
+            `http://localhost:5000/api/friend/delete?friendID=${statuss2.friendID}`
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              setbtnName("Addfriend");
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 1000,
+                didOpen: (toast) => {
+                  toast.addEventListener("mouseenter", Swal.stopTimer);
+                  toast.addEventListener("mouseleave", Swal.resumeTimer);
+                },
+              });
 
+              Toast.fire({
+                icon: "success",
+                title: "Unfriended.",
+              });
+            }
+          })
+          .then(() => {
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          });
+      } else {
+        await axios
+          .delete(
+            `http://localhost:5000/api/friend/delete?friendID=${statuss.friendID}`
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              setbtnName("Addfriend");
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 1000,
+                didOpen: (toast) => {
+                  toast.addEventListener("mouseenter", Swal.stopTimer);
+                  toast.addEventListener("mouseleave", Swal.resumeTimer);
+                },
+              });
+
+              Toast.fire({
+                icon: "success",
+                title: "Unfriended.",
+              });
+            }
+          })
+          .then(() => {
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <HelmetProvider>
       <Helmet>
@@ -230,12 +265,11 @@ function Profile({ className }) {
           </div>
           <div className="profile_right">
             {(() => {
-              if ((user.username === profile.name) && (user.username !== undefined && profile.name !== undefined)) {
-                console.log("233");
-                return <div></div>;
+              if (user.username == profile.name) {
+                return <div>{user.username}</div>;
               } else if (statuss !== null) {
-                if (statuss.status === "pending") {
-                  console.log("236");
+                console.log("object :>> 239");
+                if (statuss.status == "pending") {
                   return (
                     <Button
                       className="btn_add"
@@ -246,14 +280,24 @@ function Profile({ className }) {
                       <AddIcon sx={{ ml: 0.5 }} />
                     </Button>
                   );
+                } else if (statuss.status == "accepted") {
+                  return (
+                    <Button
+                      className="btn_add"
+                      variant="contained"
+                      onClick={handleDeleteFriend}
+                    >
+                      Unfriend
+                      <AddIcon sx={{ ml: 0.5 }} />
+                    </Button>
+                  );
                 }
               } else if (
                 statuss2 !== null &&
-                statuss2.accountID === profile.accountID &&
-                statuss2.accountFriendID === user.accountID &&
-                statuss2.status === "pending"
+                statuss2.accountID == profile.accountID &&
+                statuss2.accountFriendID == user.accountID &&
+                statuss2.status == "pending"
               ) {
-                console.log("248");
                 return (
                   <Button
                     className="btn_add"
@@ -264,8 +308,7 @@ function Profile({ className }) {
                     <AddIcon sx={{ ml: 0.5 }} />
                   </Button>
                 );
-              } else if ((statuss2 !== null && statuss2.status === "accepted") || (statuss === null && statuss2 === null)) {
-                console.log("264");
+              } else if (statuss2 !== null && statuss2.status == "accepted") {
                 return (
                   <Button
                     className="btn_add"
@@ -277,7 +320,6 @@ function Profile({ className }) {
                   </Button>
                 );
               } else {
-                console.log("277");
                 return (
                   <Button
                     className="btn_add"
