@@ -242,6 +242,19 @@ export default styled(Profile)`
     }
     .profile {
       width: 40%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .profile_center > h3 {
+      margin: 0px;
+    }
+    .profile_right {
+      margin-bottom: 5px;
+    }
+    .btn_add {
+      transform: scale(0.7)
     }
   }
 `;
