@@ -26,8 +26,20 @@ const getRequestDB = (content) => {
     }
   });
 };
+const UpdateRequestDB = (content) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const getRequest = await friend.update({status: content.status},{where:{friendID: content.friendID}});
+      return resolve(getRequest);
+    } catch (error) {
+      return reject(error);
+    }
+  });
+};
+
 
 export {
     addFriendDB,
     getRequestDB,
+    UpdateRequestDB,
 };

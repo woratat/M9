@@ -79,10 +79,9 @@ function Profile({ className }) {
   useEffect(() => {
     getFriendStatus();
     getFriendStatus2();
-
   }, [profile, user]);
-  console.log('statuss :>> ', statuss);
-  console.log('statuss2 :>> ', statuss2);
+  console.log("statuss :>> ", statuss);
+  console.log("statuss2 :>> ", statuss2);
   const handleAddFriend = (e) => {
     e.preventDefault();
     const id = {
@@ -149,7 +148,35 @@ function Profile({ className }) {
       console.log(error);
     }
   };
-  
+  const handleAcceptFriend = async () => {
+    console.log(statuss2.friendID);
+    try {
+      const res = await axios.put(
+        `http://localhost:5000/api/friend/update?friendID=${statuss2.friendID}`
+      );
+      if (res.status == 200) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "Friend accepted.",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // console.log(status)
   return (
     <HelmetProvider>
@@ -175,33 +202,47 @@ function Profile({ className }) {
                 return <div></div>;
               } else if (statuss !== null) {
                 if (statuss.status == "pending") {
-                  return <Button
-                  className="btn_add"
-                  variant="contained"
-                  disabled={true}
-                >
-                  Pending
-                  <AddIcon sx={{ ml: 0.5 }} />
-                </Button>;
-                } else {
                   return (
                     <Button
                       className="btn_add"
                       variant="contained"
-                      onClick={()=>{alert("unfriend")}}
+                      disabled={true}
                     >
-                      Unfriend
+                      Pending
                       <AddIcon sx={{ ml: 0.5 }} />
                     </Button>
                   );
                 }
-              }else if(statuss2 !== null && statuss2.accountID == profile.accountID && statuss2.accountFriendID == user.accountID){
-                return(
-                  <h1>fvfvf</h1>
-                )
-              }
-               else 
-              {
+              } else if (
+                statuss2 !== null &&
+                statuss2.accountID == profile.accountID &&
+                statuss2.accountFriendID == user.accountID &&
+                statuss2.status == "pending"
+              ) {
+                return (
+                  <Button
+                    className="btn_add"
+                    variant="contained"
+                    onClick={handleAcceptFriend}
+                  >
+                    Accept
+                    <AddIcon sx={{ ml: 0.5 }} />
+                  </Button>
+                );
+              } else if (statuss2.status == "accepted") {
+                return (
+                  <Button
+                    className="btn_add"
+                    variant="contained"
+                    onClick={() => {
+                      alert("unfriend");
+                    }}
+                  >
+                    Unfriend
+                    <AddIcon sx={{ ml: 0.5 }} />
+                  </Button>
+                );
+              } else {
                 return (
                   <Button
                     className="btn_add"

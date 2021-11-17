@@ -1,6 +1,6 @@
 import service from "../service";
 
-const { addFriendService, getRequestService } = service.friend;
+const { addFriendService, getRequestService  , updateRequestService} = service.friend;
 
 const addFriendController = async (req, res) => {
   const content = {
@@ -50,4 +50,28 @@ const getRequestController = async (req, res) => {
     return res.sendStatus(500);
   }
 };
-export { addFriendController, getRequestController };
+const updateRequestController = async (req, res) => {
+  const content = {
+    friendID: req.query.friendID,
+    
+  };
+
+  try {
+    const updateFriend = await updateRequestService(content);
+
+    if (updateFriend.error) {
+      return res.status(400).json({
+        message: updateFriend.message,
+      });
+    } else {
+      return res.status(200).json({
+        message: updateFriend.message,
+        data: updateFriend.data
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(500);
+  }
+};
+export { addFriendController, getRequestController , updateRequestController };

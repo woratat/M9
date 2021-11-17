@@ -1,7 +1,7 @@
 import helper from "../helper";
 import lodash from "lodash";
 
-const { addFriendDB, getRequestDB } = helper.friend;
+const { addFriendDB, getRequestDB , UpdateRequestDB } = helper.friend;
 
 const addFriendService = async (content) => {
   try {
@@ -53,5 +53,29 @@ const getRequestService = async (content) => {
     throw new Error(error);
   }
 };
+const updateRequestService = async (content) => {
+  try {
+    const { friendID } = content;
+    if (lodash.isEmpty(friendID)) {
+      return {
+        error: true,
+        message: "Error! Missing accountIDs in getRequestService.",
+      };
+    } else {
+      const newContent = {
+        friendID: friendID,
+        status: "accepted",
+      };
+      const accept = await UpdateRequestDB(newContent);
+      return {
+        error: false,
+        message: "Accept request sucsess.",
+        data: accept,
+      };
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
-export { addFriendService, getRequestService };
+export { addFriendService, getRequestService , updateRequestService };

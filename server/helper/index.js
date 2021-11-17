@@ -2,7 +2,7 @@ import { getAccountDetailDB, createUserAccountDB, getUserOrEmailAccountDB, getUs
 import { postImageDB, getAllPostDB, putLikeDB, putUnlikeDB, getUserPostDB, getAllLikeDB, deletePostDB } from "./post.helper";
 import { getLocationDB, postLocationDB, getLocationNameDB } from "./location.helper";
 import { postCommentDB , getCommentDB, deleteCommentDB } from "./comment.helper";
-import { addFriendDB, getRequestDB } from "./friend.helper";
+import { addFriendDB, getRequestDB ,UpdateRequestDB} from "./friend.helper";
 import { postLikeDB , getLikeDB , getPostlikeDB ,deleteLikeDB } from "./like.helper";
 
 const helper = {
@@ -10,7 +10,7 @@ const helper = {
   post: { postImageDB, getAllPostDB, putLikeDB, putUnlikeDB, getUserPostDB, getAllLikeDB, deletePostDB },
   locations: { getLocationDB, postLocationDB, getLocationNameDB},
   comment: { postCommentDB , getCommentDB, deleteCommentDB },
-  friend: { addFriendDB, getRequestDB },
+  friend: { addFriendDB, getRequestDB , UpdateRequestDB},
   like: { postLikeDB , getLikeDB , deleteLikeDB , getPostlikeDB },
 };
 
