@@ -36,10 +36,21 @@ const UpdateRequestDB = (content) => {
     }
   });
 };
+const deleteRequestDB = (content) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const deleteRequest = await friend.destroy({where:{friendID: content.friendID}});
+      return resolve(deleteRequest);
+    } catch (error) {
+      return reject(error);
+    }
+  });
+};
 
 
 export {
     addFriendDB,
     getRequestDB,
     UpdateRequestDB,
+    deleteRequestDB
 };

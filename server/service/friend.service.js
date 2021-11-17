@@ -1,7 +1,7 @@
 import helper from "../helper";
 import lodash from "lodash";
 
-const { addFriendDB, getRequestDB , UpdateRequestDB } = helper.friend;
+const { addFriendDB, getRequestDB , UpdateRequestDB , deleteRequestDB} = helper.friend;
 
 const addFriendService = async (content) => {
   try {
@@ -77,5 +77,28 @@ const updateRequestService = async (content) => {
     throw new Error(error);
   }
 };
+const deleteRequestService = async (content) => {
+  try {
+    const { friendID } = content;
+    if (lodash.isEmpty(friendID)) {
+      return {
+        error: true,
+        message: "Error! Missing accountIDs in getRequestService.",
+      };
+    } else {
+      const newContent = {
+        friendID: friendID,
+      };
+      const deleteRequest = await deleteRequestDB(newContent);
+      return {
+        error: false,
+        message: "Delete request sucsess.",
+        data: deleteRequest,
+      };
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
-export { addFriendService, getRequestService , updateRequestService };
+export { addFriendService, getRequestService , updateRequestService , deleteRequestService};

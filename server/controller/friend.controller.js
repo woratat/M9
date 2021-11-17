@@ -1,6 +1,6 @@
 import service from "../service";
 
-const { addFriendService, getRequestService  , updateRequestService} = service.friend;
+const { addFriendService, getRequestService  , updateRequestService , deleteRequestService} = service.friend;
 
 const addFriendController = async (req, res) => {
   const content = {
@@ -53,7 +53,6 @@ const getRequestController = async (req, res) => {
 const updateRequestController = async (req, res) => {
   const content = {
     friendID: req.query.friendID,
-    
   };
 
   try {
@@ -74,4 +73,27 @@ const updateRequestController = async (req, res) => {
     return res.sendStatus(500);
   }
 };
-export { addFriendController, getRequestController , updateRequestController };
+const deleteRequestController = async (req, res) => {
+  const content = {
+    friendID: req.query.friendID,
+  };
+
+  try {
+    const deleteFriend = await deleteRequestService(content);
+
+    if (deleteFriend.error) {
+      return res.status(400).json({
+        message: deleteFriend.message,
+      });
+    } else {
+      return res.status(200).json({
+        message: deleteFriend.message,
+        data: deleteFriend.data
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(500);
+  }
+};
+export { addFriendController, getRequestController , updateRequestController , deleteRequestController};
