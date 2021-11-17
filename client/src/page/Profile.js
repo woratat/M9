@@ -17,7 +17,6 @@ function Profile({ className }) {
   const [profile, setProfile] = useState([]);
   const [statuss, setStatus] = useState("");
   const [statuss2, setStatus2] = useState("");
-  const [btnName,setbtnName] = useState("");
 
   const userID = localStorage.getItem("username_account");
   const params = useLocation();
@@ -82,7 +81,6 @@ function Profile({ className }) {
   }, [profile, user]);
 
   const handleAddFriend = (e) => {
-    setbtnName("Pending");
     e.preventDefault();
     const id = {
       accountID: user.accountID,
@@ -91,9 +89,6 @@ function Profile({ className }) {
     axios
       .post("http://localhost:5000/api/friend/add", id)
       .then(function (response) {
-
-
-
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
@@ -109,11 +104,8 @@ function Profile({ className }) {
           icon: "success",
           title: "Add request has been sent.",
         });
-        
-      }).then(
-        window.location.reload()
-
-      )
+      })
+      .then(window.location.reload())
       .catch(function (error) {
         console.log(error);
       });
@@ -150,69 +142,74 @@ function Profile({ className }) {
     }
   };
   const handleAcceptFriend = async () => {
-
     try {
-       await axios.put(
-        `http://localhost:5000/api/friend/update?friendID=${statuss2.friendID}`
-      ).then((res)=>{
-        if (res.status == 200) {
-          setbtnName("Unfriend");
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 1000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener("mouseenter", Swal.stopTimer);
-              toast.addEventListener("mouseleave", Swal.resumeTimer);
-            },
-          });
-  
-          Toast.fire({
-            icon: "success",
-            title: "Friend accepted.",
-          });
-        }
-      }).then(()=>{window.location.reload()})
-      
+      await axios
+        .put(
+          `http://localhost:5000/api/friend/update?friendID=${statuss2.friendID}`
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
+
+            Toast.fire({
+              icon: "success",
+              title: "Friend accepted.",
+            });
+          }
+        })
+        .then(() => {
+          window.location.reload();
+        });
     } catch (error) {
       console.log(error);
     }
   };
-  const handleDeleteFriend = async () =>{
-    try{ 
-       await axios.delete(`http://localhost:5000/api/friend/delete?friendID=${statuss2.friendID}`).then((res)=>{
-        if (res.status == 200) {
-          setbtnName("Addfriend");
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 1000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener("mouseenter", Swal.stopTimer);
-              toast.addEventListener("mouseleave", Swal.resumeTimer);
-            },
-          });
-  
-          Toast.fire({
-            icon: "success",
-            title: "Unfriended.",
-          });
-        }
-       }).then(()=>{
-        setTimeout(() => {
-          window.location.reload()
-        }, 1000)})
-      
-    }catch(error){
+  const handleDeleteFriend = async () => {
+    try {
+      await axios
+        .delete(
+          `http://localhost:5000/api/friend/delete?friendID=${statuss2.friendID}`
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
+
+            Toast.fire({
+              icon: "success",
+              title: "Unfriended.",
+            });
+          }
+        })
+        .then(() => {
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        });
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-   console.log(statuss)
   return (
     <HelmetProvider>
       <Helmet>
@@ -231,12 +228,14 @@ function Profile({ className }) {
             <h1>Name: {profile.name}</h1>
             <h3>Contact: {profile.email}</h3>
           </div>
-          <div className="profile_right" >
+          <div className="profile_right">
             {(() => {
-              if (user.username == profile.name) {
-                return <div>{user.username}</div>;
+              if ((user.username === profile.name) && (user.username !== undefined && profile.name !== undefined)) {
+                console.log("233");
+                return <div></div>;
               } else if (statuss !== null) {
-                if (statuss.status == "pending") {
+                if (statuss.status === "pending") {
+                  console.log("236");
                   return (
                     <Button
                       className="btn_add"
@@ -250,10 +249,11 @@ function Profile({ className }) {
                 }
               } else if (
                 statuss2 !== null &&
-                statuss2.accountID == profile.accountID &&
-                statuss2.accountFriendID == user.accountID &&
-                statuss2.status == "pending"
+                statuss2.accountID === profile.accountID &&
+                statuss2.accountFriendID === user.accountID &&
+                statuss2.status === "pending"
               ) {
+                console.log("248");
                 return (
                   <Button
                     className="btn_add"
@@ -264,7 +264,8 @@ function Profile({ className }) {
                     <AddIcon sx={{ ml: 0.5 }} />
                   </Button>
                 );
-              } else if ( statuss2 !== null && statuss2.status == "accepted") {
+              } else if ((statuss2 !== null && statuss2.status === "accepted") || (statuss === null && statuss2 === null)) {
+                console.log("264");
                 return (
                   <Button
                     className="btn_add"
@@ -276,6 +277,7 @@ function Profile({ className }) {
                   </Button>
                 );
               } else {
+                console.log("277");
                 return (
                   <Button
                     className="btn_add"

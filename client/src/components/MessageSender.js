@@ -6,6 +6,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CloseIcon from "@mui/icons-material/Close";
 import MapList from "./MapList";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function MessageSender({ className }) {
   const [message, setMessage] = useState("");
@@ -47,7 +48,28 @@ function MessageSender({ className }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData();
+    if(file === "" || message === "" || location === "" ) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 1000,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "error",
+        title: "Please fill in everything.",
+      })
+
+      setMessage("");
+      setFile("");
+      setLocationName("");
+    } else {
+      const data = new FormData();
     data.append("message", message);
     data.append("file", file);
     data.append("acID", acID);
@@ -63,6 +85,8 @@ function MessageSender({ className }) {
 
     setMessage("");
     setFile("");
+    setLocationName("");
+    }
   };
 
   const handleCallback = (childData) => {
@@ -75,7 +99,7 @@ function MessageSender({ className }) {
   };
 
   const handleClosePreview = () => {
-    setFile("")
+    setFile("");
   };
 
   return (
@@ -141,14 +165,13 @@ function MessageSender({ className }) {
         <div className="messageSender_bottom">
           {file !== "" ? (
             <div className="close_preview">
-            <img src={preview} alt="" id="preview_image" />
-            <CloseIcon className="close-icon" onClick={handleClosePreview} />
-          </div>
-          ): (
+              <img src={preview} alt="" id="preview_image" />
+              <CloseIcon className="close-icon" onClick={handleClosePreview} />
+            </div>
+          ) : (
             <div></div>
           )}
-          
-          {/* <img src={preview} alt="" id="preview_image" /> */}
+
           <MapList parentCallback={handleCallback} />
           {locationName !== "" ? (
             <div className="close-btn">

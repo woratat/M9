@@ -503,7 +503,7 @@ export default styled(Post)`
   }
 
   .comment-btn:hover {
-    transform: scale(1.1);
+    transform: scale(1);
     color: red;
   }
 
