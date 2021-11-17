@@ -19,7 +19,7 @@ const LoginBasicController = async (req, res) => {
       algorithm: "RS256",
       expiresIn: "1d",
     });
-    return res.status(200).json({ token: token, username, typeAccountID });
+    return res.status(200).json({ token: token, username, typeAccountID, accountID });
   }
 };
 
@@ -118,7 +118,7 @@ const loginJWTController = async (req, res) => {
       algorithm: "RS256",
       expiresIn: "1d",
     });
-    return res.status(200).json({ token: token, username, typeAccountID });
+    return res.status(200).json({ token: token, username, typeAccountID, accountID });
 }
 
 export {LoginBasicController, createAccountController, loginJWTController, getUserAccountController, getAllAccountController, getUsernameController};

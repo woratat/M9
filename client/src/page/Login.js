@@ -39,6 +39,7 @@ function Login({ className }) {
         if (res.status === 200) {
           localStorage.setItem("user_token", res.data.token);
           localStorage.setItem("username_account", res.data.username);
+          localStorage.setItem("account_id", res.data.accountID);
           dispatch(
             fetchUser({ token: res.data.token, username: res.data.username })
           );
