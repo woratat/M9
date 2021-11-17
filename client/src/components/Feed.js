@@ -73,7 +73,7 @@ function Feed({ className }) {
           </div>
         ) : (
           <div className="loading_feed">
-            <LoopIcon />
+            <LoopIcon className="loop_icon"/>
             <p>There is nothing left....</p>
           </div>
         )}
@@ -95,5 +95,15 @@ export default styled(Feed)`
   .loading_feed {
     display: flex;
     align-items: center;
+  }
+
+  @media only screen and (max-width: 500px) {
+    .loading_feed > .loop_icon {
+      display: none;
+    }
+    .loading_feed > p {
+      width: 200px;
+      text-align: center;
+    }
   }
 `;

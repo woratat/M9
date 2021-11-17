@@ -354,4 +354,10 @@ export default styled(Header)`
       display: none;
     }
   }
+
+  @media only screen and (max-width: 500px) {
+    .header_input, .header_center {
+      display: none;
+    }
+  }
 `;
