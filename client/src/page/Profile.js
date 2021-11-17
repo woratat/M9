@@ -17,6 +17,8 @@ function Profile({ className }) {
   const [profile, setProfile] = useState([]);
   const [style, setStyle] = useState({});
   const [clicked, setClicked] = useState(false);
+  const [statuss, setStatus] = useState("");
+  const [statuss2, setStatus2] = useState("");
   const userID = localStorage.getItem("username_account");
   const params = useLocation();
   const { from } = params.state;
@@ -60,11 +62,12 @@ function Profile({ className }) {
   }, [from]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/auth/id", {
-      params: {
-        username: userID,
-      },
-    })
+    axios
+      .get("http://localhost:5000/api/auth/id", {
+        params: {
+          username: userID,
+        },
+      })
       .then(function (response) {
         setUser(response.data.content);
       })
@@ -73,15 +76,23 @@ function Profile({ className }) {
       });
   }, [userID]);
 
+  useEffect(() => {
+    getFriendStatus();
+    getFriendStatus2();
+
+  }, [profile, user]);
+  console.log('statuss :>> ', statuss);
+  console.log('statuss2 :>> ', statuss2);
   const handleAddFriend = (e) => {
     e.preventDefault();
     const id = {
-      accountID: profile.accountID,
-      accountFriendID: user.accountID
-    }
-    axios.post("http://localhost:5000/api/friend/add", id)
+      accountID: user.accountID,
+      accountFriendID: profile.accountID,
+    };
+    axios
+      .post("http://localhost:5000/api/friend/add", id)
       .then(function (response) {
-        setStyle({display: 'none'});
+        setStyle({ display: "none" });
         setClicked(!clicked);
 
         const Toast = Swal.mixin({
@@ -98,15 +109,48 @@ function Profile({ className }) {
         Toast.fire({
           icon: "success",
           title: "Add request has been sent.",
-        })
-      }).then(function (response) {
+        });
+      })
+      .then(function (response) {
         localStorage.setItem("addFriend", !clicked);
       })
       .catch(function (error) {
         console.log(error);
       });
-  }
+  };
 
+  const getFriendStatus = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/friend/add", {
+        params: {
+          accountID: user.accountID,
+          accountFriendID: profile.accountID,
+        },
+      });
+      if (res.status == 200) {
+        setStatus(res.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getFriendStatus2 = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/friend/add", {
+        params: {
+          accountID: profile.accountID,
+          accountFriendID: user.accountID,
+        },
+      });
+      if (res.status == 200) {
+        setStatus2(res.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  // console.log(status)
   return (
     <HelmetProvider>
       <Helmet>
@@ -126,14 +170,50 @@ function Profile({ className }) {
             <h3>Contact: {profile.email}</h3>
           </div>
           <div className="profile_right" style={style}>
-            {user.username == profile.name && clicked == false ? (
-              <div></div>
-            ) : (
-              <Button className="btn_add" variant="contained" onClick={handleAddFriend}>
-                Add friend
-                <AddIcon sx={{ ml: 0.5 }} />
-              </Button>
-            )}
+            {(() => {
+              if (user.username == profile.name) {
+                return <div></div>;
+              } else if (statuss !== null) {
+                if (statuss.status == "pending") {
+                  return <Button
+                  className="btn_add"
+                  variant="contained"
+                  disabled={true}
+                >
+                  Pending
+                  <AddIcon sx={{ ml: 0.5 }} />
+                </Button>;
+                } else {
+                  return (
+                    <Button
+                      className="btn_add"
+                      variant="contained"
+                      onClick={()=>{alert("unfriend")}}
+                    >
+                      Unfriend
+                      <AddIcon sx={{ ml: 0.5 }} />
+                    </Button>
+                  );
+                }
+              }else if(statuss2 !== null && statuss2.accountID == profile.accountID && statuss2.accountFriendID == user.accountID){
+                return(
+                  <h1>fvfvf</h1>
+                )
+              }
+               else 
+              {
+                return (
+                  <Button
+                    className="btn_add"
+                    variant="contained"
+                    onClick={handleAddFriend}
+                  >
+                    Add friend
+                    <AddIcon sx={{ ml: 0.5 }} />
+                  </Button>
+                );
+              }
+            })()}
           </div>
         </div>
 
@@ -172,7 +252,7 @@ export default styled(Profile)`
   ::-webkit-scrollbar {
     display: none;
   }
-  
+
   .profile {
     display: flex;
     height: 40vh;
@@ -254,7 +334,7 @@ export default styled(Profile)`
       margin-bottom: 5px;
     }
     .btn_add {
-      transform: scale(0.7)
+      transform: scale(0.7);
     }
   }
 `;
