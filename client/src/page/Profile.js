@@ -10,6 +10,7 @@ import axios from "axios";
 import Post from "../components/Post";
 import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 
 function Profile({ className }) {
   const [user, setUser] = useState("");
@@ -266,7 +267,7 @@ function Profile({ className }) {
           <div className="profile_right">
             {(() => {
               if (user.username == profile.name) {
-                return <div>{user.username}</div>;
+                return <div></div>;
               } else if (statuss !== null) {
                 console.log("object :>> 239");
                 if (statuss.status == "pending") {
@@ -288,7 +289,7 @@ function Profile({ className }) {
                       onClick={handleDeleteFriend}
                     >
                       Unfriend
-                      <AddIcon sx={{ ml: 0.5 }} />
+                      <HorizontalRuleIcon sx={{ ml: 0.5 }} />
                     </Button>
                   );
                 }
@@ -316,7 +317,7 @@ function Profile({ className }) {
                     onClick={handleDeleteFriend}
                   >
                     Unfriend
-                    <AddIcon sx={{ ml: 0.5 }} />
+                    <HorizontalRuleIcon sx={{ ml: 0.5 }} />
                   </Button>
                 );
               } else {
